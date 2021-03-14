@@ -1,7 +1,12 @@
 import React from 'react'
 import './styles/App.css'
 import MainRoutes from './routes/main.route'
-
-const App = () => <MainRoutes></MainRoutes>
+import GlobalStyle from './styles/global.style'
+const App = () => (
+  <>
+    <MainRoutes />
+    <GlobalStyle />
+  </>
+)
 
 export default App
