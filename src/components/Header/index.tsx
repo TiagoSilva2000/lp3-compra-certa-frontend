@@ -7,7 +7,8 @@ import {
   StyledRegisterDiv,
   TopHeaderText
 } from './style'
-import { logo, wishlist, shopbag } from '../../assets'
+import { wishlist, shopbag } from '../../assets/icons'
+import logo from '../../assets/logo.svg'
 import Placeholder from '../Placeholder'
 import { DepartmentList } from '../../constants/department-list.constant'
 
