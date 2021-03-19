@@ -29,7 +29,7 @@ export const StyledBanner = styled.div`
     }
     span.right {
       right: 0;
-      border-radius: 3px 0 0 3px;
+      /* border-radius: 3px 0 0 3px; */
     }
   }
 `
