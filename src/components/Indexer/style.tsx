@@ -26,4 +26,5 @@ export const StyledIndex = styled.li<IStyledIndexProps>`
   background-color: ${props => chooseBgColor(props.isActive)};
   margin: 5px;
   cursor: pointer;
+  transition: 0.3s;
 `

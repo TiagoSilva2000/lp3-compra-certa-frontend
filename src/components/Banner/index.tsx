@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Arrow from '../Arrow'
 import Indexer from '../Indexer'
 import { StyledBanner, StyledBannerUnity, StyledIndexerWrapper } from './style'
 
