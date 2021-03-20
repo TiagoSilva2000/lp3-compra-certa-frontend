@@ -1,8 +1,49 @@
+// @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 import styled from 'styled-components'
 import { withStyles } from '@material-ui/core/styles'
-import {Button} from '@material-ui/core'
+import {Button, FilledInput } from '@material-ui/core'
 import { CCColors } from '../../constants/colors.constant'
 
+
+export const StyledLogo = styled.img`
+  max-width: 30em;
+  margin: 0
+  padding: 0
+  max-heigth: 5em;
+  `
+  
+  export const StyledImg = styled.img`
+  margin: 5em;
+  width: 40em;
+  min-width: 20em;
+  
+  `
+  
+export const StyledCard = styled.div`
+display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 2em;
+  padding: 1em 2.5em 1em 2.5em;
+  max-width: 50em;
+  heigth: 30vh;
+  background-color: ${CCColors.MINT};
+`
+  
+export const StyledContainer = styled.div`
+display: flex;
+justify-content: space-between;
+heigth: 100vh;
+padding: 2.6em;
+background-color: ${CCColors.DARKPURPLE};
+`
+        
+export const StyledH6 = styled.h6`
+  color: ${CCColors.DARKPURPLE};
+  font-size: 1.5rem;
+  font-weight: 300;
+`
+    
 export const SignInButton = withStyles(theme => ({
   root:{
     color: CCColors.MINT,
@@ -13,7 +54,7 @@ export const SignInButton = withStyles(theme => ({
   }
 }))(Button)
 
-export const ResgisterButton = withStyles(theme => ({
+export const RegisterButton = withStyles(theme => ({
   root:{
     color: CCColors.MINT,
     backgroundColor: CCColors.PRIMARYYELLOW ,
@@ -22,49 +63,3 @@ export const ResgisterButton = withStyles(theme => ({
     }
   }
 }))(Button)
-
-export const StyledLogo = styled.img`
-  max-width: 100%;
-  `
-  
-  export const StyledCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-radius: 2em;
-  padding: 2em 5em 2em 5em;
-  max-width: 50em;
-  background-color: ${CCColors.MINT};
-`
-
-export const Form = styled.form`
-  margin-top: 30px;
-  display: flex;
-  flex-direction: row;
-
-  input {
-    flex: 1;
-    border: 1px solid #ff6b6b;
-    padding: 10px 15px;
-    border-radius: 4px;
-    font-size: 16px;
-
-    transition: border 0.25s ease-out;
-  }
-`
-
-export const SubmitButton = styled.div`
-  background: #7159c1;
-  border: 0;
-  padding: 0 15px;
-  margin-left: 10px;
-  border-radius: 4px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &[disabled] {
-    cursor: not-allowed;
-    opacity: 0.6;
-  }`
