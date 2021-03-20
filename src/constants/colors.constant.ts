@@ -1,0 +1,10 @@
+export const CCColors = {
+    LIGHTPURPLE: '#C490D1',
+    PRIMARYPURPLE: '#8300A3',
+    DARKPURPLE: '#70018C',
+    MINT: '#EEF4ED',
+    PRIMARYYELLOW: '#FFBE00',
+    DARKYELLOW: '#E4AB04',
+    BLUE: '#5296A5',
+    INDEXGRAY: 'gray'
+  }
