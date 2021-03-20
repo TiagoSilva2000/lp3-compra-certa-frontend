@@ -4,11 +4,10 @@ WORKDIR /app
 
 ENV PATH=/app/node_modules/.bin:$PATH
 
+RUN ["npm", "install", "--global", "react-scripts@4.0.3"]
+
 COPY package*.json ./
-
-RUN npm install
-RUN npm install react-scripts@4.0.3 -g
-
+RUN ["yarn"]
 COPY . ./
 
-CMD [ "npm", "start" ]
+CMD [ "yarn", "start" ]
