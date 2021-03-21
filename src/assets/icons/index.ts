@@ -1,4 +1,6 @@
-import wishlist from './icons/favourite.svg'
-import shopbag from './icons/shopping-bag.svg'
+import wishlist from './favourite.svg'
+import shopbag from './shopping-bag.svg'
+import search from './search.png'
+import hamburguer from './hamburguer.svg'
 
-export { wishlist, shopbag }
+export { wishlist, shopbag, search, hamburguer }

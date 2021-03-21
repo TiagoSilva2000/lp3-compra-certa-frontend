@@ -2,13 +2,16 @@ import React from 'react'
 import {
   AllDepartmentsIndexer,
   DepartmentUnList,
+  HeaderDepartmentListWrapper,
   HeaderSearchDiv,
   StyledHeader,
   StyledRegisterDiv,
+  StyledSearchForm,
   TopHeaderText
 } from './style'
 import { wishlist, shopbag } from '../../assets/icons'
 import logo from '../../assets/logo.svg'
+import { search, hamburguer } from '../../assets/icons/index'
 import Placeholder from '../Placeholder'
 import { DepartmentList } from '../../constants/department-list.constant'
 
@@ -18,7 +21,12 @@ const Header = () => (
       <HeaderSearchDiv>
         {/* <img src={logo} alt='logo' style={{ height: 45, width: 300 }} /> */}
         <Placeholder bgColor='blue' width={300} height={45} />
-        <input type='text' placeholder='procure por nome, código, marca...' />
+        <StyledSearchForm>
+          <input type='text' placeholder='procure por nome, código, marca...' />
+          <button type='submit'>
+            <img src={search} alt='Procurar' />
+          </button>
+        </StyledSearchForm>
         <StyledRegisterDiv>
           <p>
             <b>Bem vindo :)</b>
@@ -39,14 +47,19 @@ const Header = () => (
           </ul>
         </div>
       </HeaderSearchDiv>
-      <DepartmentUnList>
-        {/* <AllDepartmentsIndexer>Todos os Departamentos</AllDepartmentsIndexer> */}
-        {DepartmentList.map(({ name, link }, idx) => (
-          <li key={idx}>
-            <a href={link}>{name}</a>
-          </li>
-        ))}
-      </DepartmentUnList>
+      <HeaderDepartmentListWrapper>
+        <AllDepartmentsIndexer>
+          <img src={hamburguer} alt='index' />
+          <p>Todos os Departamentos</p>
+        </AllDepartmentsIndexer>
+        <DepartmentUnList>
+          {DepartmentList.map(({ name, link }, idx) => (
+            <li key={idx}>
+              <a href={link}>{name}</a>
+            </li>
+          ))}
+        </DepartmentUnList>
+      </HeaderDepartmentListWrapper>
     </div>
   </StyledHeader>
 )

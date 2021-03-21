@@ -3,7 +3,7 @@ import { CCColors } from '../../constants/colors.constant'
 
 export const StyledHeader = styled.header`
   background-color: ${CCColors.DARKPURPLE};
-  padding-top: 50px;
+  padding-top: 30px;
 
   div#headerWrapper {
     background-color: ${CCColors.PRIMARYPURPLE};
@@ -60,13 +60,6 @@ export const HeaderSearchDiv = styled.div`
       }
     }
   }
-
-  input {
-    width: 100%;
-    height: 100%;
-    border-radius: 15px;
-    padding: 10px;
-  }
 `
 
 export const TopHeaderText = styled.span`
@@ -74,8 +67,42 @@ export const TopHeaderText = styled.span`
   color: grey;
   letter-spacing: 0px;
 `
+export const HeaderDepartmentListWrapper = styled.div`
+  background-color: ${CCColors.DARKPURPLE};
+  /* padding-left: 30px; */
+  padding: 5px 30px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+`
 
-export const AllDepartmentsIndexer = styled.li`
+export const AllDepartmentsIndexer = styled.div`
+  /* color: ${CCColors.PRIMARYPURPLE}; */
+  color: black;
+  font-weight: bold;
+  letter-spacing: 0.02ch;
+  background-color: white;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20%;
+  /* padding: 5px 5px 5px 15px; */
+  padding: 0.5rem 1rem;
+  height: fit-content;
+  align-self: center;
+
+  p {
+    width: 100%;
+    height: fit-content;
+    margin-left: 7px;
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+
   :hover {
     cursor: pointer;
   }
@@ -83,10 +110,10 @@ export const AllDepartmentsIndexer = styled.li`
 
 export const DepartmentUnList = styled.ul`
   display: inline;
-  width: 100%;
+  width: 80%;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   padding: 10px;
   padding-right: 30px;
   padding-left: 30px;
@@ -100,6 +127,7 @@ export const DepartmentUnList = styled.ul`
 
     a {
       color: white;
+      font-weight: bold;
       border-radius: 15px;
       padding: 10px;
       padding-right: 15px;
@@ -112,5 +140,35 @@ export const DepartmentUnList = styled.ul`
         color: white;
       }
     }
+  }
+`
+
+export const StyledSearchForm = styled.form`
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  input {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    padding: 10px 40px 10px 20px;
+    border: 2px solid ${CCColors.PRIMARYPURPLE};
+    :focus {
+      border-bottom: 2px solid blue;
+    }
+  }
+
+  button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 16%;
+    right: 0.1rem;
+    padding: 0 0.2rem;
+    border: none;
+    background: none;
   }
 `
