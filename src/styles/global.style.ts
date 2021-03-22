@@ -21,7 +21,7 @@ body {
 
 body, input, button {
   color: #222;
-  font-family: monospace;
+  font-family: Quicksand, Helvetica Neue, Helvetica,Arial,sans-serif;
   font-size: 14px;
 }
 
