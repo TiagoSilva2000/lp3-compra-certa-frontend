@@ -100,7 +100,7 @@ export const FooterCertsWrapper = styled.div`
   }
 `
 
-export const FooterMailSubscriptionFormWrapper = styled.div`
+export const FooterMailSubscriptionForm = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;

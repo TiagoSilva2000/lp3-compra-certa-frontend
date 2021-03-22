@@ -21,7 +21,7 @@ const Header = () => (
       <HeaderSearchDiv>
         {/* <img src={logo} alt='logo' style={{ height: 45, width: 300 }} /> */}
         <Placeholder bgColor='blue' width={300} height={45} />
-        <StyledSearchForm>
+        <StyledSearchForm name='search-form' method='GET' action=''>
           <input type='text' placeholder='procure por nome, código, marca...' />
           <button type='submit'>
             <img src={search} alt='Procurar' />

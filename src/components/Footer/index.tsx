@@ -3,7 +3,7 @@ import {
   FooterCertsWrapper,
   FooterPaymentMethodsWrapper,
   StyledFooter,
-  FooterMailSubscriptionFormWrapper,
+  FooterMailSubscriptionForm,
   FooterSiteIndexWrapper,
   FooterLogoWrapper
 } from './style'
@@ -57,7 +57,11 @@ const Footer = (): JSX.Element => (
           </li>
         </ul>
       </div>
-      <FooterMailSubscriptionFormWrapper>
+      <FooterMailSubscriptionForm
+        name='newsletter-form'
+        method='POST'
+        action=''
+      >
         <p>receba ofertas com preços exclusivos</p>
         <ul>
           <li>
@@ -72,10 +76,10 @@ const Footer = (): JSX.Element => (
             />
           </li>
           <li>
-            <button>Cadastrar</button>
+            <button type='submit'>Cadastrar</button>
           </li>
         </ul>
-      </FooterMailSubscriptionFormWrapper>
+      </FooterMailSubscriptionForm>
     </div>
   </StyledFooter>
 )
