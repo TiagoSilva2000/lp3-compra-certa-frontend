@@ -9,7 +9,46 @@ export const StyledFooter = styled.footer`
   background-color: ${CCColors.DARKPURPLE};
   width: 100%;
 
-  padding: 30px;
+  padding: 30px 200px;
+
+  .footer-bottom-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+
+    .footer-text-wrapper {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      ul {
+        width: 50%;
+        height: 100%;
+        list-style-type: none;
+        margin-right: 50px;
+        box-sizing: border-box;
+        li {
+          margin-bottom: 10px;
+          h3 {
+            font-size: 17px;
+            color: white;
+            margin-bottom: 30px;
+          }
+
+          a {
+            color: rgb(232, 230, 227);
+            text-decoration: none;
+            transition: 0.15s;
+            :hover {
+              color: blue;
+            }
+          }
+        }
+      }
+    }
+  }
 `
 export const FooterPaymentMethodsWrapper = styled.div`
   display: flex;
@@ -68,38 +107,32 @@ export const FooterMailSubscriptionFormWrapper = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 15px;
+  padding: 10px 20px;
 
-  .form-centralizer {
-    align-self: center;
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
   p {
-    margin-left: 10px;
-    /* align-self: flex-start; */
-    /* width: 100%; */
     margin-bottom: 8px;
-    span {
-      color: white;
-      font-size: 20px;
-    }
+    width: 100%;
+    color: white;
+    font-size: 20px;
+    width: 100%;
+    line-height: 1.15;
   }
   ul {
     justify-self: flex-start;
     display: flex;
-    height: 100%;
+    flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     list-style-type: none;
+    height: 100%;
     margin: 10px;
+    width: 100%;
     li {
-      margin-right: 12px;
+      margin-bottom: 15px;
+      width: 100%;
 
       input {
-        width: 270px;
+        width: 100%;
         height: 32px;
         padding: 8px;
         color: #8c8c8c;
@@ -109,16 +142,17 @@ export const FooterMailSubscriptionFormWrapper = styled.div`
 
       button {
         color: #fff;
+        text-transform: uppercase;
         height: 100%;
+        width: 120px;
         font-size: 14px;
         min-width: 55px;
         background-color: ${CCColors.PRIMARYPURPLE};
         font-weight: bold;
-        border-radius: 5px;
+        border-radius: 2px;
         line-height: 20px;
-        padding: 5px 12px;
+        padding: 10px 10px;
         border: none;
-        /* box-sizing: border-box; */
         box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
       }
     }

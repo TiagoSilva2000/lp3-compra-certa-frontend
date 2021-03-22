@@ -48,13 +48,29 @@ export default class ProductList extends Component<
 
     this.state = {
       renderStartIndex: 0,
-      maxProductRendering: 5
+      maxProductRendering: 0
     }
+
+    this.setMaxProductRendering = this.setMaxProductRendering.bind(this)
   }
 
-  setMaxProductRendering(newMax: number): void {
+  setMaxProductRendering(): void {
+    const { innerWidth: width } = window
+    console.log('it was called with: ' + width)
+    const newMax = Math.floor(width / 200)
     this.setState({ maxProductRendering: newMax })
   }
+
+  componentDidMount(): void {
+    this.setMaxProductRendering()
+    document.addEventListener('resize', this.setMaxProductRendering)
+  }
+
+  componentWillUnmount(): void {
+    document.removeEventListener('resize', this.setMaxProductRendering)
+  }
+
+  // componentDidUpdate(): void {}
 
   // componentDidMount(): void {
   //   const { width } = useWindowDimensions()
@@ -67,14 +83,15 @@ export default class ProductList extends Component<
   // }
 
   render(): JSX.Element {
-    const { innerWidth: width } = window
     const { productList: pList, title } = this.props
     const renderedProductList: IProductBoxProps[] = []
     const { renderStartIndex, maxProductRendering } = this.state
     const renderFinalIndex = maxProductRendering + renderStartIndex
-    const newMax = Math.floor(width / 200)
-    for (let i = renderStartIndex; i < renderFinalIndex; i++)
+    for (let i = renderStartIndex; i < renderFinalIndex - 1; i++) {
+      // pList[i].title = pList[i].title + i.toString()
+      // console.log(pList[i].title + i.toString())
       renderedProductList.push(pList[i])
+    }
 
     return (
       <StyledProductList>

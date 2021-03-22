@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import Main from '../pages//Index'
 import NotFound from '../pages/NotFound'
 
-const routesToBeDone: string[] = ['/profile', '/buy', '/shop']
+const routesToBeDone: string[] = ['/profile', '/buy', '/shop', '/signin']
 
 const MainRoutes = (): JSX.Element => (
   <BrowserRouter>

@@ -8,6 +8,10 @@ export const StyledHeader = styled.header`
   div#headerWrapper {
     background-color: ${CCColors.PRIMARYPURPLE};
     margin: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
   }
 `
 
@@ -43,11 +47,16 @@ export const HeaderSearchDiv = styled.div`
   align-items: center;
   padding-right: 30px;
   padding-left: 30px;
+  align-self: center;
 
-  width: 100%;
+  width: 90%;
 
   div {
     margin: 10px;
+    /* margin-left: 15px */
+    /* padding-left: 15px;
+    padding-right: 15px; */
+    /* width: 100%; */
 
     ul {
       list-style-type: none;
@@ -67,35 +76,37 @@ export const TopHeaderText = styled.span`
   color: grey;
   letter-spacing: 0px;
 `
-export const HeaderDepartmentListWrapper = styled.div`
+export const HeaderDepartmentListNav = styled.nav`
   background-color: ${CCColors.DARKPURPLE};
   /* padding-left: 30px; */
-  padding: 5px 30px;
+  padding: 5px 105px;
   height: 100%;
   width: 100%;
   display: flex;
 `
 
 export const AllDepartmentsIndexer = styled.div`
-  /* color: ${CCColors.PRIMARYPURPLE}; */
-  color: black;
-  font-weight: bold;
-  letter-spacing: 0.02ch;
-  background-color: white;
-  border-radius: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 7px 5px;
   width: 20%;
-  /* padding: 5px 5px 5px 15px; */
-  padding: 0.5rem 1rem;
   height: fit-content;
   align-self: center;
 
+  color: black;
+  background-color: white;
+  font-weight: bold;
+  line-height: 1.15;
+  font-size: 0.875rem;
+  letter-spacing: 0.02ch;
+  border-radius: 24rem;
+  text-align: center;
+  vertical-align: middle;
+  /* padding: 0.4rem 0.1rem; */
+
   p {
-    width: 100%;
-    height: fit-content;
-    margin-left: 7px;
+    margin-left: 9px;
   }
 
   img {
@@ -114,9 +125,7 @@ export const DepartmentUnList = styled.ul`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
-  padding-right: 30px;
-  padding-left: 30px;
+  padding: 10px 20px;
   background-color: ${CCColors.DARKPURPLE};
 
   li {
@@ -124,18 +133,21 @@ export const DepartmentUnList = styled.ul`
     word-spacing: normal;
     margin-top: 5px;
     margin-bottom: 5px;
+    text-align: end;
 
     a {
       color: white;
       font-weight: bold;
       border-radius: 15px;
-      padding: 10px;
-      padding-right: 15px;
-      padding-left: 15px;
+      border-radius: 24rem;
+      padding: 7px 12px;
+      padding: 0.5rem 1rem;
       text-decoration: none;
       transition: 0.3s;
+      line-height: 1.15;
+
       :hover {
-        border-radius: 15px;
+        border-radius: 20px;
         background-color: purple;
         color: white;
       }

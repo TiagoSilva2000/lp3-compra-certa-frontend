@@ -2,18 +2,18 @@ import React from 'react'
 import {
   AllDepartmentsIndexer,
   DepartmentUnList,
-  HeaderDepartmentListWrapper,
+  HeaderDepartmentListNav,
   HeaderSearchDiv,
   StyledHeader,
   StyledRegisterDiv,
-  StyledSearchForm,
-  TopHeaderText
+  StyledSearchForm
 } from './style'
 import { wishlist, shopbag } from '../../assets/icons'
 import logo from '../../assets/logo.svg'
 import { search, hamburguer } from '../../assets/icons/index'
 import Placeholder from '../Placeholder'
 import { DepartmentList } from '../../constants/department-list.constant'
+import { Link } from 'react-router-dom'
 
 const Header = () => (
   <StyledHeader>
@@ -31,7 +31,9 @@ const Header = () => (
           <p>
             <b>Bem vindo :)</b>
             <br />
-            <a href='https://www.google.com'>Entre ou Cadastre-se</a>
+            <Link to='/signin'>
+              <a href='https://www.google.com'>Entre ou Cadastre-se</a>
+            </Link>
           </p>
         </StyledRegisterDiv>
         <div>
@@ -47,10 +49,10 @@ const Header = () => (
           </ul>
         </div>
       </HeaderSearchDiv>
-      <HeaderDepartmentListWrapper>
+      <HeaderDepartmentListNav>
         <AllDepartmentsIndexer>
           <img src={hamburguer} alt='index' />
-          <p>Todos os Departamentos</p>
+          <p>Todos os departamentos</p>
         </AllDepartmentsIndexer>
         <DepartmentUnList>
           {DepartmentList.map(({ name, link }, idx) => (
@@ -59,7 +61,7 @@ const Header = () => (
             </li>
           ))}
         </DepartmentUnList>
-      </HeaderDepartmentListWrapper>
+      </HeaderDepartmentListNav>
     </div>
   </StyledHeader>
 )
