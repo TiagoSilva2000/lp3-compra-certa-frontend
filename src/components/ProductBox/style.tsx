@@ -6,11 +6,13 @@ export const StyledBox = styled.div`
   width: fit-content;
   max-width: 250px;
   min-width: 200px;
-  /* max-height: 149px; */
   padding: 20px 10px;
   transition: 0.3s;
-  /* background-color: ${CCColors.INDEXGRAY}; */
+  background-color: white;
   box-sizing: border-box;
+  border-radius: 5px;
+  /* max-height: 149px; */
+  /* background-color: ${CCColors.INDEXGRAY}; */
 
   div#price-title-wrapper {
     display: flex;
