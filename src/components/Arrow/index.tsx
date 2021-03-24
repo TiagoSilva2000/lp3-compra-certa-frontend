@@ -12,7 +12,7 @@ interface IArrowProps {
 const Arrow = (props: IArrowProps): JSX.Element => {
   const styledProps: IStyledArrowProps = {
     ...props,
-    color: props.color ?? CCColors.FONTGRAY
+    color: props.color ?? CCColors.INDEXGRAY
   }
 
   return <StyledArrow {...styledProps}>{props.symbol}</StyledArrow>

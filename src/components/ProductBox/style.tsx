@@ -50,7 +50,7 @@ export const StyledBox = styled.div`
   }
 
   p#original-price {
-    color: ${CCColors.FONTGRAY};
+    color: ${CCColors.INDEXGRAY};
     font-weight: lighter;
     /* text-decoration: line-through; */
     font-weight: bold;
