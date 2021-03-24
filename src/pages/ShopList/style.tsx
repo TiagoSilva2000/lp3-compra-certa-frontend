@@ -59,7 +59,7 @@ export const ProductListWrapper = styled.div`
     justify-content: space-between;
     flex-wrap: wrap;
     width: 100%;
-    padding: 30px;
+    padding: 30px 15px;
     align-content: flex-start;
 
     li {

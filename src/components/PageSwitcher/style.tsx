@@ -19,6 +19,7 @@ export const StyledSwitcherBox = styled.li<IStyledNumberBoxProps>`
   color: ${props => (props.isActive ? 'black' : '#aaaaaa')};
   transition: 0.2s;
   cursor: ${props => (props.isActive ? 'default' : 'pointer')};
+  vertical-align: middle;
 
   :hover {
     background-color: #aaaaaa;
