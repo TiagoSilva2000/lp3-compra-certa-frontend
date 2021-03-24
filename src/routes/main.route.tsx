@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react'
+import React , { Suspense, lazy} from 'react'
 import { Route, Switch } from 'react-router'
 import { BrowserRouter } from 'react-router-dom'
 import Login from '../pages/Login/Login'
