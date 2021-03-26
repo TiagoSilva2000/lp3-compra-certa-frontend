@@ -5,3 +5,11 @@ export const CategoryList: string[] = [
   'tv e vídeo',
   'informática'
 ]
+
+export const AccountList: string[] = [
+  'Perfil',
+  'Endereços',
+  'Cartões / Contas bancárias',
+  'Lista de desejos',
+  'Minhas compras'
+]

@@ -9,7 +9,7 @@ import {
   StyledSearchForm
 } from './style'
 import { wishlist, shopbag } from '../../assets/icons'
-import logo from '../../assets/logo.svg'
+import logo from '../../assets/big-logo.png'
 import { search, hamburguer } from '../../assets/icons/index'
 import Placeholder from '../Placeholder'
 import { DepartmentList } from '../../constants/department-list.constant'
@@ -19,8 +19,8 @@ const Header = () => (
   <StyledHeader>
     <div id='headerWrapper'>
       <HeaderSearchDiv>
-        {/* <img src={logo} alt='logo' style={{ height: 45, width: 300 }} /> */}
-        <Placeholder bgColor='blue' width={300} height={45} />
+        <img src={logo} alt='logo' style={{ height: 45, width: 300, margin: '1em'}} />
+        {/* <Placeholder bgColor='blue' width={300} height={45} /> */}
         <StyledSearchForm name='search-form' method='GET' action=''>
           <input type='text' placeholder='procure por nome, código, marca...' />
           <button type='submit'>

@@ -3,10 +3,10 @@ import { CCColors } from '../../constants/colors.constant'
 
 export const StyledHeader = styled.header`
   background-color: ${CCColors.DARKPURPLE};
-  padding-top: 30px;
+
 
   div#headerWrapper {
-    background-color: ${CCColors.PRIMARYPURPLE};
+    background-color: ${CCColors.LIGHTPURPLE};
     margin: 0;
     display: flex;
     align-items: center;
