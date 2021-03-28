@@ -1,26 +1,24 @@
-// @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 import styled from 'styled-components'
 import { withStyles } from '@material-ui/core/styles'
-import {Button, Chip } from '@material-ui/core'
+import { Button, Chip } from '@material-ui/core'
 import { CCColors } from '../../constants/colors.constant'
 
-
 export const SaveButton = withStyles(theme => ({
-  root:{
+  root: {
     color: CCColors.MINT,
     width: 160,
-    backgroundColor: CCColors.PRIMARYYELLOW ,
-    '&:hover':{
+    backgroundColor: CCColors.PRIMARYYELLOW,
+    '&:hover': {
       backgroundColor: CCColors.DARKYELLOW
     }
   }
 }))(Button)
 
 export const CustomChip = withStyles(theme => ({
-  root:{
+  root: {
     clickable: false,
     height: 40,
-    borderRadius: 40 / 2,
+    borderRadius: 40 / 2
   },
   colorPrimary: {
     backgroundColor: CCColors.PRIMARYPURPLE
@@ -30,12 +28,28 @@ export const CustomChip = withStyles(theme => ({
   }
 }))(Chip)
 
+export const HistoryCustomChip = withStyles(theme => ({
+  root: {
+    transition: theme.transitions.create(['background-color', 'box-shadow']),
+    cursor: 'pointer',
+    textDecoration: 'none',
+    color: CCColors.INDEXGRAY
+  },
+  colorPrimary: {
+    backgroundColor: CCColors.LIGHTPURPLE
+  }
+}))(Chip)
 
-export const AdjustButton = styled.div`
+export const AdjustNav = styled.div`
   display: flex;
-  justify-content: flex-end;
-  padding-right: 2em;
+  justify-content: space-around;
   width: 100%;
+  padding: 2em;
+
+  Link {
+    text-decoration: none;
+    color: ${CCColors.PRIMARYYELLOW};
+  }
 `
 export const StyledProfilePage = styled.div`
   height: 90;
@@ -67,7 +81,8 @@ export const CategoryWrapper = styled.div`
       cursor: pointer;
       line-height: 2;
       color: #aaaaaa;
-      a {
+      a,
+      Link {
         width: 100%;
         height: fit-content;
         font-weight: bold;
@@ -82,24 +97,11 @@ export const CategoryWrapper = styled.div`
   }
 `
 
-export const ProfileWrapper = styled.div`
+export const SectionWrapper = styled.div`
   width: 70%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  
-  form {
-    width: 90%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
-    
-    .input{
-      width: 100%;
-      padding: 1em;
-    }
-  }
-
+  padding: 1em;
 `

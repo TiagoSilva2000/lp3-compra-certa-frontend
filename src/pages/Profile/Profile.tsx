@@ -1,109 +1,141 @@
 import React from 'react'
-import {TextField} from '@material-ui/core'
+import { Link } from 'react-router-dom'
+import { TextField } from '@material-ui/core'
+import { Face } from '@material-ui/icons'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
+import { Alert } from '@material-ui/lab'
 import { AccountList } from '../../constants/category-list.constant'
 import {
   CategoryWrapper,
   ProfileWrapper,
   StyledProfilePage,
-  CustomChip
+  CustomChip,
+  AdjustButton,
+  SaveButton
 } from './style'
 
-type MyState = { 
-    name: string,
-    email:string,
-    phoneNumber:string,
-    birthDate: string
+type MyState = {
+  name: string
+  email: string
+  phoneNumber: string
+  cpf: string
 }
 
 class Profile extends React.Component<{ props: any }, MyState> {
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            name: '',
-            email:'',
-            phoneNumber:'',
-            birthDate: '1111111',
-            };
-    
-        this.handleSubmit = this.handleSubmit.bind(this);
+  constructor(props: any) {
+    super(props)
+    this.state = {
+      name: 'Blueevee blue blue',
+      email: 'eevee@blue.com',
+      phoneNumber: '71992773546',
+      cpf: '1206999992000'
     }
 
-    
-    handleNameChange(event: any) {
-        this.setState({name: event.target.value});
-    }
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
 
-    handleEmailChange(event: any) {
-        this.setState({email: event.target.value});
-    }
+  handleNameChange(event: any): any {
+    this.setState({ name: event.target.value })
+  }
 
-    handlePhoneNumberChange(event: any) {
-        this.setState({phoneNumber: event.target.value});
-    }
+  handleEmailChange(event: any): any {
+    this.setState({ email: event.target.value })
+  }
 
-    handleBirthDateChange(event: any) {
-        this.setState({birthDate: event.target.value});
-    }
+  handlePhoneNumberChange(event: any): any {
+    this.setState({ phoneNumber: event.target.value })
+  }
 
-    handleSubmit(event: any) {
-        console.log('updated user infos:', this.state);
-        event.preventDefault();
-    }
+  handleCpfChange(event: any): any {
+    this.setState({ cpf: event.target.value })
+  }
 
-    render(){
-        return (
-            <>
-            <Header />
-            <StyledProfilePage>
-                <CategoryWrapper>
-                <h3>Minha conta:</h3>
-                <ul>
-                    {AccountList.map((category, idx) => (
-                    <li key={idx}>
-                        <a onClick={() => console.log(3)}>{category}</a>
-                    </li>
-                    ))}
-                </ul>
-                </CategoryWrapper>
-                <ProfileWrapper>
-                <CustomChip />
-                <form onSubmit={this.handleSubmit} autoComplete="off">
-                        <TextField id="filled-basic"
-                        className="input" 
-                        value={this.state.name} 
-                        label="Nome:" 
-                        variant="filled"
-                        onChange={this.handleNameChange.bind(this)} />
-                  
-                        <TextField id="filled-basic" 
-                        value={this.state.email} 
-                        className="input" 
-                        label="Email:" 
-                        variant="filled"
-                        onChange={this.handleEmailChange.bind(this)} />
+  handleSubmit(event: any): any {
+    console.log('updated user infos:', this.state)
+    event.preventDefault()
+  }
 
-                        <TextField id="filled-basic" 
-                        value={this.state.phoneNumber} 
-                        className="input" 
-                        label="Telefone:" 
-                        variant="filled"
-                        onChange={this.handlePhoneNumberChange.bind(this)} />
-              
-                        <TextField id="filled-basic" 
-                        value={this.state.birthDate} 
-                        className="input" 
-                        label="Data de nascimento:" 
-                        variant="filled"
-                        onChange={this.handleBirthDateChange.bind(this)} />
-                    <input type="submit" value="Enviar" />
-                </form>
-                </ProfileWrapper>
-            </StyledProfilePage>
-            <Footer />
-            </>
-        )
-    }
+  render(): JSX.Element {
+    return (
+      <>
+        <Header />
+        <StyledProfilePage>
+          <CategoryWrapper>
+            <h3>Minha conta:</h3>
+            <ul>
+              {Object.keys(AccountList).map((item, idx) => (
+                <li key={idx}>
+                  <Link to={`/${AccountList[item]}`}>
+                    <a
+                      onClick={() =>
+                        console.log(
+                          item + ' = ' + AccountList[item] + '-' + idx
+                        )
+                      }
+                    >
+                      {item}
+                    </a>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </CategoryWrapper>
+          <ProfileWrapper>
+            <CustomChip icon={<Face />} color='primary' label='Meu Perfil' />
+            <form onSubmit={this.handleSubmit} autoComplete='off'>
+              <TextField
+                id='filled-basic'
+                className='input'
+                margin='dense'
+                value={this.state.name}
+                label='Nome:'
+                variant='filled'
+                onChange={this.handleNameChange.bind(this)}
+              />
+
+              <TextField
+                id='filled-basic'
+                value={this.state.email}
+                className='input'
+                label='Email:'
+                variant='filled'
+                onChange={this.handleEmailChange.bind(this)}
+              />
+
+              <TextField
+                id='filled-basic'
+                value={this.state.phoneNumber}
+                className='input'
+                label='Telefone:'
+                variant='filled'
+                onChange={this.handlePhoneNumberChange.bind(this)}
+              />
+
+              <TextField
+                id='filled-basic'
+                value={this.state.cpf}
+                className='input'
+                label='CPF:'
+                variant='filled'
+                onChange={this.handleCpfChange.bind(this)}
+              />
+              <AdjustButton>
+                <SaveButton
+                  onClick={() => (
+                    <Alert severity='success'>Dados salvos com sucesso!</Alert>
+                  )}
+                  type='submit'
+                >
+                  Salvar
+                </SaveButton>
+              </AdjustButton>
+            </form>
+          </ProfileWrapper>
+        </StyledProfilePage>
+        <Footer />
+      </>
+    )
+  }
 }
 export default Profile
