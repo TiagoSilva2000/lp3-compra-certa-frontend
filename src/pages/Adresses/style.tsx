@@ -1,18 +1,16 @@
+// @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 import styled from 'styled-components'
 import { withStyles } from '@material-ui/core/styles'
-import { Button, Chip } from '@material-ui/core'
+import { Button, Chip, Card } from '@material-ui/core'
 import { CCColors } from '../../constants/colors.constant'
 
-export const SaveButton = withStyles(theme => ({
+export const StyledCard = withStyles(theme => ({
   root: {
-    color: CCColors.MINT,
-    width: 160,
-    backgroundColor: CCColors.PRIMARYYELLOW,
-    '&:hover': {
-      backgroundColor: CCColors.DARKYELLOW
-    }
+    backgroundColor: CCColors.LIGHTPURPLE,
+    margin: '1em',
+    width: '80%'
   }
-}))(Button)
+}))(Card)
 
 export const CustomChip = withStyles(theme => ({
   root: {
@@ -28,30 +26,7 @@ export const CustomChip = withStyles(theme => ({
   }
 }))(Chip)
 
-export const HistoryCustomChip = withStyles(theme => ({
-  root: {
-    transition: theme.transitions.create(['background-color', 'box-shadow']),
-    cursor: 'pointer',
-    textDecoration: 'none'
-  },
-  colorPrimary: {
-    backgroundColor: CCColors.LIGHTPURPLE
-  }
-}))(Chip)
-
-export const AdjustNav = styled.div`
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-  padding: 2em;
-  text-decoration: none;
-
-  a {
-    text-decoration: none;
-    color: ${CCColors.PRIMARYYELLOW};
-  }
-`
-export const StyledProfilePage = styled.div`
+export const StyledPage = styled.div`
   height: 90;
   width: 100%;
   padding: 7% 10% 7% 10%;
@@ -102,5 +77,17 @@ export const SectionWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1em;
+
+  form {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    .input {
+      width: 100%;
+      padding: 1em;
+    }
+  }
 `

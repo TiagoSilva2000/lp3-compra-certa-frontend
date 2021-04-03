@@ -3,13 +3,12 @@ import { withStyles, createStyles } from '@material-ui/core/styles'
 import { Button, TableCell } from '@material-ui/core'
 import { CCColors } from '../../constants/colors.constant'
 
-export const SaveButton = withStyles(theme => ({
+export const ReceiveButton = withStyles(theme => ({
   root: {
     color: CCColors.MINT,
-    width: 160,
-    backgroundColor: CCColors.PRIMARYYELLOW,
+    backgroundColor: CCColors.PRIMARYPURPLE,
     '&:hover': {
-      backgroundColor: CCColors.DARKYELLOW
+      backgroundColor: CCColors.DARKPURPLE
     }
   }
 }))(Button)
@@ -25,3 +24,20 @@ export const StyledTableCell = withStyles(theme =>
     }
   })
 )(TableCell)
+
+export const StyledProductImg = styled.img`
+  border-radius: 1em;
+  width: 5em;
+  height: 5em;
+`
+
+export const StyledProduct = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-width: 50em;
+  p {
+    font-weight: 500;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+`

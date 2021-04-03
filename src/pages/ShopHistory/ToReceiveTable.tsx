@@ -2,6 +2,7 @@ import React from 'react'
 import {
   Box,
   Collapse,
+  Button,
   IconButton,
   Table,
   TableBody,
@@ -13,7 +14,13 @@ import {
   Paper
 } from '@material-ui/core'
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons'
-import { StyledTableCell } from './styleTable'
+import {
+  StyledTableCell,
+  StyledProduct,
+  StyledProductImg,
+  ReceiveButton
+} from './styleTable'
+import { Img1, Img2, Img3 } from './ProductImg'
 
 type trackingList = {
   date: string
@@ -22,16 +29,16 @@ type trackingList = {
 
 function createData(
   product: string,
+  img: string,
   quantity: number,
-  rate: string,
   total: number,
   trackingCode: string,
   tracking: trackingList[]
 ) {
   return {
     product,
+    img,
     quantity,
-    rate,
     total,
     trackingCode,
     tracking
@@ -55,11 +62,18 @@ function Row(props: { row: ReturnType<typeof createData> }) {
           </IconButton>
         </TableCell>
         <TableCell component='th' scope='row'>
-          {row.product}
+          <StyledProduct>
+            <p>{row.product}</p>
+            <StyledProductImg src={row.img}></StyledProductImg>
+          </StyledProduct>
         </TableCell>
         <TableCell align='right'>{row.quantity}</TableCell>
-        <TableCell align='right'>{row.rate}</TableCell>
         <TableCell align='right'>{row.total}</TableCell>
+        <TableCell align='right'>
+          <ReceiveButton variant='contained' disableElevation>
+            Receber
+          </ReceiveButton>
+        </TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -96,9 +110,9 @@ function Row(props: { row: ReturnType<typeof createData> }) {
 
 const rows = [
   createData(
-    'Celular Iphone Turbinado Moto G Turbo!!',
-    2,
-    'Avaliar',
+    'Celular Iphone Turbinado Moto G Turbo Mega hiper power blaster bom OPORTUNIDADE!!',
+    Img1,
+    1,
     24.99,
     'QWE44844uhEBEH',
     [
@@ -108,46 +122,29 @@ const rows = [
   ),
   createData(
     'Celular Iphone Turbinado Moto G Turbo!!',
-    2,
-    '1.5',
-    24.99,
+    Img2,
+    3,
+    24099.99,
     '!YWGBEBDJEUUE#',
     [
       { date: '2020-01-05', status: '[CTE] Comercio ssa ss' },
+      { date: '2020-01-02', status: '[SP] um lugar ai' },
       { date: '2020-01-02', status: '[RJ] rj rjr jr jr' }
     ]
   ),
   createData(
     'Celular Iphone Turbinado Moto G Turbo!!',
-    2,
-    '2.0',
-    24.99,
+    Img3,
+    7,
+    2000.99,
     'DBDHE&3bu36#beh333',
     [
       { date: '2020-01-05', status: '[SSA] anananananna' },
-      { date: '2020-01-02', status: '[MG] lalalalallalalalla' }
-    ]
-  ),
-  createData(
-    'Celular Moto G Turbo!!',
-    2,
-    'Avaliar',
-    24.99,
-    '2344DDNEY3EE344DD',
-    [
-      { date: '2020-01-05', status: '[EL] eleieleieleeielei' },
-      { date: '2020-01-02', status: '[SPSP] CTCE mogi' }
-    ]
-  ),
-  createData(
-    'Celular Iphone Turbinado Moto G Turbo!!',
-    2,
-    'Avaliar',
-    24.99,
-    'AJSD4746DDBDYEE',
-    [
-      { date: '2020-06-85', status: '[AAAA] ababacsvasghasbsh' },
-      { date: '2020-09-02', status: '[EJE] asasahsuah' }
+      { date: '2020-01-02', status: '[MG] lalalalallalalalla' },
+      { date: '2020-01-02', status: '[SP] um lugar ai' },
+      { date: '2020-01-02', status: '[MA] lalalalallalalalla' },
+      { date: '2020-01-02', status: '[SC] centro de distribuição' },
+      { date: '2020-01-02', status: '[BA] city ctiy' }
     ]
   )
 ]
@@ -161,8 +158,8 @@ export const CollapsibleTable = (): JSX.Element => {
             <StyledTableCell />
             <StyledTableCell>Pedido</StyledTableCell>
             <StyledTableCell align='right'>Quantidade</StyledTableCell>
-            <StyledTableCell align='right'>Nota</StyledTableCell>
             <StyledTableCell align='right'>Preço</StyledTableCell>
+            <StyledTableCell align='right'>Marcar recebido</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>

@@ -9,7 +9,7 @@ export const CategoryList: string[] = [
 export const AccountList: any = {
   'Meu perfil': 'profile',
   'Meus endereços': 'adresses',
-  'Cartões / Contas bancárias': 'accounts',
+  'Meus Cartões': 'accounts',
   'Lista de desejos': 'wishlist',
   'Minhas compras': 'shopHistory'
 }

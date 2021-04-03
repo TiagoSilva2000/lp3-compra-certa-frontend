@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Payment, ShoppingBasket, ShopTwo, Room } from '@material-ui/icons'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
-import { CollapsibleTable } from './Table'
+import { CollapsibleTable } from './HistoryTable'
 import { AccountList } from '../../constants/category-list.constant'
 import {
   CategoryWrapper,
@@ -18,7 +18,7 @@ type MyState = {
   value: string
 }
 
-class Profile extends React.Component<{ props: any }, MyState> {
+class ShopHistory extends React.Component<{ props: any }, MyState> {
   render(): JSX.Element {
     return (
       <>
@@ -47,7 +47,7 @@ class Profile extends React.Component<{ props: any }, MyState> {
                 <HistoryCustomChip
                   color='primary'
                   icon={<ShopTwo />}
-                  label='Todas'
+                  label='Finalizadas'
                 />
               </Link>
               <Link to='/shopHistory/toSend'>
@@ -75,4 +75,4 @@ class Profile extends React.Component<{ props: any }, MyState> {
     )
   }
 }
-export default Profile
+export default ShopHistory

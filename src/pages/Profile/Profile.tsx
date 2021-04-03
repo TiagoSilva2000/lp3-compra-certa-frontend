@@ -67,15 +67,7 @@ class Profile extends React.Component<{ props: any }, MyState> {
               {Object.keys(AccountList).map((item, idx) => (
                 <li key={idx}>
                   <Link to={`/${AccountList[item]}`}>
-                    <a
-                      onClick={() =>
-                        console.log(
-                          item + ' = ' + AccountList[item] + '-' + idx
-                        )
-                      }
-                    >
-                      {item}
-                    </a>
+                    <a>{item}</a>
                   </Link>
                 </li>
               ))}

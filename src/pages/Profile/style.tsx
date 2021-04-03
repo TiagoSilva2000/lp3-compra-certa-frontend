@@ -1,26 +1,25 @@
 // @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 import styled from 'styled-components'
 import { withStyles } from '@material-ui/core/styles'
-import {Button, Chip } from '@material-ui/core'
+import { Button, Chip } from '@material-ui/core'
 import { CCColors } from '../../constants/colors.constant'
 
-
 export const SaveButton = withStyles(theme => ({
-  root:{
+  root: {
     color: CCColors.MINT,
     width: 160,
-    backgroundColor: CCColors.PRIMARYYELLOW ,
-    '&:hover':{
+    backgroundColor: CCColors.PRIMARYYELLOW,
+    '&:hover': {
       backgroundColor: CCColors.DARKYELLOW
     }
   }
 }))(Button)
 
 export const CustomChip = withStyles(theme => ({
-  root:{
+  root: {
     clickable: false,
     height: 40,
-    borderRadius: 40 / 2,
+    borderRadius: 40 / 2
   },
   colorPrimary: {
     backgroundColor: CCColors.PRIMARYPURPLE
@@ -29,7 +28,6 @@ export const CustomChip = withStyles(theme => ({
     backgroundColor: CCColors.PRIMARYYELLOW
   }
 }))(Chip)
-
 
 export const AdjustButton = styled.div`
   display: flex;
@@ -70,13 +68,13 @@ export const CategoryWrapper = styled.div`
       a {
         width: 100%;
         height: fit-content;
+        color: ${CCColors.PRIMARYPURPLE};
         font-weight: bold;
         text-decoration: none;
         transition: 0.5s;
       }
-
-      :hover {
-        color: ${CCColors.PRIMARYPURPLE};
+      a:hover {
+        color: ${CCColors.PRIMARYYELLOW};
       }
     }
   }
@@ -88,18 +86,17 @@ export const ProfileWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  
+
   form {
     width: 90%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
-    
-    .input{
+
+    .input {
       width: 100%;
       padding: 1em;
     }
   }
-
 `
