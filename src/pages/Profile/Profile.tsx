@@ -5,6 +5,13 @@ import { Face } from '@material-ui/icons'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import { Alert } from '@material-ui/lab'
+import {
+  validateCpf,
+  validateEmail,
+  validateJustLetters,
+  validateTelephone,
+  isEmpty
+} from '../utils/RegexValidor'
 import { AccountList } from '../../constants/category-list.constant'
 import {
   CategoryWrapper,
@@ -20,39 +27,105 @@ type MyState = {
   email: string
   phoneNumber: string
   cpf: string
+  alert: JSX.Element
 }
 
 class Profile extends React.Component<{ props: any }, MyState> {
+  element = React.createElement('h1', '')
+
   constructor(props: any) {
     super(props)
     this.state = {
       name: 'Blueevee blue blue',
       email: 'eevee@blue.com',
       phoneNumber: '71992773546',
-      cpf: '1206999992000'
+      cpf: '1206999992000',
+      alert: this.element
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleNameChange(event: any): any {
-    this.setState({ name: event.target.value })
+    if (validateJustLetters(event.target.value)) {
+      this.setState({ name: event.target.value })
+      this.setState({
+        alert: React.createElement('h1', '')
+      })
+    } else {
+      this.setState({ name: event.target.value })
+      this.setState({
+        alert: (
+          <Alert severity='error'>
+            Você deve preencher esse campo com o nome completo
+          </Alert>
+        )
+      })
+    }
   }
 
   handleEmailChange(event: any): any {
-    this.setState({ email: event.target.value })
+    if (validateEmail(event.target.value)) {
+      this.setState({ email: event.target.value })
+      this.setState({
+        alert: React.createElement('h1', '')
+      })
+    } else {
+      this.setState({ email: event.target.value })
+      this.setState({
+        alert: (
+          <Alert severity='error'>
+            Parece que seu email está incorreto, preciso que você use um email
+            válido.
+          </Alert>
+        )
+      })
+    }
   }
 
   handlePhoneNumberChange(event: any): any {
-    this.setState({ phoneNumber: event.target.value })
+    if (validateTelephone(event.target.value)) {
+      this.setState({ phoneNumber: event.target.value })
+      this.setState({
+        alert: React.createElement('h1', '')
+      })
+    } else {
+      this.setState({ phoneNumber: event.target.value })
+      this.setState({
+        alert: (
+          <Alert severity='error'>Digite um telefone válido, por favor.</Alert>
+        )
+      })
+    }
   }
 
   handleCpfChange(event: any): any {
-    this.setState({ cpf: event.target.value })
+    if (validateCpf(event.target.value)) {
+      this.setState({ cpf: event.target.value })
+      this.setState({
+        alert: React.createElement('h1', '')
+      })
+    } else {
+      this.setState({ cpf: event.target.value })
+      this.setState({
+        alert: <Alert severity='error'>Digite um CPF válido, por favor.</Alert>
+      })
+    }
   }
 
   handleSubmit(event: any): any {
     console.log('updated user infos:', this.state)
+    if (isEmpty(this.state)) {
+      this.setState({
+        alert: <Alert severity='success'>Dados salvos com sucesso!</Alert>
+      })
+    } else {
+      this.setState({
+        alert: (
+          <Alert severity='error'>Você deve preencher todos os campos.</Alert>
+        )
+      })
+    }
     event.preventDefault()
   }
 
@@ -75,13 +148,14 @@ class Profile extends React.Component<{ props: any }, MyState> {
           </CategoryWrapper>
           <ProfileWrapper>
             <CustomChip icon={<Face />} color='primary' label='Meu Perfil' />
+            {this.state.alert}
             <form onSubmit={this.handleSubmit} autoComplete='off'>
               <TextField
                 id='filled-basic'
                 className='input'
                 margin='dense'
                 value={this.state.name}
-                label='Nome:'
+                label='Nome completo:'
                 variant='filled'
                 onChange={this.handleNameChange.bind(this)}
               />
@@ -113,14 +187,7 @@ class Profile extends React.Component<{ props: any }, MyState> {
                 onChange={this.handleCpfChange.bind(this)}
               />
               <AdjustButton>
-                <SaveButton
-                  onClick={() => (
-                    <Alert severity='success'>Dados salvos com sucesso!</Alert>
-                  )}
-                  type='submit'
-                >
-                  Salvar
-                </SaveButton>
+                <SaveButton type='submit'>Salvar</SaveButton>
               </AdjustButton>
             </form>
           </ProfileWrapper>

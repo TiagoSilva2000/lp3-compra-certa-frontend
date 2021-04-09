@@ -27,7 +27,8 @@ export const CustomChip = withStyles(theme => ({
   root: {
     clickable: false,
     height: 40,
-    borderRadius: 40 / 2
+    borderRadius: 40 / 2,
+    marginBottom: '1em'
   },
   colorPrimary: {
     backgroundColor: CCColors.PRIMARYPURPLE

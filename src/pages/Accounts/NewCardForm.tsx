@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { LocalAtm } from '@material-ui/icons'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
+import { Alert } from '@material-ui/lab'
 import { AccountList } from '../../constants/category-list.constant'
 import {
   CategoryWrapper,
@@ -12,6 +13,12 @@ import {
   SaveButton,
   AdjustButton
 } from './style'
+import {
+  validateCvv,
+  isEmpty,
+  validateExpiringDate,
+  validateJustNumbers
+} from '../utils/RegexValidor'
 
 import { TextField } from '@material-ui/core'
 
@@ -20,6 +27,7 @@ type MyState = {
   cardNumber: string
   cardExpiringDate: string
   cvv: string
+  alert: JSX.Element
 }
 
 class NewCard extends React.Component<{ props: any }, MyState> {
@@ -29,7 +37,8 @@ class NewCard extends React.Component<{ props: any }, MyState> {
       cardName: '',
       cardNumber: '',
       cardExpiringDate: '',
-      cvv: ''
+      cvv: '',
+      alert: React.createElement('h1', '')
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -40,19 +49,74 @@ class NewCard extends React.Component<{ props: any }, MyState> {
   }
 
   handleCardNumberChange(event: any): any {
-    this.setState({ cardNumber: event.target.value })
+    if (validateJustNumbers(event.target.value)) {
+      this.setState({ cardNumber: event.target.value })
+      this.setState({
+        alert: React.createElement('h1', '')
+      })
+    } else {
+      this.setState({ cardNumber: event.target.value })
+      this.setState({
+        alert: (
+          <Alert severity='error'>
+            Digite apenas o número do cartão sem espaços.
+          </Alert>
+        )
+      })
+    }
   }
 
   handleCardExpiringDateChange(event: any): any {
-    this.setState({ cardExpiringDate: event.target.value })
+    if (validateExpiringDate(event.target.value)) {
+      this.setState({ cardExpiringDate: event.target.value })
+      this.setState({
+        alert: React.createElement('h1', '')
+      })
+    } else {
+      this.setState({ cardExpiringDate: event.target.value })
+      this.setState({
+        alert: (
+          <Alert severity='error'>
+            Você deve digitar a validade do cartão no formado MM/AAAA.
+          </Alert>
+        )
+      })
+    }
   }
 
   handleCvvChange(event: any): any {
-    this.setState({ cvv: event.target.value })
+    if (validateCvv(event.target.value)) {
+      this.setState({ cvv: event.target.value })
+      this.setState({
+        alert: React.createElement('h1', '')
+      })
+    } else {
+      this.setState({ cvv: event.target.value })
+      this.setState({
+        alert: (
+          <Alert severity='error'>
+            Você deve digitar o código de 3 digítos que fica atrás do cartão.
+          </Alert>
+        )
+      })
+    }
   }
 
   handleSubmit(event: any): any {
-    console.log('updated user infos:', this.state)
+    console.log('NEW CARD:', this.state)
+    if (isEmpty(this.state)) {
+      this.setState({
+        alert: (
+          <Alert severity='success'>Cartão de crédito salvo com sucesso!</Alert>
+        )
+      })
+    } else {
+      this.setState({
+        alert: (
+          <Alert severity='error'>Você deve preencher todos os campos.</Alert>
+        )
+      })
+    }
     event.preventDefault()
   }
 
@@ -79,6 +143,7 @@ class NewCard extends React.Component<{ props: any }, MyState> {
               color='primary'
               label='Novo cartão'
             />
+            {this.state.alert}
             <form onSubmit={this.handleSubmit} autoComplete='off'>
               <TextField
                 id='filled-basic'
@@ -117,7 +182,7 @@ class NewCard extends React.Component<{ props: any }, MyState> {
                 onChange={this.handleCvvChange.bind(this)}
               />
               <AdjustButton>
-                <SaveButton>Adicionar</SaveButton>
+                <SaveButton type='submit'>Adicionar</SaveButton>
               </AdjustButton>
             </form>
           </SectionWrapper>

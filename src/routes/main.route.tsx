@@ -11,8 +11,10 @@ const ShopHistory = lazy(() => import('../pages/ShopHistory/ShopHistory'))
 const ToSend = lazy(() => import('../pages/ShopHistory/ToSendPage'))
 const ToReceive = lazy(() => import('../pages/ShopHistory/ToReceivePage'))
 const Adresses = lazy(() => import('../pages/Adresses/AdressesPage'))
+const NewAdress = lazy(() => import('../pages/Adresses/NewAdress'))
 const Accounts = lazy(() => import('../pages/Accounts/AccountsPage'))
 const NewCard = lazy(() => import('../pages/Accounts/NewCardForm'))
+const Wishlist = lazy(() => import('../pages/Wishlist/WishlistPage'))
 
 const routesToBeDone: string[] = ['/buy', '/shop', '/signin']
 
@@ -27,7 +29,9 @@ const MainRoutes = (): JSX.Element => (
         <Route exact path='/adresses' component={Adresses} />
         <Route exact path='/accounts' component={Accounts} />
         <Route exact path='/newCard' component={NewCard} />
+        <Route exact path='/newAdress' component={NewAdress} />
         <Route exact path='/shopHistory' component={ShopHistory} />
+        <Route exact path='/wishlist' component={Wishlist} />
         <Route exact path='/shopHistory/toSend' component={ToSend} />
         <Route exact path='/shopHistory/toReceive' component={ToReceive} />
         <Route render={() => <NotFound routesToBeDone={routesToBeDone} />} />

@@ -5,7 +5,8 @@ import {
   Inbox,
   DeleteForever,
   EditLocation,
-  Assistant
+  Assistant,
+  AddLocation
 } from '@material-ui/icons'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
@@ -15,6 +16,8 @@ import {
   SectionWrapper,
   StyledPage,
   CustomChip,
+  AddCustomChip,
+  AdjustNav,
   StyledCard
 } from './style'
 
@@ -55,6 +58,15 @@ class Adresses extends React.Component<{ props: any }, MyState> {
               color='primary'
               label='Meus Endereços'
             />
+            <AdjustNav>
+              <Link to='/newAdress'>
+                <AddCustomChip
+                  color='primary'
+                  icon={<AddLocation />}
+                  label='Adicionar Endereço'
+                />
+              </Link>
+            </AdjustNav>
             <StyledCard>
               <CardActionArea>
                 <CardContent>

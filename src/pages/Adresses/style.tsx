@@ -12,11 +12,34 @@ export const StyledCard = withStyles(theme => ({
   }
 }))(Card)
 
+export const SaveButton = withStyles(theme => ({
+  root: {
+    color: CCColors.MINT,
+    width: 160,
+    backgroundColor: CCColors.PRIMARYYELLOW,
+    '&:hover': {
+      backgroundColor: CCColors.DARKYELLOW
+    }
+  }
+}))(Button)
+
+export const AddCustomChip = withStyles(theme => ({
+  root: {
+    transition: theme.transitions.create(['background-color', 'box-shadow']),
+    cursor: 'pointer',
+    textDecoration: 'none'
+  },
+  colorPrimary: {
+    backgroundColor: CCColors.PRIMARYYELLOW
+  }
+}))(Chip)
+
 export const CustomChip = withStyles(theme => ({
   root: {
     clickable: false,
     height: 40,
-    borderRadius: 40 / 2
+    borderRadius: 40 / 2,
+    marginBottom: '1em'
   },
   colorPrimary: {
     backgroundColor: CCColors.PRIMARYPURPLE
@@ -32,6 +55,25 @@ export const StyledPage = styled.div`
   padding: 7% 10% 7% 10%;
   display: flex;
   justify-content: center;
+`
+
+export const AdjustNav = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  padding: 2em;
+  text-decoration: none;
+
+  a {
+    text-decoration: none;
+    color: ${CCColors.PRIMARYYELLOW};
+  }
+`
+export const AdjustButton = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 2em;
+  width: 100%;
 `
 
 export const CategoryWrapper = styled.div`
