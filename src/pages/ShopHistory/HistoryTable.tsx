@@ -12,9 +12,10 @@ import {
   Typography,
   Paper
 } from '@material-ui/core'
+import { HoverRating } from './Rating'
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons'
 import { StyledTableCell, StyledProduct, StyledProductImg } from './styleTable'
-import { Img1, Img2, Img3, Img4, Img5, Img6 } from './ProductImg'
+import { Img1, Img2, Img3, Img4, Img5 } from './ProductImg'
 
 type trackingList = {
   date: string
@@ -25,7 +26,6 @@ function createData(
   product: string,
   img: string,
   quantity: number,
-  rate: string,
   total: number,
   trackingCode: string,
   tracking: trackingList[]
@@ -34,7 +34,6 @@ function createData(
     product,
     img,
     quantity,
-    rate,
     total,
     trackingCode,
     tracking
@@ -64,7 +63,9 @@ function Row(props: { row: ReturnType<typeof createData> }) {
           </StyledProduct>
         </TableCell>
         <TableCell align='right'>{row.quantity}</TableCell>
-        <TableCell align='right'>{row.rate}</TableCell>
+        <TableCell align='right'>
+          <HoverRating />
+        </TableCell>
         <TableCell align='right'>{row.total}</TableCell>
       </TableRow>
       <TableRow>
@@ -105,7 +106,6 @@ const rows = [
     'Celular Iphone Turbinado Moto G Turbo Mega hiper power blaster bom OPORTUNIDADE!!',
     Img1,
     1,
-    'Avaliar',
     24.99,
     'QWE44844uhEBEH',
     [
@@ -117,7 +117,6 @@ const rows = [
     'Celular Iphone Turbinado Moto G Turbo!!',
     Img2,
     3,
-    '1.5',
     24099.99,
     '!YWGBEBDJEUUE#',
     [
@@ -129,7 +128,6 @@ const rows = [
     'Celular Iphone Turbinado Moto G Turbo!!',
     Img3,
     7,
-    '2.0',
     2000.99,
     'DBDHE&3bu36#beh333',
     [
@@ -145,7 +143,6 @@ const rows = [
     'Celular Moto G Turbo!!',
     Img4,
     2,
-    'Avaliar',
     249999.99,
     '2344DDNEY3EE344DD',
     [
@@ -157,7 +154,6 @@ const rows = [
     'Celular Iphone Turbinado Moto G Turbo!!',
     Img5,
     2,
-    'Avaliar',
     24.99,
     'AJSD4746DDBDYEE',
     [
