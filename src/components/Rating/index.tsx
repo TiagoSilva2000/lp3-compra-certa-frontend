@@ -18,7 +18,7 @@ const labels: { [index: string]: string } = {
 
 const useStyles = makeStyles({
   root: {
-    width: 200,
+    width: 'fit-content',
     display: 'flex',
     alignItems: 'center'
   }

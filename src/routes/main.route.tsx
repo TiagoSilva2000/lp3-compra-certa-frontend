@@ -9,9 +9,7 @@ import Login from '../pages/Login/Login'
 import { Spinner } from '../pages/Loading/LoadingSpinner'
 
 const Profile = lazy(() => import('../pages/Profile/Profile'))
-const ShopHistory = lazy(() => import('../pages/ShopHistory/ShopHistory'))
-const ToSend = lazy(() => import('../pages/ShopHistory/ToSendPage'))
-const ToReceive = lazy(() => import('../pages/ShopHistory/ToReceivePage'))
+const ShopHistory = lazy(() => import('../pages/ShopHistory'))
 const Adresses = lazy(() => import('../pages/Adresses/AdressesPage'))
 const NewAdress = lazy(() => import('../pages/Adresses/NewAdress'))
 const Accounts = lazy(() => import('../pages/Accounts/AccountsPage'))
@@ -35,8 +33,6 @@ const MainRoutes = (): JSX.Element => (
         <Route exact path='/newAdress' component={NewAdress} />
         <Route exact path='/shopHistory' component={ShopHistory} />
         <Route exact path='/wishlist' component={Wishlist} />
-        <Route exact path='/shopHistory/toSend' component={ToSend} />
-        <Route exact path='/shopHistory/toReceive' component={ToReceive} />
         <Route exact path='/order-control' component={OrderControl} />
         <Route render={() => <NotFound routesToBeDone={routesToBeDone} />} />
       </Switch>
