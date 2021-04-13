@@ -4,8 +4,9 @@ import { BrowserRouter } from 'react-router-dom'
 import Main from '../pages//Index'
 import ShopList from '../pages/ShopList'
 import NotFound from '../pages/NotFound'
+import Login from '../pages/Login/Login'
+import { Spinner } from '../pages/Loading/LoadingSpinner'
 
-const Login = lazy(() => import('../pages/Login/Login'))
 const Profile = lazy(() => import('../pages/Profile/Profile'))
 const ShopHistory = lazy(() => import('../pages/ShopHistory/ShopHistory'))
 const ToSend = lazy(() => import('../pages/ShopHistory/ToSendPage'))
@@ -20,10 +21,11 @@ const routesToBeDone: string[] = ['/buy', '/shop', '/signin']
 
 const MainRoutes = (): JSX.Element => (
   <BrowserRouter>
-    <Suspense fallback={<h1>LOA DING ...</h1>}>
+    <Suspense fallback={Spinner}>
       <Switch>
         <Route exact path='/' component={Main} />
         <Route exact path='/login' component={Login} />
+        <Route exact path='/spinner' component={Spinner} />
         <Route exact path='/loja' component={ShopList} />
         <Route exact path='/profile' component={Profile} />
         <Route exact path='/adresses' component={Adresses} />
