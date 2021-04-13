@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { MouseEventHandler } from 'react'
 import { CCColors } from '../../constants/colors.constant'
 import { StyledArrow, IStyledArrowProps } from './style'
 
@@ -7,6 +7,13 @@ interface IArrowProps {
   isRight?: boolean
   absolute?: boolean
   color?: string
+  direction?: string
+  thin?: boolean
+  sizepx?: number
+  animationDisabled?: boolean
+  reverse?: boolean
+  hasBorder?: boolean
+  onClick?: MouseEventHandler
 }
 
 const Arrow = (props: IArrowProps): JSX.Element => {
@@ -15,7 +22,11 @@ const Arrow = (props: IArrowProps): JSX.Element => {
     color: props.color ?? CCColors.INDEXGRAY
   }
 
-  return <StyledArrow {...styledProps}>{props.symbol}</StyledArrow>
+  return (
+    <StyledArrow className='arrow' {...styledProps}>
+      <span>{props.symbol}</span>
+    </StyledArrow>
+  )
 }
 
 export default Arrow

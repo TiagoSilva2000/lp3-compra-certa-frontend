@@ -28,7 +28,6 @@ export const StyledFooter = styled.footer`
         height: 100%;
         list-style-type: none;
         margin-right: 50px;
-        box-sizing: border-box;
         li {
           margin-bottom: 10px;
           h3 {
@@ -69,7 +68,6 @@ export const FooterPaymentMethodsWrapper = styled.div`
     align-items: center;
     padding: 10px;
     justify-content: space-evenly;
-    box-sizing: border-box;
     list-style-type: none;
     /* background-color: blue; */
 

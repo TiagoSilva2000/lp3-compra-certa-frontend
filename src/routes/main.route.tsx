@@ -1,10 +1,11 @@
-import React , { Suspense, lazy} from 'react'
+import React, { Suspense, lazy } from 'react'
 import { Route, Switch } from 'react-router'
 import { BrowserRouter } from 'react-router-dom'
 import Login from '../pages/Login/Login'
 import Main from '../pages//Index'
 import ShopList from '../pages/ShopList'
 import NotFound from '../pages/NotFound'
+import OrderControl from '../pages/OrderControl'
 
 const routesToBeDone: string[] = ['/profile', '/buy', '/shop', '/signin']
 
@@ -14,6 +15,7 @@ const MainRoutes = (): JSX.Element => (
       <Route exact path='/' component={Main} />
       <Route exact path='/login' component={Login} />
       <Route exact path='/loja' component={ShopList} />
+      <Route exact path='/order-control' component={OrderControl} />
       <Route render={() => <NotFound routesToBeDone={routesToBeDone} />} />
     </Switch>
   </BrowserRouter>

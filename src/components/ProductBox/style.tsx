@@ -9,7 +9,6 @@ export const StyledBox = styled.div`
   padding: 20px 10px;
   transition: 0.3s;
   background-color: white;
-  box-sizing: border-box;
   border-radius: 5px;
   /* max-height: 149px; */
   /* background-color: ${CCColors.INDEXGRAY}; */

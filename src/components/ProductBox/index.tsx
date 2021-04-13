@@ -1,5 +1,5 @@
 import React from 'react'
-import rounder from '../../services/rounder'
+import rounder from '../../services/rounder.service'
 import { StyledBox } from './style'
 
 export interface IProductBoxProps {
