@@ -14,6 +14,7 @@ import Arrow from '../../components/Arrow'
 import { CSSTextDirection } from '../../enum/text-direction.enum'
 import { colorByOrderStatus } from '../../services/color-by-order-status.service'
 import { Accordion, Button, Card, useAccordionToggle } from 'react-bootstrap'
+import Header from '../../components/Header'
 
 type OrdersBySector = {
   sector: Sector
@@ -95,6 +96,7 @@ export default class OrderControl extends React.Component<
     })
     return (
       <>
+        <Header employeeView />
         <StyledOrderControlPage>
           <div className='order-control-wrapper'>
             <div className='select-div'>

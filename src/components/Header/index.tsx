@@ -8,62 +8,90 @@ import {
   StyledRegisterDiv,
   StyledSearchForm
 } from './style'
-import { wishlist, shopbag } from '../../assets/icons'
+
+import { Heart, Shop } from 'react-bootstrap-icons'
 import logo from '../../assets/big-logo.png'
 import { search, hamburguer } from '../../assets/icons/index'
-import Placeholder from '../Placeholder'
 import { DepartmentList } from '../../constants/department-list.constant'
 import { Link } from 'react-router-dom'
 
-const Header = () => (
-  <StyledHeader>
-    <div id='headerWrapper'>
+interface IHeaderProps {
+  employeeView?: boolean
+  customerView?: boolean
+  defaultView?: boolean
+}
+
+const Header = (props: IHeaderProps): JSX.Element => {
+  const {
+    employeeView: employee,
+    customerView: customer,
+    defaultView: defaultv
+  } = props
+  const username = 'username'
+
+  return (
+    <StyledHeader>
       <HeaderSearchDiv>
-        <img src={logo} alt='logo' style={{ height: 45, width: 300, margin: '1em'}} />
-        {/* <Placeholder bgColor='blue' width={300} height={45} /> */}
-        <StyledSearchForm name='search-form' method='GET' action=''>
-          <input type='text' placeholder='procure por nome, código, marca...' />
-          <button type='submit'>
-            <img src={search} alt='Procurar' />
-          </button>
-        </StyledSearchForm>
+        <img
+          src={logo}
+          alt='logo'
+          style={{ height: 45, width: 300, margin: '1em' }}
+        />
+        {!employee && (
+          <StyledSearchForm name='search-form' method='GET' action=''>
+            <input
+              type='text'
+              placeholder='procure por nome, código, marca...'
+            />
+            <button type='submit'>
+              <img src={search} alt='Procurar' />
+            </button>
+          </StyledSearchForm>
+        )}
         <StyledRegisterDiv>
-          <p>
-            <b>Bem vindo :)</b>
-            <br />
-            <Link to='/signin'>
-              <a href='https://www.google.com'>Entre ou Cadastre-se</a>
+          <li>Bem vindo{!defaultv && <b>{`, ${username}`}</b>} :)</li>
+          <li className='register-logged-account'>
+            <Link
+              to={defaultv ? '/signin' : '/profile'}
+              className='styled-link'
+            >
+              <span>{defaultv ? 'Entre ou cadastre-se' : 'Meu Perfil'}</span>
             </Link>
-          </p>
+            {!defaultv && (
+              <Link to='/' className='styled-link'>
+                <span>Sair</span>
+              </Link>
+            )}
+          </li>
         </StyledRegisterDiv>
-        <div>
-          <ul>
+        {!employee && (
+          <ul className='icons-holder'>
             <li>
-              {/* <img src={wishlist} alt='wishlist' style={{ height: 45, width: 45 }} /> */}
-              <Placeholder bgColor='blue' width={45} height={45} />
+              <Shop width={30} height={30} />
             </li>
             <li>
-              {/* <img src={shopbag} alt='wheelcart' style={{ height: 45, width: 45 }}/> */}
-              <Placeholder bgColor='blue' width={45} height={45} />
+              <Heart width={30} height={30} />
             </li>
           </ul>
-        </div>
+        )}
       </HeaderSearchDiv>
-      <HeaderDepartmentListNav>
-        <AllDepartmentsIndexer>
-          <img src={hamburguer} alt='index' />
-          <p>Todos os departamentos</p>
-        </AllDepartmentsIndexer>
-        <DepartmentUnList>
-          {DepartmentList.map(({ name, link }, idx) => (
-            <li key={idx}>
-              <a href={link}>{name}</a>
-            </li>
-          ))}
-        </DepartmentUnList>
-      </HeaderDepartmentListNav>
-    </div>
-  </StyledHeader>
-)
+      {!employee && (
+        <HeaderDepartmentListNav>
+          <AllDepartmentsIndexer>
+            <img src={hamburguer} alt='index' />
+            <p>Todos os departamentos</p>
+          </AllDepartmentsIndexer>
+          <DepartmentUnList>
+            {DepartmentList.map(({ name, link }, idx) => (
+              <li key={idx}>
+                <a href={link}>{name}</a>
+              </li>
+            ))}
+          </DepartmentUnList>
+        </HeaderDepartmentListNav>
+      )}
+    </StyledHeader>
+  )
+}
 
 export default Header

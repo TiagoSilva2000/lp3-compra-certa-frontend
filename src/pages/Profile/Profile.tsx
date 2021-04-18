@@ -22,6 +22,11 @@ import {
   SaveButton
 } from './style'
 
+interface IProfileProps {
+  customer?: boolean
+  employee?: boolean
+}
+
 type MyState = {
   name: string
   email: string
@@ -30,10 +35,10 @@ type MyState = {
   alert: JSX.Element
 }
 
-class Profile extends React.Component<{ props: any }, MyState> {
+class Profile extends React.Component<IProfileProps, MyState> {
   element = React.createElement('h1', '')
 
-  constructor(props: any) {
+  constructor(props: IProfileProps) {
     super(props)
     this.state = {
       name: 'Blueevee blue blue',

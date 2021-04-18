@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Payment, ShoppingBasket, ShopTwo, Room } from '@material-ui/icons'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
-import { CollapsibleTable } from '../../components/ProductTable'
+import { ProductTable } from '../../components/ProductTable'
 import { AccountList } from '../../constants/category-list.constant'
 import {
   CategoryWrapper,
@@ -14,6 +14,7 @@ import {
   AdjustNav
 } from './style'
 import { CustomerOrderStatus } from '../../enum/customer-order-status.enum'
+import { rows } from '../../constants/product-rows.constant'
 
 interface IShopHistoryState {
   activeSection: CustomerOrderStatus
@@ -116,8 +117,9 @@ export default class ShopHistory extends React.Component<
                 }
               />
             </AdjustNav>
-            <CollapsibleTable
+            <ProductTable
               {...this.state}
+              rows={rows}
               tracking={activeSection !== CustomerOrderStatus.TOSEND}
               additionalData
             />

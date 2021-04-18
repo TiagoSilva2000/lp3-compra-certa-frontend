@@ -9,7 +9,7 @@ import { mockedProductList } from '../../constants/mocked-product-list.constant'
 
 const Index = (): JSX.Element => (
   <>
-    <Header />
+    <Header defaultView />
     <Banner bannerUnities={StaticBanners} />
     <StyledProductsListsWrapper>
       <ProductList

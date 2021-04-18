@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { withStyles, createStyles } from '@material-ui/core/styles'
-import { Button, TableCell } from '@material-ui/core'
+import { Button, IconButton, TableCell } from '@material-ui/core'
 import { CCColors } from '../../constants/colors.constant'
 import { Table } from 'react-bootstrap'
 
@@ -13,6 +13,16 @@ export const ReceiveButton = withStyles(theme => ({
     }
   }
 }))(Button)
+
+export const ReadyButton = withStyles(theme => ({
+  root: {
+    color: CCColors.PRIMARYPURPLE
+  },
+  ready: {
+    color: 'white',
+    backgroundColor: 'green'
+  }
+}))(IconButton)
 
 export const StyledTable = withStyles(theme => createStyles({}))(Table)
 

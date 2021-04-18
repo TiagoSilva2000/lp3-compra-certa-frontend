@@ -11,7 +11,7 @@ export const StyledOrderCard = styled.div<IStyledOrderCardStatusProps>`
   height: fit-content;
   width: 100%;
   color: ${CCColors.DARKPURPLE};
-  background-color: ${CCColors.BLUE};
+  /* background-color: ${CCColors.BLUE}; */
   /* border: 1px solid ${CCColors.DARKPURPLE}; */
   border: 1px solid #333;
   border-radius: 2px;

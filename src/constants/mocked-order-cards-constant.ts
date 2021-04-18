@@ -1,6 +1,7 @@
 import { OrderStatus } from '../enum/order-status.enum'
 import { OrderCardInfo } from '../types/order-card-info'
 import { Product } from '../types/product'
+import { rows } from './product-rows.constant'
 
 const product: Product = {
   code: '645684856455',
@@ -13,60 +14,60 @@ export const mockedOrderCards: OrderCardInfo[] = [
     code: '865646516',
     orderedAt: new Date(),
     status: OrderStatus.PREPARATION,
-    products: [product]
+    productRows: [...rows]
   },
   {
     code: '865646516',
     orderedAt: new Date(),
     status: OrderStatus.PREPARATION,
-    products: [product]
+    productRows: [...rows]
   },
   {
     code: '865646516',
     orderedAt: new Date(),
     status: OrderStatus.PREPARATION,
-    products: [product]
+    productRows: [...rows]
   },
   {
     code: '865646516',
     orderedAt: new Date(),
     status: OrderStatus.CHECKING,
-    products: [product]
+    productRows: [...rows]
   },
   {
     code: '865646516',
     orderedAt: new Date(),
     status: OrderStatus.CHECKING,
-    products: [product]
+    productRows: [...rows]
   },
   {
     code: '865646516',
     orderedAt: new Date(),
     status: OrderStatus.DELIVERY,
-    products: [product]
+    productRows: [...rows]
   },
   {
     code: '865646516',
     orderedAt: new Date(),
     status: OrderStatus.DELIVERY,
-    products: [product]
+    productRows: [...rows]
   },
   {
     code: '865646516',
     orderedAt: new Date(),
     status: OrderStatus.PREPARATION,
-    products: [product]
+    productRows: [...rows]
   },
   {
     code: '865646516',
     orderedAt: new Date(),
     status: OrderStatus.PREPARATION,
-    products: [product]
+    productRows: [...rows]
   },
   {
     code: '865646516',
     orderedAt: new Date(),
     status: OrderStatus.PREPARATION,
-    products: [product]
+    productRows: [...rows]
   }
 ]

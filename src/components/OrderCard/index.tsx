@@ -1,10 +1,11 @@
 import React from 'react'
-import { useAccordionToggle } from 'react-bootstrap'
+import { Accordion, Card, useAccordionToggle } from 'react-bootstrap'
 import { CCColors } from '../../constants/colors.constant'
 import { OrderStatus } from '../../enum/order-status.enum'
 import { CSSTextDirection } from '../../enum/text-direction.enum'
 import { OrderCardInfo } from '../../types/order-card-info'
 import { Sector } from '../../types/sector'
+import { ProductTable } from '../ProductTable'
 import Arrow from '../Arrow'
 import { StyledOrderCard } from './style'
 
@@ -53,7 +54,7 @@ export default class OrderCard extends React.Component<
   }
 
   render(): JSX.Element {
-    const { code, orderedAt, status, products } = this.props.data
+    const { code, orderedAt, status, productRows } = this.props.data
     const { eventKey } = this.props
 
     return (
@@ -83,9 +84,16 @@ export default class OrderCard extends React.Component<
           </ul>
         </div>
         {eventKey && (
-          <div className='card-arrow-wrapper'>
-            <CustomOrderToggle eventKey={eventKey} />
-          </div>
+          <Accordion>
+            <div className='card-arrow-wrapper'>
+              <CustomOrderToggle eventKey={eventKey} />
+            </div>
+            <Accordion.Collapse eventKey={eventKey}>
+              <Card>
+                <ProductTable rows={productRows} employeeView />
+              </Card>
+            </Accordion.Collapse>
+          </Accordion>
         )}
       </StyledOrderCard>
     )

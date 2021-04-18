@@ -2,48 +2,50 @@ import styled from 'styled-components'
 import { CCColors } from '../../constants/colors.constant'
 
 export const StyledHeader = styled.header`
-  background-color: ${CCColors.DARKPURPLE};
-
-
-  div#headerWrapper {
-    background-color: ${CCColors.LIGHTPURPLE};
-    margin: 0;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-  }
+  background-color: ${CCColors.LIGHTPURPLE};
+  margin: 0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 `
 
-export const StyledRegisterDiv = styled.div`
+export const StyledRegisterDiv = styled.ul`
   width: 300px;
   height: 80px;
+  max-width: fit-content;
   text-align: left;
   font-size: 12px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
   color: white;
+  list-style-type: none;
+  margin: 0 12px;
+  padding: 5px;
 
-  p {
-    align-self: center;
-    display: inline-block;
-    b {
-      font-weight: 800;
-    }
-    a {
-      color: white;
-      text-decoration: none;
-      :hover {
-        text-decoration: underline;
-      }
+  li {
+    margin-bottom: 5px;
+  }
+  .register-logged-account {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .styled-link {
+    color: white;
+    :hover {
+      text-decoration: underline;
     }
   }
 `
 
 export const HeaderSearchDiv = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   padding-right: 30px;
   padding-left: 30px;
@@ -51,22 +53,15 @@ export const HeaderSearchDiv = styled.div`
 
   width: 90%;
 
-  div {
+  ul.icons-holder {
     margin: 10px;
-    /* margin-left: 15px */
-    /* padding-left: 15px;
-    padding-right: 15px; */
-    /* width: 100%; */
-
-    ul {
-      list-style-type: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      li {
-        text-decoration: none;
-        margin-right: 10px;
-      }
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    li {
+      text-decoration: none;
+      margin-right: 15px;
     }
   }
 `
@@ -78,7 +73,6 @@ export const TopHeaderText = styled.span`
 `
 export const HeaderDepartmentListNav = styled.nav`
   background-color: ${CCColors.DARKPURPLE};
-  /* padding-left: 30px; */
   padding: 5px 105px;
   height: 100%;
   width: 100%;
@@ -106,6 +100,8 @@ export const AllDepartmentsIndexer = styled.div`
   /* padding: 0.4rem 0.1rem; */
 
   p {
+    padding: 0;
+    margin: 0;
     margin-left: 9px;
   }
 
@@ -125,7 +121,7 @@ export const DepartmentUnList = styled.ul`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 20px;
+  padding: 10px 20px 0 20px;
   background-color: ${CCColors.DARKPURPLE};
 
   li {

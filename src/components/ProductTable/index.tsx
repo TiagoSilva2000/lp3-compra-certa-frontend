@@ -16,33 +16,47 @@ import { HoverRating } from '../Rating'
 import {
   FlightTakeoff,
   KeyboardArrowDown,
-  KeyboardArrowUp
+  KeyboardArrowUp,
+  Done,
+  DoneOutline
 } from '@material-ui/icons'
 import {
   StyledTableCell,
   StyledProduct,
   StyledProductImg,
   ReceiveButton,
-  StyledTable
+  StyledTable,
+  ReadyButton
 } from './style'
-import { rows } from '../../constants/product-rows.constant'
 import { ProductRowData } from '../../types/product-row-data'
+import { propTypes } from 'react-bootstrap/esm/Image'
 
-interface ICollapsibleTableProps {
+interface IProductTableProps {
+  rows: ProductRowData[]
   rating?: boolean
   toReceive?: boolean
   tracking?: boolean
   address?: boolean
   additionalData?: boolean
+  employeeView?: boolean
 }
 
-interface IRowProps extends ICollapsibleTableProps {
+interface IRowProps extends IProductTableProps {
   row: ProductRowData
 }
 
 function Row(props: IRowProps) {
-  const { row, rating, toReceive, tracking, address, additionalData } = props
+  const {
+    row,
+    rating,
+    toReceive,
+    tracking,
+    address,
+    additionalData,
+    employeeView
+  } = props
   const [open, setOpen] = React.useState(false)
+  const [ready, setReady] = React.useState(false)
 
   return (
     <React.Fragment>
@@ -58,12 +72,13 @@ function Row(props: IRowProps) {
             </IconButton>
           </TableCell>
         )}
-        <TableCell component='th' scope='row'>
+        <TableCell component='th' scope='row' width='fit-content'>
           <StyledProduct>
             <p>{row.product}</p>
             <StyledProductImg src={row.img}></StyledProductImg>
           </StyledProduct>
         </TableCell>
+        <TableCell align='right'>{row.trackingCode}</TableCell>
         <TableCell align='right'>{row.quantity}</TableCell>
         {rating && (
           <TableCell align='right'>
@@ -71,11 +86,18 @@ function Row(props: IRowProps) {
           </TableCell>
         )}
         <TableCell align='right'>{row.total}</TableCell>
-        {toReceive && (
+        {(toReceive || employeeView) && (
           <TableCell align='right'>
-            <ReceiveButton variant='contained' disableElevation>
-              Receber
-            </ReceiveButton>
+            {employeeView && (
+              <ReadyButton size='small' onClick={() => setReady(!ready)}>
+                {ready ? <Done /> : <DoneOutline />}
+              </ReadyButton>
+            )}
+            {toReceive && (
+              <ReceiveButton variant='contained' disableElevation>
+                Receber
+              </ReceiveButton>
+            )}
           </TableCell>
         )}
       </TableRow>
@@ -124,28 +146,29 @@ function Row(props: IRowProps) {
   )
 }
 
-export const CollapsibleTable = (
-  props: ICollapsibleTableProps
-): JSX.Element => {
-  const { rating, toReceive } = props
+export const ProductTable = (props: IProductTableProps): JSX.Element => {
+  const { rating, toReceive, rows, employeeView } = props
   return (
     <TableContainer component={Paper}>
       <StyledTable aria-label='collapsible table'>
         <TableHead>
           <TableRow>
-            <StyledTableCell />
+            {!employeeView && <StyledTableCell />}
             <StyledTableCell>Pedido</StyledTableCell>
+            <StyledTableCell align='right'>Código</StyledTableCell>
             <StyledTableCell align='right'>Quantidade</StyledTableCell>
             {rating && <StyledTableCell align='right'>Nota</StyledTableCell>}
             <StyledTableCell align='right'>Preço</StyledTableCell>
-            {toReceive && (
-              <StyledTableCell align='right'>Marcar recebido</StyledTableCell>
+            {(toReceive || employeeView) && (
+              <StyledTableCell align='right'>
+                {employeeView ? 'Pronto' : 'Marcar recebido'}
+              </StyledTableCell>
             )}
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
-            <Row key={row.product} {...props} row={row} />
+          {rows.map((row, idx) => (
+            <Row key={`row${idx}`} {...props} row={row} />
           ))}
         </TableBody>
       </StyledTable>
