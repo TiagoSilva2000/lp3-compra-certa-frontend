@@ -44,6 +44,23 @@ export const StyledProductImg = styled.img`
   height: 5em;
 `
 
+export const QuantitySelectionWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+
+  p {
+    width: fit-content;
+    cursor: pointer;
+    color: ${CCColors.INDEXGRAY};
+    margin-top: 8px;
+    padding-bottom: 1px;
+    border-bottom: 1px solid ${CCColors.INDEXGRAY};
+  }
+`
+
 export const StyledProduct = styled.div`
   display: flex;
   flex-direction: column;

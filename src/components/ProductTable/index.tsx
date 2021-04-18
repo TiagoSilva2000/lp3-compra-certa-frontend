@@ -10,7 +10,9 @@ import {
   TableHead,
   TableRow,
   Typography,
-  Paper
+  Paper,
+  Select,
+  MenuItem
 } from '@material-ui/core'
 import { HoverRating } from '../Rating'
 import {
@@ -26,22 +28,28 @@ import {
   StyledProductImg,
   ReceiveButton,
   StyledTable,
-  ReadyButton
+  ReadyButton,
+  QuantitySelectionWrapper
 } from './style'
 import { ProductRowData } from '../../types/product-row-data'
 import { propTypes } from 'react-bootstrap/esm/Image'
 
-interface IProductTableProps {
-  rows: ProductRowData[]
+interface ExtTableProps {
   rating?: boolean
   toReceive?: boolean
   tracking?: boolean
   address?: boolean
   additionalData?: boolean
   employeeView?: boolean
+  shopcartView?: boolean
+  removeFunction?: (code: string) => void
 }
 
-interface IRowProps extends IProductTableProps {
+interface IProductTableProps extends ExtTableProps {
+  rows: ProductRowData[]
+}
+
+interface IRowProps extends ExtTableProps {
   row: ProductRowData
 }
 
@@ -53,10 +61,15 @@ function Row(props: IRowProps) {
     tracking,
     address,
     additionalData,
-    employeeView
+    employeeView,
+    shopcartView,
+    removeFunction
   } = props
   const [open, setOpen] = React.useState(false)
   const [ready, setReady] = React.useState(false)
+  const [qnt, setQnt] = React.useState(row.quantity)
+  const qntArray: number[] = []
+  for (let i = 0; i < 10; i++) qntArray.push(i + 1)
 
   return (
     <React.Fragment>
@@ -79,7 +92,33 @@ function Row(props: IRowProps) {
           </StyledProduct>
         </TableCell>
         <TableCell align='right'>{row.trackingCode}</TableCell>
-        <TableCell align='right'>{row.quantity}</TableCell>
+        <TableCell align='right'>
+          {!shopcartView ? (
+            row.quantity
+          ) : (
+            <QuantitySelectionWrapper>
+              <Select
+                labelId='demo-customized-select-label'
+                id='demo-customized-select'
+                value={qnt}
+                onChange={e => setQnt(e.target.value as number)}
+              >
+                {qntArray.map(v => (
+                  <MenuItem key={`sel${v}`} value={v}>
+                    {v}
+                  </MenuItem>
+                ))}
+              </Select>
+              <p
+                onClick={() =>
+                  removeFunction && removeFunction(row.trackingCode)
+                }
+              >
+                Excluir
+              </p>
+            </QuantitySelectionWrapper>
+          )}
+        </TableCell>
         {rating && (
           <TableCell align='right'>
             <HoverRating />
@@ -146,32 +185,39 @@ function Row(props: IRowProps) {
   )
 }
 
-export const ProductTable = (props: IProductTableProps): JSX.Element => {
-  const { rating, toReceive, rows, employeeView } = props
-  return (
-    <TableContainer component={Paper}>
-      <StyledTable aria-label='collapsible table'>
-        <TableHead>
-          <TableRow>
-            {!employeeView && <StyledTableCell />}
-            <StyledTableCell>Pedido</StyledTableCell>
-            <StyledTableCell align='right'>Código</StyledTableCell>
-            <StyledTableCell align='right'>Quantidade</StyledTableCell>
-            {rating && <StyledTableCell align='right'>Nota</StyledTableCell>}
-            <StyledTableCell align='right'>Preço</StyledTableCell>
-            {(toReceive || employeeView) && (
-              <StyledTableCell align='right'>
-                {employeeView ? 'Pronto' : 'Marcar recebido'}
-              </StyledTableCell>
-            )}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row, idx) => (
-            <Row key={`row${idx}`} {...props} row={row} />
-          ))}
-        </TableBody>
-      </StyledTable>
-    </TableContainer>
-  )
+export class ProductTable extends React.Component<IProductTableProps> {
+  render(): JSX.Element {
+    const { rating, toReceive, employeeView, additionalData } = this.props
+    return (
+      <TableContainer component={Paper}>
+        <StyledTable aria-label='collapsible table'>
+          <TableHead>
+            <TableRow>
+              {additionalData && <StyledTableCell />}
+              <StyledTableCell>Pedido</StyledTableCell>
+              <StyledTableCell align='right'>Código</StyledTableCell>
+              <StyledTableCell align='right'>Quantidade</StyledTableCell>
+              {rating && <StyledTableCell align='right'>Nota</StyledTableCell>}
+              <StyledTableCell align='right'>Preço</StyledTableCell>
+              {(toReceive || employeeView) && (
+                <StyledTableCell align='right'>
+                  {employeeView ? 'Pronto' : 'Marcar recebido'}
+                </StyledTableCell>
+              )}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {this.props.rows.map((row, idx) => (
+              <Row
+                key={`row${idx}`}
+                {...this.props}
+                row={row}
+                // removeFunction={this.removeFromCode}
+              />
+            ))}
+          </TableBody>
+        </StyledTable>
+      </TableContainer>
+    )
+  }
 }

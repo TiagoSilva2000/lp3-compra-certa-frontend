@@ -12,29 +12,13 @@ const Index = (): JSX.Element => (
     <Header defaultView />
     <Banner bannerUnities={StaticBanners} />
     <StyledProductsListsWrapper>
-      <ProductList
-        productList={mockedProductList}
-        title='Promoção'
-      ></ProductList>
-      <ProductList
-        productList={mockedProductList}
-        title='Promoção'
-      ></ProductList>
-      <ProductList
-        productList={mockedProductList}
-        title='Promoção'
-      ></ProductList>
-      <ProductList
-        productList={mockedProductList}
-        title='Promoção'
-      ></ProductList>
-      <ProductList
-        productList={mockedProductList}
-        title='Promoção'
-      ></ProductList>
+      <ProductList productList={mockedProductList} title='Promoção' />
+      <ProductList productList={mockedProductList} title='Promoção' />
+      <ProductList productList={mockedProductList} title='Promoção' />
+      <ProductList productList={mockedProductList} title='Promoção' />
+      <ProductList productList={mockedProductList} title='Promoção' />
     </StyledProductsListsWrapper>
-
-    <Footer></Footer>
+    <Footer />
   </>
 )
 export default Index
