@@ -8,6 +8,7 @@ import Login from '../pages/Login/Login'
 import { Spinner } from '../pages/Loading/LoadingSpinner'
 
 const Profile = lazy(() => import('../pages/Profile/Profile'))
+const Register = lazy(() => import('../pages/Register/Register'))
 const ShopHistory = lazy(() => import('../pages/ShopHistory/ShopHistory'))
 const ToSend = lazy(() => import('../pages/ShopHistory/ToSendPage'))
 const ToReceive = lazy(() => import('../pages/ShopHistory/ToReceivePage'))
@@ -27,6 +28,7 @@ const MainRoutes = (): JSX.Element => (
         <Route exact path='/login' component={Login} />
         <Route exact path='/spinner' component={Spinner} />
         <Route exact path='/loja' component={ShopList} />
+        <Route exact path='/register' component={Register} />
         <Route exact path='/profile' component={Profile} />
         <Route exact path='/adresses' component={Adresses} />
         <Route exact path='/accounts' component={Accounts} />
