@@ -8,6 +8,7 @@ import OrderControl from '../pages/OrderControl'
 import Login from '../pages/Login/Login'
 import { Spinner } from '../pages/Loading/LoadingSpinner'
 import ShopCart from '../pages/ShopCart'
+import PaymentPage from '../pages/PaymentPage'
 
 const Profile = lazy(() => import('../pages/Profile/Profile'))
 const ShopHistory = lazy(() => import('../pages/ShopHistory'))
@@ -36,6 +37,7 @@ const MainRoutes = (): JSX.Element => (
         <Route exact path='/wishlist' component={Wishlist} />
         <Route exact path='/order-control' component={OrderControl} />
         <Route exact path='/shopcart' component={ShopCart} />
+        <Route exact path='/payment' component={PaymentPage} />
         <Route render={() => <NotFound routesToBeDone={routesToBeDone} />} />
       </Switch>
     </Suspense>
