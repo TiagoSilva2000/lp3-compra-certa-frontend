@@ -19,8 +19,11 @@ import {
   StyledProfilePage,
   CustomChip,
   AdjustButton,
-  SaveButton
+  SaveButton,
+  ProfileStyledNumberFormat
 } from './style'
+import { StyledNumberFormat } from '../../styles/styled-number-format.style'
+import SideBox from '../../components/SideBox'
 
 interface IProfileProps {
   customer?: boolean
@@ -139,18 +142,7 @@ class Profile extends React.Component<IProfileProps, MyState> {
       <>
         <Header />
         <StyledProfilePage>
-          <CategoryWrapper>
-            <h3>Minha conta:</h3>
-            <ul>
-              {Object.keys(AccountList).map((item, idx) => (
-                <li key={idx}>
-                  <Link to={`/${AccountList[item]}`}>
-                    <a>{item}</a>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </CategoryWrapper>
+          <SideBox title='Minha conta' linkedElements={AccountList} />
           <ProfileWrapper>
             <CustomChip icon={<Face />} color='primary' label='Meu Perfil' />
             {this.state.alert}
@@ -164,7 +156,6 @@ class Profile extends React.Component<IProfileProps, MyState> {
                 variant='filled'
                 onChange={this.handleNameChange.bind(this)}
               />
-
               <TextField
                 id='filled-basic'
                 value={this.state.email}
@@ -173,7 +164,6 @@ class Profile extends React.Component<IProfileProps, MyState> {
                 variant='filled'
                 onChange={this.handleEmailChange.bind(this)}
               />
-
               <TextField
                 id='filled-basic'
                 value={this.state.phoneNumber}

@@ -29,10 +29,18 @@ import {
   ReceiveButton,
   StyledTable,
   ReadyButton,
-  QuantitySelectionWrapper
+  QuantitySelectionWrapper,
+  StyledDone
 } from './style'
 import { ProductRowData } from '../../types/product-row-data'
 import { propTypes } from 'react-bootstrap/esm/Image'
+import { CCColors } from '../../constants/colors.constant'
+
+export interface TableTheme {
+  headerColor: string
+  headerBgColor: string
+  slim?: boolean
+}
 
 interface ExtTableProps {
   rating?: boolean
@@ -47,13 +55,15 @@ interface ExtTableProps {
 
 interface IProductTableProps extends ExtTableProps {
   rows: ProductRowData[]
+  theme?: TableTheme
 }
 
 interface IRowProps extends ExtTableProps {
   row: ProductRowData
+  theme: TableTheme
 }
 
-function Row(props: IRowProps) {
+const Row = (props: IRowProps) => {
   const {
     row,
     rating,
@@ -70,6 +80,7 @@ function Row(props: IRowProps) {
   const [qnt, setQnt] = React.useState(row.quantity)
   const qntArray: number[] = []
   for (let i = 0; i < 10; i++) qntArray.push(i + 1)
+  const theme: TableTheme = props.theme
 
   return (
     <React.Fragment>
@@ -88,7 +99,7 @@ function Row(props: IRowProps) {
         <TableCell component='th' scope='row' width='fit-content'>
           <StyledProduct>
             <p>{row.product}</p>
-            <StyledProductImg src={row.img}></StyledProductImg>
+            {!theme.slim && <StyledProductImg src={row.img}></StyledProductImg>}
           </StyledProduct>
         </TableCell>
         <TableCell align='right'>{row.trackingCode}</TableCell>
@@ -129,7 +140,7 @@ function Row(props: IRowProps) {
           <TableCell align='right'>
             {employeeView && (
               <ReadyButton size='small' onClick={() => setReady(!ready)}>
-                {ready ? <Done /> : <DoneOutline />}
+                {ready ? <StyledDone /> : <DoneOutline />}
               </ReadyButton>
             )}
             {toReceive && (
@@ -152,8 +163,8 @@ function Row(props: IRowProps) {
                   <Table size='small' aria-label='purchases'>
                     <TableHead>
                       <TableRow>
-                        <StyledTableCell>Data</StyledTableCell>
-                        <StyledTableCell>Status</StyledTableCell>
+                        <StyledTableCell styles={theme}>Data</StyledTableCell>
+                        <StyledTableCell styles={theme}>Status</StyledTableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -187,20 +198,34 @@ function Row(props: IRowProps) {
 
 export class ProductTable extends React.Component<IProductTableProps> {
   render(): JSX.Element {
+    const theme: TableTheme = this.props.theme ?? {
+      headerBgColor: CCColors.PRIMARYYELLOW,
+      headerColor: 'white'
+    }
     const { rating, toReceive, employeeView, additionalData } = this.props
     return (
       <TableContainer component={Paper}>
         <StyledTable aria-label='collapsible table'>
           <TableHead>
             <TableRow>
-              {additionalData && <StyledTableCell />}
-              <StyledTableCell>Pedido</StyledTableCell>
-              <StyledTableCell align='right'>Código</StyledTableCell>
-              <StyledTableCell align='right'>Quantidade</StyledTableCell>
-              {rating && <StyledTableCell align='right'>Nota</StyledTableCell>}
-              <StyledTableCell align='right'>Preço</StyledTableCell>
+              {additionalData && <StyledTableCell styles={theme} />}
+              <StyledTableCell styles={theme}>Pedido</StyledTableCell>
+              <StyledTableCell align='right' styles={theme}>
+                Código
+              </StyledTableCell>
+              <StyledTableCell align='right' styles={theme}>
+                Quantidade
+              </StyledTableCell>
+              {rating && (
+                <StyledTableCell align='right' styles={theme}>
+                  Nota
+                </StyledTableCell>
+              )}
+              <StyledTableCell align='right' styles={theme}>
+                Preço
+              </StyledTableCell>
               {(toReceive || employeeView) && (
-                <StyledTableCell align='right'>
+                <StyledTableCell align='right' styles={theme}>
                   {employeeView ? 'Pronto' : 'Marcar recebido'}
                 </StyledTableCell>
               )}
@@ -212,6 +237,7 @@ export class ProductTable extends React.Component<IProductTableProps> {
                 key={`row${idx}`}
                 {...this.props}
                 row={row}
+                theme={theme}
                 // removeFunction={this.removeFromCode}
               />
             ))}

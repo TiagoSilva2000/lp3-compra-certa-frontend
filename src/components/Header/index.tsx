@@ -14,11 +14,19 @@ import logo from '../../assets/big-logo.png'
 import { search, hamburguer } from '../../assets/icons/index'
 import { DepartmentList } from '../../constants/department-list.constant'
 import { Link } from 'react-router-dom'
+import ShopList from '../../pages/ShopList'
+import {
+  IndexRoute,
+  ShopCartRoute,
+  ShopRoute,
+  WishlistRoute
+} from '../../constants/routes.constant'
 
 interface IHeaderProps {
   employeeView?: boolean
   customerView?: boolean
   defaultView?: boolean
+  username?: string
 }
 
 const Header = (props: IHeaderProps): JSX.Element => {
@@ -27,16 +35,28 @@ const Header = (props: IHeaderProps): JSX.Element => {
     customerView: customer,
     defaultView: defaultv
   } = props
-  const username = 'username'
+  const [wishQnt, setWishQnt] = React.useState(0)
+  const [shopQnt, setShopQnt] = React.useState(0)
+  const username = props.username ?? 'username'
 
   return (
     <StyledHeader>
       <HeaderSearchDiv>
-        <img
-          src={logo}
-          alt='logo'
-          style={{ height: 45, width: 300, margin: '1em' }}
-        />
+        {!employee ? (
+          <Link to={`${IndexRoute}`}>
+            <img
+              src={logo}
+              alt='logo'
+              style={{ height: 45, width: 300, margin: '1em' }}
+            />
+          </Link>
+        ) : (
+          <img
+            src={logo}
+            alt='logo'
+            style={{ height: 45, width: 300, margin: '1em' }}
+          />
+        )}
         {!employee && (
           <StyledSearchForm name='search-form' method='GET' action=''>
             <input
@@ -66,12 +86,18 @@ const Header = (props: IHeaderProps): JSX.Element => {
         </StyledRegisterDiv>
         {!employee && (
           <ul className='icons-holder'>
-            <li>
-              <Shop width={30} height={30} />
-            </li>
-            <li>
-              <Heart width={30} height={30} />
-            </li>
+            <Link to={`${ShopCartRoute}`}>
+              <li>
+                <span className='shopcart-qnt'>{shopQnt}</span>
+                <Shop width={30} height={30} />
+              </li>
+            </Link>
+            <Link to={`${WishlistRoute}`}>
+              <li>
+                <span className='wishlist-qnt'>{wishQnt}</span>
+                <Heart width={30} height={30} />
+              </li>
+            </Link>
           </ul>
         )}
       </HeaderSearchDiv>
@@ -82,11 +108,13 @@ const Header = (props: IHeaderProps): JSX.Element => {
             <p>Todos os departamentos</p>
           </AllDepartmentsIndexer>
           <DepartmentUnList>
-            {DepartmentList.map(({ name, link }, idx) => (
-              <li key={idx}>
-                <a href={link}>{name}</a>
-              </li>
-            ))}
+            {DepartmentList.map(({ name, link }, idx) => {
+              return (
+                <li key={idx}>
+                  <Link to={`${ShopRoute}/${link}`}>{name}</Link>
+                </li>
+              )
+            })}
           </DepartmentUnList>
         </HeaderDepartmentListNav>
       )}

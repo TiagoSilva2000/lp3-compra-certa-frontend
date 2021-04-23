@@ -1,18 +1,27 @@
-export const CategoryList: string[] = [
-  'cama, mesa e banho',
-  'móveis',
-  'eletrodomésticos',
-  'tv e vídeo',
-  'informática'
+import {
+  ShopHistoryRoute,
+  AccountRoute,
+  AddressRoute,
+  ProfileRoute,
+  WishlistRoute,
+  ShopRoute
+} from './routes.constant'
+
+export const categoryList: { name: string; route: string }[] = [
+  { name: 'cama, mesa e banho', route: `${ShopRoute}/camamesabanho` },
+  { name: 'móveis', route: `${ShopRoute}/moveis` },
+  { name: 'eletrodomésticos', route: `${ShopRoute}/eletrodomesticos` },
+  { name: 'tv e vídeo', route: `${ShopRoute}/tvevideo` },
+  { name: 'informática', route: `${ShopRoute}/informatica` }
 ]
 
-export const AccountList: any = {
-  'Meu perfil': 'profile',
-  'Meus endereços': 'adresses',
-  'Meus Cartões': 'accounts',
-  'Lista de desejos': 'wishlist',
-  'Minhas compras': 'shopHistory'
-}
+export const AccountList: { name: string; route: string }[] = [
+  { name: 'Meu perfil', route: ProfileRoute },
+  { name: 'Meus endereços', route: AddressRoute },
+  { name: 'Meus Cartões', route: AccountRoute },
+  { name: 'Lista de desejo', route: WishlistRoute },
+  { name: 'Minhas compras', route: ShopHistoryRoute }
+]
 
 type ShopHistoryMenu = {
   color: string

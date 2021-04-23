@@ -29,6 +29,8 @@ import {
   Button,
   Typography
 } from '@material-ui/core'
+import SideBox from '../../components/SideBox'
+import { NewAddressRoute } from '../../constants/routes.constant'
 
 type MyState = {
   value: string
@@ -40,18 +42,7 @@ class Adresses extends React.Component<{ props: any }, MyState> {
       <>
         <Header />
         <StyledPage>
-          <CategoryWrapper>
-            <h3>Minha conta:</h3>
-            <ul>
-              {Object.keys(AccountList).map((item, idx) => (
-                <li key={idx}>
-                  <Link to={`/${AccountList[item]}`}>
-                    <a> {item}</a>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </CategoryWrapper>
+          <SideBox title='Minha conta' linkedElements={AccountList} />
           <SectionWrapper>
             <CustomChip
               icon={<Room />}
@@ -59,7 +50,7 @@ class Adresses extends React.Component<{ props: any }, MyState> {
               label='Meus Endereços'
             />
             <AdjustNav>
-              <Link to='/newAdress'>
+              <Link to={NewAddressRoute}>
                 <AddCustomChip
                   color='primary'
                   icon={<AddLocation />}

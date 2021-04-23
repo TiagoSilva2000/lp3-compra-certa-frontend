@@ -8,6 +8,8 @@ import { ProductRowData } from '../../types/product-row-data'
 import { StyledPaymentPage, StyledTotalWrapper } from './style'
 import { rows as mockedRows } from '../../constants/product-rows.constant'
 import { Card } from '@material-ui/core'
+import NumberFormat from 'react-number-format'
+import { StyledNumberFormat } from '../../styles/styled-number-format.style'
 interface IPaymentPageProps {
   rows: ProductRowData[]
 }
@@ -24,56 +26,67 @@ export default class PaymentPage extends React.Component<IPaymentPageProps> {
         <StyledPaymentPage>
           <Container fluid>
             <Container className='payment-body-wrapper'>
-              <div className='payment-form-wrapper'>
-                <Form>
-                  <Form.Row>
-                    <Form.Group as={Col} controlId='form-name'>
-                      <Form.Label>Nome</Form.Label>
-                      <Form.Control type='text' placeholder='Enter name' />
-                    </Form.Group>
-                    <Form.Group as={Col} controlId='form-cpf'>
-                      <Form.Label>CPF</Form.Label>
-                      <Form.Control type='text' placeholder='000.000.000-00' />
-                    </Form.Group>
-                  </Form.Row>
-                  <Form.Row>
-                    <Form.Group as={Col} controlId='form-email'>
-                      <Form.Label>Email</Form.Label>
-                      <Form.Control type='email' placeholder='Enter email' />
-                    </Form.Group>
-                  </Form.Row>
-                  <Form.Row>
-                    <Form.Group as={Col} controlId='form-address'>
-                      <Form.Label>Endereço</Form.Label>
-                      <Form.Control type='text' placeholder='address' />
-                    </Form.Group>
-                  </Form.Row>
-                  <Form.Row>
-                    <Form.Group as={Col} controlId='form-city'>
-                      <Form.Label>City</Form.Label>
-                      <Form.Control
-                        type='text'
-                        placeholder='Insira sua cidade'
-                      />
-                    </Form.Group>
-                    <Form.Group as={Col} controlId='form-state'>
-                      <Form.Label>State</Form.Label>
-                      <Form.Control as='select' defaultValue='...'>
-                        {states.map((state, idx) => (
-                          <option key={`st${idx}`}>{state}</option>
-                        ))}
-                      </Form.Control>
-                    </Form.Group>
-                    <Form.Group as={Col} controlId='form-cep'>
-                      <Form.Label>CEP</Form.Label>
-                      <Form.Control type='text' placeholder='00000-000' />
-                    </Form.Group>
-                  </Form.Row>
-                  <Button variant='primary' type='submit'>
-                    Confirmar
-                  </Button>
-                </Form>
-              </div>
+              <Container className='payment-form-wrapper'>
+                <div className='payment-form-section'>
+                  <Form>
+                    <Form.Row>
+                      <Form.Group as={Col} controlId='form-name'>
+                        <Form.Label>Nome</Form.Label>
+                        <Form.Control type='text' placeholder='Enter name' />
+                      </Form.Group>
+                      <Form.Group as={Col} controlId='form-cpf'>
+                        <Form.Label>CPF</Form.Label>
+                        <StyledNumberFormat
+                          format='###.###.###-##'
+                          mask='_'
+                          placeholder='000.000.000-00'
+                        />
+                      </Form.Group>
+                    </Form.Row>
+                    <Form.Row>
+                      <Form.Group as={Col} controlId='form-email'>
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control type='email' placeholder='Enter email' />
+                      </Form.Group>
+                    </Form.Row>
+                    <Form.Row>
+                      <Form.Group as={Col} controlId='form-address'>
+                        <Form.Label>Endereço</Form.Label>
+                        <Form.Control type='text' placeholder='address' />
+                      </Form.Group>
+                    </Form.Row>
+                    <Form.Row>
+                      <Form.Group as={Col} controlId='form-city'>
+                        <Form.Label>City</Form.Label>
+                        <Form.Control
+                          type='text'
+                          placeholder='Insira sua cidade'
+                        />
+                      </Form.Group>
+                      <Form.Group as={Col} controlId='form-state'>
+                        <Form.Label>State</Form.Label>
+                        <Form.Control as='select' defaultValue='...'>
+                          {states.map((state, idx) => (
+                            <option key={`st${idx}`}>{state}</option>
+                          ))}
+                        </Form.Control>
+                      </Form.Group>
+                      <Form.Group as={Col} controlId='form-cep'>
+                        <Form.Label>CEP</Form.Label>
+                        <StyledNumberFormat
+                          format='#####-###'
+                          mask='_'
+                          placeholder='00000-000'
+                        />
+                      </Form.Group>
+                    </Form.Row>
+                    <Button variant='primary' type='submit'>
+                      Confirmar
+                    </Button>
+                  </Form>
+                </div>
+              </Container>
+
               <Container>
                 <h2>Carrinho</h2>
                 <ListGroup className='product-list'>

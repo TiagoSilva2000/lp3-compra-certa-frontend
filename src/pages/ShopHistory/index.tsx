@@ -15,6 +15,7 @@ import {
 } from './style'
 import { CustomerOrderStatus } from '../../enum/customer-order-status.enum'
 import { rows } from '../../constants/product-rows.constant'
+import SideBox from '../../components/SideBox'
 
 interface IShopHistoryState {
   activeSection: CustomerOrderStatus
@@ -63,18 +64,7 @@ export default class ShopHistory extends React.Component<
       <>
         <Header />
         <StyledProfilePage>
-          <CategoryWrapper>
-            <h3>Minha conta:</h3>
-            <ul>
-              {Object.keys(AccountList).map((item, idx) => (
-                <li key={idx}>
-                  <Link to={`/${AccountList[item]}`}>
-                    <a> {item}</a>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </CategoryWrapper>
+          <SideBox title='Minha conta' linkedElements={AccountList} />
           <SectionWrapper>
             <CustomChip
               icon={<ShoppingBasket />}

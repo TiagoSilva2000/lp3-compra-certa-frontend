@@ -60,8 +60,38 @@ export const HeaderSearchDiv = styled.div`
     align-items: center;
     justify-content: center;
     li {
+      position: relative;
       text-decoration: none;
       margin-right: 15px;
+      padding: 8px;
+      color: #333333;
+
+      &:hover {
+        span {
+          background-color: ${CCColors.MINT};
+          color: ${CCColors.DARKPURPLE};
+        }
+      }
+      span {
+        line-height: 1.6;
+        text-align: center;
+        width: 22px;
+        height: 22px;
+        position: absolute;
+        background-color: ${CCColors.DARKPURPLE};
+        font-weight: 700;
+        color: ${CCColors.MINT};
+        font-size: 12px;
+        top: auto;
+        border-radius: 50%;
+        right: 0;
+        bottom: 0;
+        transition: 0.3s;
+        &.wishlist-qnt {
+          right: 2px;
+          bottom: 2px;
+        }
+      }
     }
   }
 `

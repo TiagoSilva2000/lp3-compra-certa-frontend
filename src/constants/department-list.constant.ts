@@ -1,10 +1,9 @@
 export const DepartmentList = [
-  // { name: 'Todos', link: '' },
-  { name: 'Ofertas', link: '' },
-  { name: 'Celulares', link: '' },
-  { name: 'Móveis', link: '' },
-  { name: 'Eletrodomésticos', link: '' },
-  { name: 'Tv e Vídeo', link: '' },
-  { name: 'Informática', link: '' },
-  { name: 'Cama, Mesa e Banho', link: '' }
+  { name: 'Ofertas', link: 'ofertas' },
+  { name: 'Celulares', link: 'celulares' },
+  { name: 'Móveis', link: 'moveis' },
+  { name: 'Eletrodomésticos', link: 'eletrodomesticos' },
+  { name: 'Tv e Vídeo', link: 'tvevideo' },
+  { name: 'Informática', link: 'informatica' },
+  { name: 'Cama, Mesa e Banho', link: 'camamesabanho' }
 ]

@@ -6,6 +6,8 @@ export const StyledPaymentPage = styled.div`
   padding: 10% 0;
 
   .payment-form-wrapper {
+  }
+  .payment-form-section {
     width: fit-content;
     border: 1px solid #aaaaaaaa;
     padding: 20px;

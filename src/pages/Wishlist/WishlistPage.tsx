@@ -22,6 +22,7 @@ import {
   Button,
   Typography
 } from '@material-ui/core'
+import SideBox from '../../components/SideBox'
 
 class Accounts extends React.Component<{ props: any }> {
   render(): JSX.Element {
@@ -29,18 +30,7 @@ class Accounts extends React.Component<{ props: any }> {
       <>
         <Header />
         <StyledPage>
-          <CategoryWrapper>
-            <h3>Minha conta:</h3>
-            <ul>
-              {Object.keys(AccountList).map((item, idx) => (
-                <li key={idx}>
-                  <Link to={`/${AccountList[item]}`}>
-                    <a> {item}</a>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </CategoryWrapper>
+          <SideBox title='Minha conta' linkedElements={AccountList} />
           <SectionWrapper>
             <CustomChip
               icon={<Favorite />}

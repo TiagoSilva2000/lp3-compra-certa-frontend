@@ -3,6 +3,11 @@ import { makeStyles } from '@material-ui/core/styles'
 import Rating from '@material-ui/lab/Rating'
 import Box from '@material-ui/core/Box'
 
+interface IRatingProps {
+  initialValue?: number
+  editable?: boolean
+}
+
 const labels: { [index: string]: string } = {
   0.5: 'Useless',
   1: 'Useless+',
@@ -24,14 +29,17 @@ const useStyles = makeStyles({
   }
 })
 
-export function HoverRating(): JSX.Element {
-  const [value, setValue] = React.useState<number | null>(2)
+export function HoverRating(props: IRatingProps): JSX.Element {
+  const [value, setValue] = React.useState<number | null>(
+    props.initialValue ?? 4.5
+  )
   const [hover, setHover] = React.useState(-1)
   const classes = useStyles()
 
   return (
     <div className={classes.root}>
       <Rating
+        readOnly={!props.editable}
         name='hover-feedback'
         value={value}
         precision={0.5}

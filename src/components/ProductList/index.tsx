@@ -1,4 +1,6 @@
+import { NavigateBefore } from '@material-ui/icons'
 import React, { Component, createRef } from 'react'
+import { CCColors } from '../../constants/colors.constant'
 // import { useWindowDimensions } from '../../hooks'
 import Arrow from '../Arrow/index'
 import ProductBox, { IProductBoxProps } from '../ProductBox'
@@ -97,13 +99,27 @@ export default class ProductList extends Component<
       <StyledProductList>
         {title && <h2>{title}</h2>}
         <div className='arrow-product-list-wrapper'>
-          <Arrow symbol={'<'} />
+          <Arrow
+            left
+            animationDisabled
+            width={50}
+            height={50}
+            hasBorder
+            color={CCColors.DARKPURPLE}
+          />
           <div className='product-list-wrapper'>
             {renderedProductList.map((pData, index) => (
               <ProductBox {...pData} key={index}></ProductBox>
             ))}
           </div>
-          <Arrow symbol={'>'} />
+          <Arrow
+            right
+            animationDisabled
+            width={50}
+            height={50}
+            hasBorder
+            color={CCColors.DARKPURPLE}
+          />
         </div>
       </StyledProductList>
     )

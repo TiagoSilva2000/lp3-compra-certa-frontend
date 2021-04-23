@@ -128,10 +128,10 @@ class NewCard extends React.Component<{ props: any }, MyState> {
           <CategoryWrapper>
             <h3>Minha conta:</h3>
             <ul>
-              {Object.keys(AccountList).map((item, idx) => (
+              {AccountList.map(({ name, route }, idx) => (
                 <li key={idx}>
-                  <Link to={`/${AccountList[item]}`}>
-                    <a>{item}</a>
+                  <Link to={route}>
+                    <a>{name}</a>
                   </Link>
                 </li>
               ))}

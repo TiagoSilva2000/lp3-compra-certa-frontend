@@ -3,7 +3,8 @@ import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 import PageSwitcher from '../../components/PageSwitcher'
 import ProductBox from '../../components/ProductBox'
-import { CategoryList } from '../../constants/category-list.constant'
+import SideBox from '../../components/SideBox'
+import { categoryList } from '../../constants/category-list.constant'
 import { mockedProductList } from '../../constants/mocked-product-list.constant'
 import {
   CategoryWrapper,
@@ -16,16 +17,7 @@ export const ShopList = (): JSX.Element => {
     <>
       <Header />
       <StyledShopListPage>
-        <CategoryWrapper>
-          <h3>Categorias:</h3>
-          <ul>
-            {CategoryList.map((category, idx) => (
-              <li key={idx}>
-                <a onClick={() => console.log(3)}>{category}</a>
-              </li>
-            ))}
-          </ul>
-        </CategoryWrapper>
+        <SideBox title='Categorias' linkedElements={categoryList} />
         <ProductListWrapper>
           <ul className='products-shop-unlist'>
             {mockedProductList.map((product, idx) => (

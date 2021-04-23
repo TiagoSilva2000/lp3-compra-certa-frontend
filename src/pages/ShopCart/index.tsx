@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom'
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 import ProductList from '../../components/ProductList'
-import { ProductTable } from '../../components/ProductTable'
+import { ProductTable, TableTheme } from '../../components/ProductTable'
 import { CCColors } from '../../constants/colors.constant'
 import { mockedProductList } from '../../constants/mocked-product-list.constant'
 import { rows } from '../../constants/product-rows.constant'
@@ -75,6 +75,11 @@ export default class ShopCart extends React.Component<
 
   render(): JSX.Element {
     const { totalPrice, totalQnt, rows } = this.state
+    const tableTheme: TableTheme = {
+      headerBgColor: CCColors.MINT,
+      headerColor: CCColors.DARKPURPLE
+    }
+
     return (
       <>
         <Header />
@@ -89,6 +94,7 @@ export default class ShopCart extends React.Component<
               rows={rows}
               shopcartView
               removeFunction={this.removeRowFromCode}
+              theme={tableTheme}
             />
             <Container fluid style={{ padding: 0 }}>
               <StyledInputWrapper>

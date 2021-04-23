@@ -108,7 +108,7 @@ export const StyledSectorHeader = styled.div<IStyledSectorHeaderProps>`
 
   .arrow {
     top: 15%;
-    left: -2.5%;
+    left: -2.9%;
   }
 
   .sector-header-left {

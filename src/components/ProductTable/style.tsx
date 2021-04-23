@@ -3,8 +3,9 @@ import { withStyles, createStyles } from '@material-ui/core/styles'
 import { Button, IconButton, TableCell } from '@material-ui/core'
 import { CCColors } from '../../constants/colors.constant'
 import { Table } from 'react-bootstrap'
-
-export const ReceiveButton = withStyles(theme => ({
+import DoneIcon from '@material-ui/icons/Done'
+import { TableTheme } from './index'
+export const ReceiveButton = withStyles(() => ({
   root: {
     color: CCColors.MINT,
     backgroundColor: CCColors.PRIMARYPURPLE,
@@ -14,7 +15,7 @@ export const ReceiveButton = withStyles(theme => ({
   }
 }))(Button)
 
-export const ReadyButton = withStyles(theme => ({
+export const ReadyButton = withStyles(() => ({
   root: {
     color: CCColors.PRIMARYPURPLE
   },
@@ -24,19 +25,37 @@ export const ReadyButton = withStyles(theme => ({
   }
 }))(IconButton)
 
-export const StyledTable = withStyles(theme => createStyles({}))(Table)
+export const StyledDone = withStyles(() => ({
+  root: {
+    // color: CCColors.READYGREEN
+    color: CCColors.MINT,
+    backgroundColor: CCColors.READYGREEN,
+    borderRadius: '50%',
+    padding: 2
+  }
+}))(DoneIcon)
 
-export const StyledTableCell = withStyles(theme =>
-  createStyles({
-    head: {
-      backgroundColor: CCColors.PRIMARYYELLOW,
-      color: theme.palette.common.white
-    },
-    body: {
-      fontSize: 14
-    }
-  })
-)(TableCell)
+export const StyledTable = withStyles(() => createStyles({}))(Table)
+
+export const StyledTableCell = styled(TableCell)<{ styles: TableTheme }>`
+  && {
+    background-color: ${props => props.styles.headerBgColor};
+    color: ${props => props.styles.headerColor};
+    font-size: ${props => (props.styles.slim ? '12px' : '14px')};
+  }
+`
+
+// export const StyledTableCell = withStyles(theme =>
+//   createStyles({
+//     head: {
+//       backgroundColor: CCColors.PRIMARYYELLOW,
+//       color: theme.palette.common.white
+//     },
+//     body: {
+//       fontSize: 14
+//     }
+//   })
+// )(TableCell)
 
 export const StyledProductImg = styled.img`
   border-radius: 1em;

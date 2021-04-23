@@ -40,12 +40,12 @@ const CustomCategoryToggle = ({
 
   return (
     <Arrow
-      symbol={'>'}
+      down
+      width={40}
+      height={40}
       color={colorByOrderStatus(sectorStatus)}
-      sizepx={16}
-      direction={CSSTextDirection.VLR}
       animationDisabled
-      absolute
+      absolute={{ right: 25 }}
       hasBorder
       reverse
       onClick={decoratedOnClick}
@@ -105,10 +105,9 @@ export default class OrderControl extends React.Component<
                 name='order-control-select'
                 id='order-control-select'
                 onChange={() => this.setCurrentOption()}
+                defaultValue='all'
               >
-                <option value='all' selected>
-                  Todos
-                </option>
+                <option value='all'>Todos</option>
                 {sectorList.map((sector, idx) => (
                   <option value={sector.status} key={idx}>
                     {sector.status}
@@ -171,16 +170,6 @@ export default class OrderControl extends React.Component<
                   </li>
                 ))}
               </ul>
-              {/* <ul className='order-card-list'>
-                {ordersBySectors.map(({ orders, sector }, idx) => (
-                  <li
-                    key={`${sector.status}${idx}`}
-                    style={{
-                      display: this.displayFromCurrentOption(sector.status)
-                    }}
-                  ></li>
-                ))}
-              </ul> */}
             </Accordion>
           </div>
         </StyledOrderControlPage>

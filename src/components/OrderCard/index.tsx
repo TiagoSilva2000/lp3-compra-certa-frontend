@@ -5,9 +5,10 @@ import { OrderStatus } from '../../enum/order-status.enum'
 import { CSSTextDirection } from '../../enum/text-direction.enum'
 import { OrderCardInfo } from '../../types/order-card-info'
 import { Sector } from '../../types/sector'
-import { ProductTable } from '../ProductTable'
+import { ProductTable, TableTheme } from '../ProductTable'
 import Arrow from '../Arrow'
 import { StyledOrderCard } from './style'
+import { colorByOrderStatus } from '../../services/color-by-order-status.service'
 
 interface IOrderCardProps {
   data: OrderCardInfo
@@ -30,13 +31,12 @@ const CustomOrderToggle = ({ eventKey }: ICustomCategoryToggleProps) => {
 
   return (
     <Arrow
-      symbol='>'
-      direction={CSSTextDirection.VLR}
-      color={'red'}
-      thin
-      sizepx={16}
+      color={CCColors.PRIMARYYELLOW}
       animationDisabled
       onClick={decoratedOnClick}
+      down
+      height={15}
+      width={15}
     ></Arrow>
   )
 }
@@ -56,6 +56,11 @@ export default class OrderCard extends React.Component<
   render(): JSX.Element {
     const { code, orderedAt, status, productRows } = this.props.data
     const { eventKey } = this.props
+    const tableTheme: TableTheme = {
+      slim: true,
+      headerBgColor: 'inherit',
+      headerColor: colorByOrderStatus(status, true)
+    }
 
     return (
       <StyledOrderCard status={status}>
@@ -90,7 +95,11 @@ export default class OrderCard extends React.Component<
             </div>
             <Accordion.Collapse eventKey={eventKey}>
               <Card>
-                <ProductTable rows={productRows} employeeView />
+                <ProductTable
+                  rows={productRows}
+                  employeeView
+                  theme={tableTheme}
+                />
               </Card>
             </Accordion.Collapse>
           </Accordion>

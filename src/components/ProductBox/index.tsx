@@ -1,20 +1,29 @@
 import React from 'react'
 import rounder from '../../services/rounder.service'
-import { StyledBox } from './style'
+import { HoverRating } from '../Rating'
+import { StyledBox, StyledCartIcon, StyledFavoriteIcon } from './style'
 
 export interface IProductBoxProps {
-  title: string
-  imgPath: string
-  imgAlt: string
-  originalPrice?: number
-  currentPrice: number
-  bestDividedBy: number
-  productId: number
+  showRating?: boolean
+  showShopcart?: boolean
+  showWishlist?: boolean
+  editable?: boolean
+  data: {
+    title: string
+    imgPath: string
+    imgAlt: string
+    originalPrice?: number
+    currentPrice: number
+    bestDividedBy: number
+    productId: number
+    rating?: number
+  }
 }
 
 const ProductBox = (props: IProductBoxProps): JSX.Element => {
-  const { title, imgPath, imgAlt, bestDividedBy, productId } = props
-  let { currentPrice, originalPrice } = props
+  const { showRating, showShopcart, showWishlist } = props
+  const { title, imgPath, imgAlt, bestDividedBy, productId } = props.data
+  let { currentPrice, originalPrice } = props.data
   currentPrice = rounder(currentPrice)
   if (originalPrice) originalPrice = rounder(originalPrice)
   const dividedPrice = rounder(currentPrice / bestDividedBy)
@@ -22,8 +31,16 @@ const ProductBox = (props: IProductBoxProps): JSX.Element => {
   return (
     <StyledBox>
       <img src={imgPath} alt={imgAlt} />
+      {showShopcart && <StyledCartIcon />}
+      {showWishlist && <StyledFavoriteIcon />}
       <div id='price-title-wrapper'>
         <h3 id='product-title'>{title}</h3>
+        {showRating && props.data.rating && (
+          <HoverRating
+            initialValue={props.data.rating}
+            editable={props.editable}
+          ></HoverRating>
+        )}
         <div id='price-wrapper'>
           {originalPrice ? (
             <p id='original-price'>de R$ {originalPrice} por</p>

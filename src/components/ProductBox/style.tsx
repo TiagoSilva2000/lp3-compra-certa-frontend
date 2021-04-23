@@ -1,6 +1,36 @@
+import { LocalMallOutlined } from '@material-ui/icons'
+import FavoriteBorder from '@material-ui/icons/FavoriteBorder'
 import styled from 'styled-components'
 import { CCColors } from '../../constants/colors.constant'
+
+export const StyledFavoriteIcon = styled(FavoriteBorder)`
+  position: absolute;
+  color: ${CCColors.INDEXGRAY};
+  top: 2%;
+  right: 5%;
+  transition: 0.5s;
+  cursor: pointer;
+
+  &:hover {
+    color: ${CCColors.PRIMARYPURPLE};
+  }
+`
+
+export const StyledCartIcon = styled(LocalMallOutlined)`
+  position: absolute;
+  color: ${CCColors.INDEXGRAY};
+  top: 2%;
+  left: 5%;
+  transition: 0.5s;
+  cursor: pointer;
+
+  &:hover {
+    color: #85bb65;
+  }
+`
+
 export const StyledBox = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   width: fit-content;
@@ -10,8 +40,6 @@ export const StyledBox = styled.div`
   transition: 0.3s;
   background-color: white;
   border-radius: 5px;
-  /* max-height: 149px; */
-  /* background-color: ${CCColors.INDEXGRAY}; */
 
   div#price-title-wrapper {
     display: flex;
