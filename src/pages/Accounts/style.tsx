@@ -23,21 +23,6 @@ export const StyledCard = withStyles(theme => ({
   }
 }))(Card)
 
-export const CustomChip = withStyles(theme => ({
-  root: {
-    clickable: false,
-    height: 40,
-    borderRadius: 40 / 2,
-    marginBottom: '1em'
-  },
-  colorPrimary: {
-    backgroundColor: CCColors.PRIMARYPURPLE
-  },
-  colorSecondary: {
-    backgroundColor: CCColors.PRIMARYYELLOW
-  }
-}))(Chip)
-
 export const AdjustNav = styled.div`
   display: flex;
   justify-content: space-around;

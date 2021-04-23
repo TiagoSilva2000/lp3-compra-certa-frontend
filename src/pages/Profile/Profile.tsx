@@ -17,20 +17,23 @@ import {
   CategoryWrapper,
   ProfileWrapper,
   StyledProfilePage,
-  CustomChip,
   AdjustButton,
-  SaveButton,
-  ProfileStyledNumberFormat
+  SaveButton
 } from './style'
 import { StyledNumberFormat } from '../../styles/styled-number-format.style'
 import SideBox from '../../components/SideBox'
+import CustomChip from '../../components/CustomChip'
+import NumberFormat from 'react-number-format'
+import { format } from 'prettier'
+import { StyledTextField } from '../../styles/styled-profile-textfield.style'
+import { StyledProfileNumberFormat } from '../../styles/styled-profile-number-format.style'
 
 interface IProfileProps {
   customer?: boolean
   employee?: boolean
 }
 
-type MyState = {
+interface IProfileState {
   name: string
   email: string
   phoneNumber: string
@@ -38,7 +41,7 @@ type MyState = {
   alert: JSX.Element
 }
 
-class Profile extends React.Component<IProfileProps, MyState> {
+class Profile extends React.Component<IProfileProps, IProfileState> {
   element = React.createElement('h1', '')
 
   constructor(props: IProfileProps) {
@@ -46,8 +49,8 @@ class Profile extends React.Component<IProfileProps, MyState> {
     this.state = {
       name: 'Blueevee blue blue',
       email: 'eevee@blue.com',
-      phoneNumber: '71992773546',
-      cpf: '1206999992000',
+      phoneNumber: '(71) 9 92773546',
+      cpf: '42516448754',
       alert: this.element
     }
 
@@ -147,39 +150,31 @@ class Profile extends React.Component<IProfileProps, MyState> {
             <CustomChip icon={<Face />} color='primary' label='Meu Perfil' />
             {this.state.alert}
             <form onSubmit={this.handleSubmit} autoComplete='off'>
-              <TextField
-                id='filled-basic'
+              <StyledTextField
                 className='input'
-                margin='dense'
+                variant='filled'
                 value={this.state.name}
                 label='Nome completo:'
-                variant='filled'
                 onChange={this.handleNameChange.bind(this)}
               />
-              <TextField
-                id='filled-basic'
+              <StyledTextField
                 value={this.state.email}
                 className='input'
                 label='Email:'
                 variant='filled'
                 onChange={this.handleEmailChange.bind(this)}
               />
-              <TextField
-                id='filled-basic'
+              <StyledProfileNumberFormat
+                format='(##) # ####-####'
+                placeholder='(99) 9 9999-9999'
                 value={this.state.phoneNumber}
-                className='input'
-                label='Telefone:'
-                variant='filled'
-                onChange={this.handlePhoneNumberChange.bind(this)}
+                label='Telefone'
               />
-
-              <TextField
-                id='filled-basic'
+              <StyledProfileNumberFormat
+                format='###.###.###-##'
+                placeholder='000.000.000-00'
                 value={this.state.cpf}
-                className='input'
-                label='CPF:'
-                variant='filled'
-                onChange={this.handleCpfChange.bind(this)}
+                label='CPF'
               />
               <AdjustButton>
                 <SaveButton type='submit'>Salvar</SaveButton>

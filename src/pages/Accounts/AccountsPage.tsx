@@ -15,7 +15,6 @@ import {
   CategoryWrapper,
   SectionWrapper,
   StyledPage,
-  CustomChip,
   StyledCard,
   AdjustNav,
   AddCustomChip
@@ -30,6 +29,7 @@ import {
   Typography
 } from '@material-ui/core'
 import SideBox from '../../components/SideBox'
+import CustomChip from '../../components/CustomChip'
 
 type MyState = {
   value: string

@@ -9,7 +9,6 @@ import {
   CategoryWrapper,
   SectionWrapper,
   StyledPage,
-  CustomChip,
   SaveButton,
   AdjustButton
 } from './style'
@@ -21,6 +20,7 @@ import {
 } from '../utils/RegexValidor'
 
 import { TextField } from '@material-ui/core'
+import CustomChip from '../../components/CustomChip'
 
 type MyState = {
   cardName: string

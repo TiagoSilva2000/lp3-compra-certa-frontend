@@ -1,9 +1,10 @@
 // @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 import styled from 'styled-components'
 import { withStyles } from '@material-ui/core/styles'
-import { Button, Chip } from '@material-ui/core'
+import { Button, Chip, TextField } from '@material-ui/core'
 import { CCColors } from '../../constants/colors.constant'
 import NumberFormat from 'react-number-format'
+import { StyledNumberFormat } from '../../styles/styled-number-format.style'
 
 export const SaveButton = withStyles(theme => ({
   root: {
@@ -15,40 +16,6 @@ export const SaveButton = withStyles(theme => ({
     }
   }
 }))(Button)
-
-export const ProfileStyledNumberFormat = styled(NumberFormat)`
-  && {
-    font: inherit;
-    color: currentColor;
-    width: 100%;
-    border: 0;
-    height: 1.1876em;
-    margin: 0;
-    display: block;
-    padding: 6px 0 7px;
-    min-width: 0;
-    background: none;
-    box-sizing: content-box;
-    animation-name: mui-auto-fill-cancel;
-    letter-spacing: inherit;
-    animation-duration: 10ms;
-  }
-`
-
-export const CustomChip = withStyles(theme => ({
-  root: {
-    clickable: false,
-    height: 40,
-    borderRadius: 40 / 2,
-    marginBottom: '1em'
-  },
-  colorPrimary: {
-    backgroundColor: CCColors.PRIMARYPURPLE
-  },
-  colorSecondary: {
-    backgroundColor: CCColors.PRIMARYYELLOW
-  }
-}))(Chip)
 
 export const AdjustButton = styled.div`
   display: flex;

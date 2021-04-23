@@ -15,7 +15,6 @@ import {
   CategoryWrapper,
   SectionWrapper,
   StyledPage,
-  CustomChip,
   AddCustomChip,
   AdjustNav,
   StyledCard
@@ -31,6 +30,7 @@ import {
 } from '@material-ui/core'
 import SideBox from '../../components/SideBox'
 import { NewAddressRoute } from '../../constants/routes.constant'
+import CustomChip from '../../components/CustomChip'
 
 type MyState = {
   value: string

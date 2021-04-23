@@ -9,13 +9,13 @@ import {
   CategoryWrapper,
   SectionWrapper,
   StyledProfilePage,
-  CustomChip,
   HistoryCustomChip,
   AdjustNav
 } from './style'
 import { CustomerOrderStatus } from '../../enum/customer-order-status.enum'
 import { rows } from '../../constants/product-rows.constant'
 import SideBox from '../../components/SideBox'
+import CustomChip from '../../components/CustomChip'
 
 interface IShopHistoryState {
   activeSection: CustomerOrderStatus

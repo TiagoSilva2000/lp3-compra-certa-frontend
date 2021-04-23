@@ -34,21 +34,6 @@ export const AddCustomChip = withStyles(theme => ({
   }
 }))(Chip)
 
-export const CustomChip = withStyles(theme => ({
-  root: {
-    clickable: false,
-    height: 40,
-    borderRadius: 40 / 2,
-    marginBottom: '1em'
-  },
-  colorPrimary: {
-    backgroundColor: CCColors.PRIMARYPURPLE
-  },
-  colorSecondary: {
-    backgroundColor: CCColors.PRIMARYYELLOW
-  }
-}))(Chip)
-
 export const StyledPage = styled.div`
   height: 90;
   width: 100%;

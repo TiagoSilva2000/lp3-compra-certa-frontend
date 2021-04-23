@@ -14,20 +14,6 @@ export const SaveButton = withStyles(theme => ({
   }
 }))(Button)
 
-export const CustomChip = withStyles(theme => ({
-  root: {
-    clickable: false,
-    height: 40,
-    borderRadius: 40 / 2
-  },
-  colorPrimary: {
-    backgroundColor: CCColors.PRIMARYPURPLE
-  },
-  colorSecondary: {
-    backgroundColor: CCColors.PRIMARYYELLOW
-  }
-}))(Chip)
-
 export const HistoryCustomChip = withStyles(theme => ({
   root: {
     transition: theme.transitions.create(['background-color', 'box-shadow']),
