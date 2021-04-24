@@ -61,6 +61,7 @@ export const ImgGallery = styled.img`
   height: 5em;
   width: 5em;
   margin: 1em;
+  cursor: pointer;
 `
 
 export const ShopButton = withStyles(theme => ({
