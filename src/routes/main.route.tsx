@@ -17,6 +17,9 @@ const NewAdress = lazy(() => import('../pages/Adresses/NewAdress'))
 const Accounts = lazy(() => import('../pages/Accounts/AccountsPage'))
 const NewCard = lazy(() => import('../pages/Accounts/NewCardForm'))
 const Wishlist = lazy(() => import('../pages/Wishlist/WishlistPage'))
+const Product = lazy(
+  () => import('../pages/ProductVisualization/ProductVisualization')
+)
 
 const routesToBeDone: string[] = ['/buy', '/shop', '/signin']
 
@@ -29,6 +32,7 @@ const MainRoutes = (): JSX.Element => (
         <Route exact path='/spinner' component={Spinner} />
         <Route exact path='/loja' component={ShopList} />
         <Route exact path='/register' component={Register} />
+        <Route exact path='/product' component={Product} />
         <Route exact path='/profile' component={Profile} />
         <Route exact path='/adresses' component={Adresses} />
         <Route exact path='/accounts' component={Accounts} />

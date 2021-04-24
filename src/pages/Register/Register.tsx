@@ -1,11 +1,13 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { TextField } from '@material-ui/core'
 import {
   RegisterButton,
   StyledCard,
   StyledContainer,
   StyledImg,
-  StyledTitle
+  StyledTitle,
+  StyledArrowBack
 } from './style'
 import loginImage from '../../assets/login.svg'
 
@@ -13,6 +15,9 @@ const Register = (): JSX.Element => {
   return (
     <StyledContainer>
       <StyledCard className='mt-1 mt-md-2'>
+        <Link to='/login'>
+          <StyledArrowBack />
+        </Link>
         <StyledTitle className='mt-3 font-weight-normal' variant='h2'>
           Cadastre-se, é rápido :D
         </StyledTitle>

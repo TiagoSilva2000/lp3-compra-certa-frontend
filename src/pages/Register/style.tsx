@@ -2,6 +2,7 @@
 import styled from 'styled-components'
 import { withStyles } from '@material-ui/core/styles'
 import { Button, Typography } from '@material-ui/core'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import { CCColors } from '../../constants/colors.constant'
 
 export const StyledImg = styled.img`
@@ -15,7 +16,7 @@ export const StyledCard = styled.div`
   flex-direction: column;
   justify-content: center;
   border-radius: 2em;
-  padding: 1em 2.5em 1em 2.5em;
+  padding: 1.5em;
   max-width: 50em;
   height: 90vh;
   background-color: ${CCColors.MINT};
@@ -60,3 +61,9 @@ export const StyledTitle = withStyles(theme => ({
     color: CCColors.DARKPURPLE
   }
 }))(Typography)
+
+export const StyledArrowBack = withStyles(theme => ({
+  root: {
+    color: CCColors.DARKPURPLE
+  }
+}))(ArrowBackIcon)

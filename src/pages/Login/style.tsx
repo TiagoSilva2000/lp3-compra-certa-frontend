@@ -55,6 +55,7 @@ export const SignInButton = withStyles(theme => ({
 export const RegisterButton = withStyles(theme => ({
   root: {
     color: CCColors.MINT,
+    textDecoration: 'none',
     backgroundColor: CCColors.PRIMARYYELLOW,
     '&:hover': {
       backgroundColor: CCColors.DARKYELLOW
