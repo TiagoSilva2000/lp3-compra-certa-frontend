@@ -59,7 +59,11 @@ const PaymentPage = (props: IPaymentPageProps) => {
                       <Checkbox
                         name='form-checkbox-user'
                         color='primary'
-                        onChange={() => setUser(registeredUser && !user ? registeredUser : undefined)}
+                        onChange={() =>
+                          setUser(
+                            registeredUser && !user ? registeredUser : undefined
+                          )
+                        }
                       />
                     }
                   />
@@ -162,6 +166,7 @@ const PaymentPage = (props: IPaymentPageProps) => {
                       placeholder='00000-000'
                       readOnly={!!address}
                       value={address?.cep ?? ''}
+                      className='form-control'
                     />
                   </Form.Group>
                 </Form.Row>
