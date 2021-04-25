@@ -28,12 +28,16 @@ import {
 } from '../constants/routes.constant'
 
 const Profile = lazy(() => import('../pages/Profile/Profile'))
-const ShopHistory = lazy(() => import('../pages/ShopHistory'))
+const Register = lazy(() => import('../pages/Register/Register'))
+const ShopHistory = lazy(() => import('../pages/ShopHistory/index'))
 const Adresses = lazy(() => import('../pages/Adresses/AdressesPage'))
 const NewAdress = lazy(() => import('../pages/Adresses/NewAdress'))
 const Accounts = lazy(() => import('../pages/Accounts/AccountsPage'))
 const NewCard = lazy(() => import('../pages/Accounts/NewCardForm'))
 const Wishlist = lazy(() => import('../pages/Wishlist/WishlistPage'))
+const Product = lazy(
+  () => import('../pages/ProductVisualization/ProductVisualization')
+)
 
 const routesToBeDone: string[] = []
 
@@ -55,6 +59,8 @@ const MainRoutes = (): JSX.Element => (
         <Route exact path={`${NewAddressRoute}`} component={NewAdress} />
         <Route exact path={`${ShopHistoryRoute}`} component={ShopHistory} />
         <Route exact path={`${WishlistRoute}`} component={Wishlist} />
+        <Route exact path='/register' component={Register} />
+        <Route exact path='/product' component={Product} />
 
         <Route exact path={`${OrderControlRoute}`} component={OrderControl} />
 

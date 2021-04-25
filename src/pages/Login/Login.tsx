@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { Link } from 'react-router-dom'
 import { TextField, Typography } from '@material-ui/core'
 import {
   SignInButton,
@@ -11,7 +12,7 @@ import {
 import logo from '../../assets/big-logo.png'
 import shoppingImage from '../../assets/shopping.svg'
 
-const Login = () => {
+const Login = (): JSX.Element => {
   return (
     <StyledContainer>
       <StyledCard className='mt-1 mt-md-2'>
@@ -55,15 +56,17 @@ const Login = () => {
           >
             Entrar
           </SignInButton>
-          <RegisterButton
-            variant='contained'
-            fullWidth
-            type='button'
-            size='large'
-            className='mb-2 mt-md-2 mt-2'
-          >
-            Ainda não tem conta? cadastre-se
-          </RegisterButton>
+          <Link to='/register'>
+            <RegisterButton
+              variant='contained'
+              fullWidth
+              type='button'
+              size='large'
+              className='mb-2 mt-md-2 mt-2'
+            >
+              Ainda não tem conta? cadastre-se
+            </RegisterButton>
+          </Link>
         </div>
       </StyledCard>
       <StyledImg src={shoppingImage} />
