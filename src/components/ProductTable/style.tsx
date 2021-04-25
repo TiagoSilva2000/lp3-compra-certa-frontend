@@ -18,10 +18,6 @@ export const ReceiveButton = withStyles(() => ({
 export const ReadyButton = withStyles(() => ({
   root: {
     color: CCColors.PRIMARYPURPLE
-  },
-  ready: {
-    color: 'white',
-    backgroundColor: 'green'
   }
 }))(IconButton)
 

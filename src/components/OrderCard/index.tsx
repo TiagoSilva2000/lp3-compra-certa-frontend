@@ -1,5 +1,5 @@
 import React from 'react'
-import { Accordion, Card, useAccordionToggle } from 'react-bootstrap'
+import { Accordion, Card, Dropdown, useAccordionToggle } from 'react-bootstrap'
 import { CCColors } from '../../constants/colors.constant'
 import { OrderStatus } from '../../enum/order-status.enum'
 import { CSSTextDirection } from '../../enum/text-direction.enum'
@@ -7,13 +7,28 @@ import { OrderCardInfo } from '../../types/order-card-info'
 import { Sector } from '../../types/sector'
 import { ProductTable, TableTheme } from '../ProductTable'
 import Arrow from '../Arrow'
-import { StyledOrderCard } from './style'
+import { StyledOrderCard, BootstrapInput } from './style'
 import { colorByOrderStatus } from '../../services/color-by-order-status.service'
+import { sectorList } from '../../constants/sector-list.constant'
+import DropdownToggle from 'react-bootstrap/esm/DropdownToggle'
+import { AnyAaaaRecord } from 'node:dns'
+import {
+  createStyles,
+  InputBase,
+  MenuItem,
+  Select,
+  withStyles
+} from '@material-ui/core'
 
 interface IOrderCardProps {
   data: OrderCardInfo
   sector: Sector
   eventKey?: string
+  changeStatusCb: (
+    orderCode: string,
+    oldStatus: OrderStatus,
+    newStatus: OrderStatus
+  ) => void
 }
 
 interface IOrderCardState {
@@ -53,20 +68,57 @@ export default class OrderCard extends React.Component<
     }
   }
 
+  setStatus(newStatus: OrderStatus): void {
+    this.setState({ currentStatus: newStatus })
+  }
+
   render(): JSX.Element {
-    const { code, orderedAt, status, productRows } = this.props.data
-    const { eventKey } = this.props
+    const { code, orderedAt, productRows } = this.props.data
+    const { eventKey, changeStatusCb } = this.props
+    const { currentStatus: status } = this.state
     const tableTheme: TableTheme = {
       slim: true,
       headerBgColor: 'inherit',
       headerColor: colorByOrderStatus(status, true)
+    }
+    const sectorListFromStatus = (st: OrderStatus): Sector[] => {
+      switch (st) {
+        case OrderStatus.PREPARATION:
+          return [{ status: OrderStatus.CHECKING }]
+        case OrderStatus.CHECKING:
+          return [
+            { status: OrderStatus.PREPARATION },
+            { status: OrderStatus.DELIVERY }
+          ]
+        case OrderStatus.DELIVERY:
+          return [
+            { status: OrderStatus.PREPARATION },
+            { status: OrderStatus.CHECKING }
+          ]
+      }
     }
 
     return (
       <StyledOrderCard status={status}>
         <div className='order-card-header'>
           <div className='order-card-code'>
-            <div className='order-card-status-box'></div>
+            <Select
+              labelId='demo-customized-select-label'
+              id='demo-customized-select'
+              value={status}
+              onChange={e => {
+                this.setStatus(e.target.value as OrderStatus)
+                if (changeStatusCb)
+                  changeStatusCb(code, status, e.target.value as OrderStatus)
+              }}
+              input={<BootstrapInput status={status} />}
+            >
+              {sectorListFromStatus(status).map((sector, idx) => (
+                <MenuItem key={idx} value={sector.status}>
+                  {sector.status}
+                </MenuItem>
+              ))}
+            </Select>
             <span>{code}</span>
           </div>
           <ul className='order-card-header-extra'>

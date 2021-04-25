@@ -23,6 +23,7 @@ type OrdersBySector = {
 
 interface IOrderControlState {
   currentOption: string
+  sectorsOrders: OrdersBySector[]
 }
 
 interface ICustomCategoryToggleProps {
@@ -59,9 +60,53 @@ export default class OrderControl extends React.Component<
 > {
   constructor(props: unknown) {
     super(props)
+    const ordersBySectors: OrdersBySector[] = []
+
+    sectorList.forEach(sector => {
+      ordersBySectors.push({ sector, orders: [] })
+    })
+
+    mockedOrderCards.forEach(order => {
+      ordersBySectors.forEach(ordersBySector => {
+        if (order.status === ordersBySector.sector.status) {
+          const randomCode = Math.floor(Math.random() * 1000000000).toString()
+          ordersBySector.orders.push({ ...order, code: randomCode })
+        }
+      })
+    })
+
     this.state = {
-      currentOption: 'all'
+      currentOption: 'all',
+      sectorsOrders: ordersBySectors
     }
+    this.changeOrderStatus = this.changeOrderStatus.bind(this)
+  }
+
+  changeOrderStatus(
+    orderCode: string,
+    oldStatus: OrderStatus,
+    newStatus: OrderStatus
+  ): void {
+    const { sectorsOrders } = this.state
+    let newStatusIdx = -1
+    let oldStatusIdx = -1
+
+    sectorsOrders.forEach(({ sector }, idx) => {
+      if (sector.status === newStatus) newStatusIdx = idx
+      if (sector.status === oldStatus) oldStatusIdx = idx
+    })
+    sectorsOrders[oldStatusIdx].orders = sectorsOrders[
+      oldStatusIdx
+    ].orders.filter(order => {
+      if (order.code === orderCode) {
+        sectorsOrders[newStatusIdx].orders.unshift({
+          ...order,
+          status: newStatus
+        })
+      }
+      return order.code !== orderCode
+    })
+    this.setState({ sectorsOrders: sectorsOrders })
   }
 
   private displayFromCurrentOption(status: OrderStatus): string {
@@ -83,17 +128,7 @@ export default class OrderControl extends React.Component<
   }
 
   render(): JSX.Element {
-    const ordersBySectors: OrdersBySector[] = []
-    sectorList.forEach(sector => {
-      ordersBySectors.push({ sector, orders: [] })
-    })
-
-    mockedOrderCards.forEach(order => {
-      ordersBySectors.forEach(ordersBySector => {
-        if (order.status === ordersBySector.sector.status)
-          ordersBySector.orders.push(order)
-      })
-    })
+    const { sectorsOrders } = this.state
     return (
       <>
         <Header employeeView />
@@ -117,7 +152,7 @@ export default class OrderControl extends React.Component<
             </div>
             <Accordion className='order-control-accordion'>
               <ul className='order-cards-list'>
-                {ordersBySectors.map(({ orders, sector }, idx) => (
+                {sectorsOrders.map(({ orders, sector }, idx) => (
                   <li
                     key={`${sector.status}${idx}`}
                     style={{
@@ -155,12 +190,13 @@ export default class OrderControl extends React.Component<
                     <Accordion.Collapse eventKey={`${idx}`}>
                       <Card>
                         <ul>
-                          {orders.map((order, orderIdx) => (
-                            <li key={`order${orderIdx}`}>
+                          {orders.map(order => (
+                            <li key={`${order.code}`}>
                               <OrderCard
                                 data={order}
                                 sector={sector}
-                                eventKey={`order${orderIdx}`}
+                                eventKey={`${order.code}`}
+                                changeStatusCb={this.changeOrderStatus}
                               ></OrderCard>
                             </li>
                           ))}
