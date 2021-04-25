@@ -1,28 +1,29 @@
+import { Container } from 'react-bootstrap'
 import styled from 'styled-components'
 import { CCColors } from '../../constants/colors.constant'
 
-export const StyledPaymentPage = styled.div`
+export const StyledPaymentPage = styled(Container)`
   width: 100%;
   padding: 10% 0;
+  align-items: flex-start;
 
   .payment-form-wrapper {
+    border: 1px solid #aaaaaaaa;
   }
   .payment-form-section {
-    width: fit-content;
-    border: 1px solid #aaaaaaaa;
-    padding: 20px;
-  }
-  .product-holder-number {
-    background: none;
-    padding: 5px 10px;
-    border: none;
+    width: 100%;
+    padding: 15px 20px 20px 20px;
+    h3.form-section-label {
+      color: ${CCColors.INDEXGRAY};
+      margin-bottom: 20px;
+    }
   }
 
   .payment-body-wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: flex-start;
     width: fit-content;
     h2 {
       width: 100%;
@@ -40,19 +41,25 @@ export const StyledPaymentPage = styled.div`
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding-right: 0;
         text-align: right;
-        margin-bottom: 5px;
+        margin-bottom: 7px;
         width: 100%;
+        padding: 0;
         padding-right: 5px;
+        padding-left: 15px;
+
+        .product-holder-number {
+          padding-right: 10px;
+          min-height: 100%;
+          height: 100%;
+          border-right: 1px solid ${CCColors.INDEXGRAY};
+          color: ${CCColors.INDEXGRAY};
+        }
 
         span {
+          margin: 14px 10px;
           width: fit-content;
         }
-        /* border: transparent;
-        border-top: transparent;
-        border-left: transparent;
-        border-right: transparent; */
       }
     }
   }
@@ -65,6 +72,7 @@ export const StyledTotalWrapper = styled.div`
       font-size: 18px;
     }
     span {
+      font-size: 18px;
     }
   }
 `

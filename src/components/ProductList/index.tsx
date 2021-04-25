@@ -5,40 +5,18 @@ import { CCColors } from '../../constants/colors.constant'
 import Arrow from '../Arrow/index'
 import ProductBox, { IProductBoxProps } from '../ProductBox'
 import { StyledProductList } from './style'
+
 interface IProductListProps {
-  arrow?: typeof Arrow
+  arrow?: JSX.Element
   productList: IProductBoxProps[]
   title?: string
+  orientation?: 'vertical' | 'horizontal'
 }
 
 interface IProductListState {
   renderStartIndex: number
   maxProductRendering: number
 }
-
-// function getWindowDimensions(): { width: number; height: number } {
-//   const { innerWidth: width, innerHeight: height } = window
-
-//   return {
-//     width,
-//     height
-//   }
-// }
-
-// export default function useWindowDimensions() {
-//   const [windowDimensions, setWindowDimensions] = useState(
-//     getWindowDimensions()
-//   )
-
-//   useEffect(() => {
-//     function handleResize() {
-//       setWindowDimensions(getWindowDimensions())
-//     }
-//     window.addEventListener('resize', handleResize)
-//   }, [])
-
-//   return windowDimensions
-// }
 
 export default class ProductList extends Component<
   IProductListProps,
@@ -85,7 +63,7 @@ export default class ProductList extends Component<
   // }
 
   render(): JSX.Element {
-    const { productList: pList, title } = this.props
+    const { productList: pList, title, orientation } = this.props
     const renderedProductList: IProductBoxProps[] = []
     const { renderStartIndex, maxProductRendering } = this.state
     const renderFinalIndex = maxProductRendering + renderStartIndex
@@ -94,13 +72,14 @@ export default class ProductList extends Component<
       // console.log(pList[i].title + i.toString())
       renderedProductList.push(pList[i])
     }
+    const flexDir = orientation && orientation === 'vertical' ? 'column' : 'row'
 
     return (
-      <StyledProductList>
+      <StyledProductList flexDir={flexDir}>
         {title && <h2>{title}</h2>}
         <div className='arrow-product-list-wrapper'>
           <Arrow
-            left
+            direction={orientation === 'vertical' ? 'up' : 'left'}
             animationDisabled
             width={50}
             height={50}
@@ -108,12 +87,19 @@ export default class ProductList extends Component<
             color={CCColors.DARKPURPLE}
           />
           <div className='product-list-wrapper'>
-            {renderedProductList.map((pData, index) => (
-              <ProductBox {...pData} key={index}></ProductBox>
+            {renderedProductList.map((pData, idx) => (
+              <ProductBox
+                {...pData}
+                showShopcart
+                key={idx}
+                showWishlist
+                activeFav
+                layout='large'
+              />
             ))}
           </div>
           <Arrow
-            right
+            direction={orientation === 'vertical' ? 'down' : 'right'}
             animationDisabled
             width={50}
             height={50}

@@ -23,6 +23,15 @@ import SideBox from '../../components/SideBox'
 import CustomChip from '../../components/CustomChip'
 import { StyledTextField } from '../../styles/styled-profile-textfield.style'
 import { StyledProfileNumberFormat } from '../../styles/styled-profile-number-format.style'
+import { AddressInfo } from '../../types/address-info'
+
+interface IAddressEditProps {
+  location: {
+    state: {
+      data?: AddressInfo
+    }
+  }
+}
 
 type MyState = {
   recipientName: string
@@ -34,16 +43,16 @@ type MyState = {
   alert: JSX.Element
 }
 
-class NewAdress extends React.Component<{ props: unknown }, MyState> {
-  constructor(props: any) {
+class NewAdress extends React.Component<IAddressEditProps, MyState> {
+  constructor(props: IAddressEditProps) {
     super(props)
     this.state = {
-      recipientName: '',
-      recipientPhone: '',
-      cep: '',
-      street: '',
-      number: '',
-      complement: '',
+      recipientName: props.location?.state?.data?.ownerName ?? '',
+      recipientPhone: props.location?.state?.data?.ownerPhone ?? '',
+      cep: props.location?.state?.data?.cep ?? '',
+      street: props.location?.state?.data?.address ?? '',
+      number: props.location?.state?.data?.number.toString() ?? '',
+      complement: props.location?.state?.data?.notes ?? '',
       alert: React.createElement('h1', '')
     }
 
@@ -141,6 +150,7 @@ class NewAdress extends React.Component<{ props: unknown }, MyState> {
               label='Novo endereço'
             />
             {this.state.alert}
+
             <form onSubmit={this.handleSubmit} autoComplete='off'>
               <StyledTextField
                 id='filled-basic'

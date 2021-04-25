@@ -28,15 +28,15 @@ export interface IStyledArrowProps {
   width?: number
   height?: number
   fontSize?: number
+  disabled?: boolean
 }
 
 export const StyledArrow = styled.div<IStyledArrowProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-
   user-select: none;
-  cursor: pointer;
+  cursor: ${props => (props.disabled ? 'default' : 'pointer')};
   text-align: center;
   background-color: ${props => (props.reverse ? props.color : 'transparent')};
   box-shadow: ${props =>
@@ -44,7 +44,9 @@ export const StyledArrow = styled.div<IStyledArrowProps>`
       ? '0 1px 1px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.19)'
       : ''};
   border: ${props =>
-    props.hasBorder
+    props.disabled
+      ? 'gray'
+      : props.hasBorder
       ? `1px solid ${props.reverse ? 'white' : props.color}`
       : 'transparent'};
   border-radius: ${props => (props.hasBorder ? `50%` : '0px')};
@@ -58,7 +60,8 @@ export const StyledArrow = styled.div<IStyledArrowProps>`
   transition: 0.6s ease;
 
   svg {
-    color: ${props => (props.reverse ? 'white' : props.color)};
+    color: ${props =>
+      props.disabled ? 'gray' : props.reverse ? 'white' : props.color};
     width: ${props => (props.width ? props.width : 'initial')};
     height: ${props => (props.height ? props.height : 'initial')};
   }

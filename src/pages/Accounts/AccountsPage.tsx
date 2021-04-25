@@ -24,85 +24,75 @@ import {
   CardActionArea,
   CardActions,
   CardContent,
-  Chip,
   Button,
   Typography
 } from '@material-ui/core'
 import SideBox from '../../components/SideBox'
 import CustomChip from '../../components/CustomChip'
+import { CreditCardInfo } from '../../types/credit-card-info'
+import { mockedCreditCards } from '../../constants/mocked-credit-cards.constant'
 
-type MyState = {
-  value: string
-}
+const Accounts = (): JSX.Element => {
+  const [userCards, setUserCards] = React.useState<CreditCardInfo[]>(
+    mockedCreditCards
+  )
 
-class Accounts extends React.Component<{ props: any }, MyState> {
-  render(): JSX.Element {
-    return (
-      <>
-        <Header />
-        <StyledPage>
-          <SideBox title='Minha conta' linkedElements={AccountList} />
-          <SectionWrapper>
-            <CustomChip
-              icon={<LocalAtm />}
-              color='primary'
-              label='Meus Cartões'
-            />
-            <AdjustNav>
-              <Link to='/newCard'>
-                <AddCustomChip
-                  color='primary'
-                  icon={<AddLocation />}
-                  label='Adicionar cartão'
-                />
-              </Link>
-            </AdjustNav>
-            <StyledCard>
+  return (
+    <>
+      <Header />
+      <StyledPage>
+        <SideBox title='Minha conta' linkedElements={AccountList} />
+        <SectionWrapper>
+          <CustomChip
+            icon={<LocalAtm />}
+            color='primary'
+            label='Meus Cartões'
+          />
+          <AdjustNav>
+            <Link to='/newCard'>
+              <AddCustomChip
+                color='primary'
+                icon={<AddLocation />}
+                label='Adicionar cartão'
+              />
+            </Link>
+          </AdjustNav>
+          {userCards.map((card, idx) => (
+            <StyledCard key={`card${idx}`}>
               <CardActionArea>
                 <CardContent>
                   <Typography gutterBottom variant='h5' component='h2'>
-                    <CreditCard /> Cartão 1
-                    <Chip size='small' label='Padrão' icon={<Inbox />} />
+                    <CreditCard /> {card.cardName}
+                    {/* <Chip size='small' label='Padrão' icon={<Inbox />} /> */}
                     <Typography variant='h6' component='h2'>
-                      **** **** **** 2234
+                      <span style={{ verticalAlign: 'sub' }}>
+                        {'**** **** **** '}
+                      </span>
+                      {card.lastDigits}
                     </Typography>
                   </Typography>
                 </CardContent>
               </CardActionArea>
               <CardActions>
-                <Button size='small' color='primary' disabled>
+                <Button size='small' color='primary' disabled={card.default}>
                   <Assistant /> Tornar padrão
                 </Button>
-                <Button size='small' color='secondary'>
+                <Button
+                  size='small'
+                  color='secondary'
+                  onClick={() =>
+                    setUserCards(userCards.filter((card, cidx) => cidx !== idx))
+                  }
+                >
                   <DeleteForever /> Remover
                 </Button>
               </CardActions>
             </StyledCard>
-            <StyledCard>
-              <CardActionArea>
-                <CardContent>
-                  <Typography gutterBottom variant='h5' component='h2'>
-                    <CreditCard /> Cartão 2
-                    <Typography variant='h6' component='h2'>
-                      **** **** **** 6643
-                    </Typography>
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions>
-                <Button size='small' color='primary'>
-                  <Assistant /> Tornar padrão
-                </Button>
-                <Button size='small' color='secondary'>
-                  <DeleteForever /> Remover
-                </Button>
-              </CardActions>
-            </StyledCard>
-          </SectionWrapper>
-        </StyledPage>
-        <Footer />
-      </>
-    )
-  }
+          ))}
+        </SectionWrapper>
+      </StyledPage>
+      <Footer />
+    </>
+  )
 }
 export default Accounts

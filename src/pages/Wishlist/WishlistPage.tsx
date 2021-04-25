@@ -20,9 +20,12 @@ import {
   CardActions,
   CardContent,
   Button,
-  Typography
+  Typography,
+  Container
 } from '@material-ui/core'
 import SideBox from '../../components/SideBox'
+import ProductList from '../../components/ProductList'
+import { mockedProductList } from '../../constants/mocked-product-list.constant'
 
 class Accounts extends React.Component<{ props: any }> {
   render(): JSX.Element {
@@ -31,7 +34,13 @@ class Accounts extends React.Component<{ props: any }> {
         <Header />
         <StyledPage>
           <SideBox title='Minha conta' linkedElements={AccountList} />
-          <SectionWrapper>
+          <Container>
+            <ProductList
+              productList={mockedProductList}
+              orientation='vertical'
+            ></ProductList>
+          </Container>
+          {/* <SectionWrapper>
             <CustomChip
               icon={<Favorite />}
               color='primary'
@@ -100,7 +109,7 @@ class Accounts extends React.Component<{ props: any }> {
                 </Button>
               </CardActions>
             </StyledCard>
-          </SectionWrapper>
+          </SectionWrapper> */}
         </StyledPage>
         <Footer />
       </>

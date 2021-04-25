@@ -1,13 +1,22 @@
 import React from 'react'
 import rounder from '../../services/rounder.service'
 import { HoverRating } from '../Rating'
-import { StyledBox, StyledCartIcon, StyledFavoriteIcon } from './style'
+import {
+  StyledActiveCartIcon,
+  StyledActiveFavIcon,
+  StyledBox,
+  StyledCartIcon,
+  StyledFavoriteIcon
+} from './style'
 
 export interface IProductBoxProps {
   showRating?: boolean
   showShopcart?: boolean
   showWishlist?: boolean
   editable?: boolean
+  activeFav?: boolean
+  activeShop?: boolean
+  layout?: 'large' | 'long'
   data: {
     title: string
     imgPath: string
@@ -29,10 +38,21 @@ const ProductBox = (props: IProductBoxProps): JSX.Element => {
   const dividedPrice = rounder(currentPrice / bestDividedBy)
 
   return (
-    <StyledBox>
+    <StyledBox
+      dynamicWidth={props.layout === 'large'}
+      border={props.layout === 'large'}
+    >
       <img src={imgPath} alt={imgAlt} />
-      {showShopcart && <StyledCartIcon />}
-      {showWishlist && <StyledFavoriteIcon />}
+      {showShopcart && props.activeShop ? (
+        <StyledActiveCartIcon />
+      ) : (
+        <StyledCartIcon />
+      )}
+      {showWishlist && props.activeFav ? (
+        <StyledActiveFavIcon />
+      ) : (
+        <StyledFavoriteIcon />
+      )}
       <div id='price-title-wrapper'>
         <h3 id='product-title'>{title}</h3>
         {showRating && props.data.rating && (
