@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 interface IStyledNumberBoxProps {
   isActive: boolean
+  disabled?: boolean
 }
 
 export const StyledPageSwitcher = styled.ul`
@@ -21,6 +22,11 @@ export const StyledSwitcherBox = styled.li<IStyledNumberBoxProps>`
   cursor: ${props => (props.isActive ? 'default' : 'pointer')};
   vertical-align: middle;
 
+  &.arrow-box {
+    padding: 10px 7px;
+  }
+  svg {
+  }
   :hover {
     background-color: #aaaaaa;
     color: #000000;

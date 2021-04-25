@@ -17,6 +17,10 @@ export interface IProductBoxProps {
   activeFav?: boolean
   activeShop?: boolean
   layout?: 'large' | 'long'
+  pushShopcartCodeCb?: (newCode: string) => void
+  pushWishlistCodeCb?: (newCode: string) => void
+  removeShopcartCodeCb?: (newCode: string) => void
+  removeWishlistCodeCb?: (newCode: string) => void
   data: {
     title: string
     imgPath: string
@@ -31,11 +35,23 @@ export interface IProductBoxProps {
 
 const ProductBox = (props: IProductBoxProps): JSX.Element => {
   const { showRating, showShopcart, showWishlist } = props
+  const {
+    pushShopcartCodeCb,
+    pushWishlistCodeCb,
+    removeShopcartCodeCb,
+    removeWishlistCodeCb
+  } = props
   const { title, imgPath, imgAlt, bestDividedBy, productId } = props.data
   let { currentPrice, originalPrice } = props.data
   currentPrice = rounder(currentPrice)
   if (originalPrice) originalPrice = rounder(originalPrice)
   const dividedPrice = rounder(currentPrice / bestDividedBy)
+  const [wishlistActive, setWishStatus] = React.useState(
+    props.activeFav ?? false
+  )
+  const [shopcartActive, setShopStatus] = React.useState(
+    props.activeShop ?? false
+  )
 
   return (
     <StyledBox
@@ -43,15 +59,39 @@ const ProductBox = (props: IProductBoxProps): JSX.Element => {
       border={props.layout === 'large'}
     >
       <img src={imgPath} alt={imgAlt} />
-      {showShopcart && props.activeShop ? (
-        <StyledActiveCartIcon />
+      {showShopcart && shopcartActive ? (
+        <StyledActiveCartIcon
+          onClick={() => {
+            setShopStatus(false)
+            return removeShopcartCodeCb
+              ? removeShopcartCodeCb(`${productId}`)
+              : 0
+          }}
+        />
       ) : (
-        <StyledCartIcon />
+        <StyledCartIcon
+          onClick={() => {
+            setShopStatus(true)
+            return pushShopcartCodeCb ? pushShopcartCodeCb(`${productId}`) : 0
+          }}
+        />
       )}
-      {showWishlist && props.activeFav ? (
-        <StyledActiveFavIcon />
+      {showWishlist && wishlistActive ? (
+        <StyledActiveFavIcon
+          onClick={() => {
+            setWishStatus(false)
+            return removeWishlistCodeCb
+              ? removeWishlistCodeCb(`${productId}`)
+              : 0
+          }}
+        />
       ) : (
-        <StyledFavoriteIcon />
+        <StyledFavoriteIcon
+          onClick={() => {
+            setWishStatus(true)
+            return pushWishlistCodeCb ? pushWishlistCodeCb(`${productId}`) : 0
+          }}
+        />
       )}
       <div id='price-title-wrapper'>
         <h3 id='product-title'>{title}</h3>

@@ -47,7 +47,7 @@ const MainRoutes = (): JSX.Element => (
 
         <Route exact path='/spinner' component={Spinner} />
 
-        <Route path={`${ShopRoute}/:dept`} component={ShopList} />
+        <Route path={`${ShopRoute}`} component={ShopList} />
         <Route exact path={`${ProfileRoute}`} component={Profile} />
         <Route exact path={`${AddressRoute}`} component={Adresses} />
         <Route exact path={`${AccountRoute}`} component={Accounts} />

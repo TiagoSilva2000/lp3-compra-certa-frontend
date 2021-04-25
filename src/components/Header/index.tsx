@@ -27,6 +27,8 @@ interface IHeaderProps {
   customerView?: boolean
   defaultView?: boolean
   username?: string
+  wishlistQnt?: number
+  shopcartQnt?: number
 }
 
 const Header = (props: IHeaderProps): JSX.Element => {
@@ -35,8 +37,8 @@ const Header = (props: IHeaderProps): JSX.Element => {
     customerView: customer,
     defaultView: defaultv
   } = props
-  const [wishQnt, setWishQnt] = React.useState(0)
-  const [shopQnt, setShopQnt] = React.useState(0)
+  const wishQnt = props.wishlistQnt ?? 0
+  const shopQnt = props.shopcartQnt ?? 0
   const username = props.username ?? 'username'
 
   return (

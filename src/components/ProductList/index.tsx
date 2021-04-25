@@ -11,6 +11,10 @@ interface IProductListProps {
   productList: IProductBoxProps[]
   title?: string
   orientation?: 'vertical' | 'horizontal'
+  pushShopcartCodeCb?: (newCode: string) => void
+  pushWishlistCodeCb?: (newCode: string) => void
+  removeShopcartCodeCb?: (newCode: string) => void
+  removeWishlistCodeCb?: (newCode: string) => void
 }
 
 interface IProductListState {
@@ -90,11 +94,14 @@ export default class ProductList extends Component<
             {renderedProductList.map((pData, idx) => (
               <ProductBox
                 {...pData}
-                showShopcart
                 key={idx}
+                showShopcart
                 showWishlist
-                activeFav
                 layout='large'
+                pushShopcartCodeCb={this.props.pushShopcartCodeCb}
+                removeShopcartCodeCb={this.props.removeShopcartCodeCb}
+                pushWishlistCodeCb={this.props.pushWishlistCodeCb}
+                removeWishlistCodeCb={this.props.removeWishlistCodeCb}
               />
             ))}
           </div>
