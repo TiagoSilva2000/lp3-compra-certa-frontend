@@ -1,3 +1,4 @@
+import { DropdownButton } from 'react-bootstrap'
 import styled from 'styled-components'
 import { CCColors } from '../../constants/colors.constant'
 
@@ -8,6 +9,52 @@ export const StyledHeader = styled.header`
   align-items: center;
   flex-direction: column;
   justify-content: center;
+`
+
+export const DepartmentButton = styled(DropdownButton)`
+  &:hover,
+  &:focus {
+    outline: none;
+    background-color: white;
+    color: #333;
+    border-color: transparent;
+    box-shadow: none;
+  }
+
+  a {
+    color: #333;
+    text-decoration: none;
+  }
+  button {
+    background: none;
+    color: #333;
+    border: none;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 9px;
+    line-height: 1.15;
+    font-size: 0.875rem;
+    letter-spacing: 0.02ch;
+    border-radius: 24rem;
+    text-align: center;
+    vertical-align: middle;
+    &::after {
+      content: none;
+    }
+
+    &#departments-button {
+      &:hover,
+      &:focus {
+        outline: none;
+        background-color: white;
+        color: #333;
+        border-color: transparent;
+        box-shadow: none;
+      }
+    }
+  }
 `
 
 export const StyledRegisterDiv = styled.ul`

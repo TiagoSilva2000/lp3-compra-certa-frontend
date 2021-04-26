@@ -1,6 +1,7 @@
 import React from 'react'
 import {
   AllDepartmentsIndexer,
+  DepartmentButton,
   DepartmentUnList,
   HeaderDepartmentListNav,
   HeaderSearchDiv,
@@ -21,6 +22,8 @@ import {
   ShopRoute,
   WishlistRoute
 } from '../../constants/routes.constant'
+import { DropdownButton, NavDropdown } from 'react-bootstrap'
+import { Menu, MenuItem } from '@material-ui/core'
 
 interface IHeaderProps {
   employeeView?: boolean
@@ -30,6 +33,19 @@ interface IHeaderProps {
   wishlistQnt?: number
   shopcartQnt?: number
 }
+
+// const CustomToggle = React.forwardRef((props: any, ref) => (
+//   <AllDepartmentsIndexer
+//     onClick={e => {
+//       e.preventDefault()
+//     }}
+//   >
+//     <img src={hamburguer} alt='index' />
+//     <p>Todos os departamentos</p>
+//     {props.children}
+//   </AllDepartmentsIndexer>
+// ))
+// CustomToggle.displayName = 'custom toggle'
 
 const Header = (props: IHeaderProps): JSX.Element => {
   const {
@@ -107,7 +123,21 @@ const Header = (props: IHeaderProps): JSX.Element => {
         <HeaderDepartmentListNav>
           <AllDepartmentsIndexer>
             <img src={hamburguer} alt='index' />
-            <p>Todos os departamentos</p>
+            <DepartmentButton
+              key={'direction'}
+              id={`departments-button`}
+              drop={'down'}
+              variant='secondary'
+              title={'Todos os Departamentos'}
+              className='reset-dropdown-button'
+            >
+              <NavDropdown.Header>Departamentos</NavDropdown.Header>
+              {DepartmentList.map(({ name, link }, idx) => (
+                <NavDropdown.Item key={idx}>
+                  <Link to={`${ShopRoute}/${link}`}>{name}</Link>
+                </NavDropdown.Item>
+              ))}
+            </DepartmentButton>
           </AllDepartmentsIndexer>
           <DepartmentUnList>
             {DepartmentList.map(({ name, link }, idx) => {
