@@ -38,7 +38,8 @@ class Accounts extends React.Component<{ props: any }> {
             <ProductList
               productList={mockedProductList}
               orientation='vertical'
-            ></ProductList>
+              activeFavs
+            />
           </Container>
           {/* <SectionWrapper>
             <CustomChip

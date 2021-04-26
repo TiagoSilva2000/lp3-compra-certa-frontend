@@ -1,5 +1,6 @@
 export enum OrderStatus {
   PREPARATION = 'preparação',
   CHECKING = 'checagem',
-  DELIVERY = 'entrega'
+  DELIVERY = 'a entregar',
+  DELIVERED = 'entregue'
 }

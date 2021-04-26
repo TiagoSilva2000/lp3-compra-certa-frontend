@@ -35,6 +35,7 @@ import {
 import { ProductRowData } from '../../types/product-row-data'
 import { propTypes } from 'react-bootstrap/esm/Image'
 import { CCColors } from '../../constants/colors.constant'
+import { qntArray } from '../../constants/qnt-array.constant'
 
 export interface TableTheme {
   headerColor: string
@@ -50,7 +51,8 @@ interface ExtTableProps {
   additionalData?: boolean
   employeeView?: boolean
   shopcartView?: boolean
-  removeFunction?: (code: string) => void
+  changeQntCb?: (code: string, qntModifier: number) => void
+  toReceiveCb?: () => void
 }
 
 interface IProductTableProps extends ExtTableProps {
@@ -58,9 +60,14 @@ interface IProductTableProps extends ExtTableProps {
   theme?: TableTheme
 }
 
+interface IProductTableState {
+  rows: ProductRowData[]
+}
+
 interface IRowProps extends ExtTableProps {
   row: ProductRowData
   theme: TableTheme
+  removeRowCb: (orderCode: string) => void
 }
 
 const Row = (props: IRowProps) => {
@@ -73,15 +80,12 @@ const Row = (props: IRowProps) => {
     additionalData,
     employeeView,
     shopcartView,
-    removeFunction
+    changeQntCb
   } = props
   const [open, setOpen] = React.useState(false)
   const [ready, setReady] = React.useState(false)
   const [qnt, setQnt] = React.useState(row.quantity)
-  const qntArray: number[] = []
-  for (let i = 0; i < 10; i++) qntArray.push(i + 1)
   const theme: TableTheme = props.theme
-
   return (
     <React.Fragment>
       <TableRow>
@@ -112,17 +116,22 @@ const Row = (props: IRowProps) => {
                 labelId='demo-customized-select-label'
                 id='demo-customized-select'
                 value={qnt}
-                onChange={e => setQnt(e.target.value as number)}
+                onChange={e => {
+                  const oldQnt = qnt
+                  const newQnt = Number(e.target.value)
+                  setQnt(newQnt)
+                  changeQntCb && changeQntCb(row.trackingCode, newQnt - oldQnt)
+                }}
               >
                 {qntArray.map(v => (
-                  <MenuItem key={`sel${v}`} value={v}>
+                  <MenuItem key={v} value={v}>
                     {v}
                   </MenuItem>
                 ))}
               </Select>
               <p
                 onClick={() =>
-                  removeFunction && removeFunction(row.trackingCode)
+                  changeQntCb && changeQntCb(row.trackingCode, -qnt)
                 }
               >
                 Excluir
@@ -144,7 +153,14 @@ const Row = (props: IRowProps) => {
               </ReadyButton>
             )}
             {toReceive && (
-              <ReceiveButton variant='contained' disableElevation>
+              <ReceiveButton
+                variant='contained'
+                disableElevation
+                onClick={() => {
+                  if (props.toReceiveCb) props.toReceiveCb()
+                  props.removeRowCb(row.trackingCode)
+                }}
+              >
                 Receber
               </ReceiveButton>
             )}
@@ -196,7 +212,36 @@ const Row = (props: IRowProps) => {
   )
 }
 
-export class ProductTable extends React.Component<IProductTableProps> {
+export class ProductTable extends React.Component<
+  IProductTableProps,
+  IProductTableState
+> {
+  constructor(props: IProductTableProps) {
+    super(props)
+    this.state = {
+      rows: props.rows
+    }
+    this.removeRowFromTableByCode = this.removeRowFromTableByCode.bind(this)
+  }
+
+  removeRowFromTableByCode(orderCode: string, qnt?: number): void {
+    let newRows: ProductRowData[] = []
+    if (qnt) {
+      this.state.rows.forEach(row => {
+        if (row.trackingCode === orderCode) {
+          row.quantity += qnt
+          if (row.quantity <= 0) return
+        }
+        newRows.push(row)
+      })
+    } else {
+      newRows = this.state.rows.filter(row => row.trackingCode !== orderCode)
+    }
+
+    this.setState({ rows: newRows })
+    if (this.props.changeQntCb) this.props.changeQntCb(orderCode, qnt as number)
+  }
+
   render(): JSX.Element {
     const theme: TableTheme = this.props.theme ?? {
       headerBgColor: CCColors.PRIMARYYELLOW,
@@ -232,13 +277,14 @@ export class ProductTable extends React.Component<IProductTableProps> {
             </TableRow>
           </TableHead>
           <TableBody>
-            {this.props.rows.map((row, idx) => (
+            {this.state.rows.map((row, idx) => (
               <Row
-                key={`row${idx}`}
+                key={idx}
                 {...this.props}
                 row={row}
                 theme={theme}
-                // removeFunction={this.removeFromCode}
+                removeRowCb={this.removeRowFromTableByCode}
+                changeQntCb={this.removeRowFromTableByCode}
               />
             ))}
           </TableBody>

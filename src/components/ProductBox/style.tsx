@@ -98,7 +98,7 @@ export const StyledActiveFavIcon = styled(Favorite)`
   cursor: pointer;
 
   &:hover {
-    color: ${'red'};
+    color: #ff2400aa;
   }
 `
 

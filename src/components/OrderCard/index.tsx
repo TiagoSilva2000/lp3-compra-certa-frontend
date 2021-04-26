@@ -93,8 +93,11 @@ export default class OrderCard extends React.Component<
         case OrderStatus.DELIVERY:
           return [
             { status: OrderStatus.PREPARATION },
-            { status: OrderStatus.CHECKING }
+            { status: OrderStatus.CHECKING },
+            { status: OrderStatus.DELIVERED }
           ]
+        case OrderStatus.DELIVERED:
+          return [{ status: OrderStatus.DELIVERY }]
       }
     }
 
@@ -151,6 +154,8 @@ export default class OrderCard extends React.Component<
                   rows={productRows}
                   employeeView
                   theme={tableTheme}
+                  additionalData
+                  tracking
                 />
               </Card>
             </Accordion.Collapse>

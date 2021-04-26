@@ -4,4 +4,5 @@ export type CreditCardInfo = {
   lastDigits: string
   default: boolean
   dueDate: string
+  ccv: string
 }

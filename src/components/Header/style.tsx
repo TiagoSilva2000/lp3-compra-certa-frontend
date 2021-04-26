@@ -200,7 +200,8 @@ export const DepartmentUnList = styled.ul`
   justify-content: space-between;
   padding: 10px 20px 0 20px;
   background-color: ${CCColors.DARKPURPLE};
-
+  margin: 0;
+  margin-bottom: 10px;
   li {
     display: inline-block;
     word-spacing: normal;

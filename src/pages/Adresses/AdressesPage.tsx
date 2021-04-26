@@ -82,7 +82,7 @@ const Adresses = (): JSX.Element => {
                       Telefone: {addr.ownerPhone}
                     </Typography>
                     Endereço:{' '}
-                    {`${addr.address}, ${addr.notes}, ${addr.number}, ${addr.city}-${addr.state}, ${addr.cep}`}{' '}
+                    {`${addr.street}, ${addr.neighbour}, ${addr.notes}, ${addr.number}, ${addr.city}-${addr.state}, ${addr.cep}`}{' '}
                   </Typography>
                 </CardContent>
               </CardActionArea>

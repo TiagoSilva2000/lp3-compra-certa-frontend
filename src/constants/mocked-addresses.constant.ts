@@ -5,9 +5,10 @@ export const mockedAddresses: AddressInfo[] = [
     ownerName: 'Tiago',
     cep: '44001640',
     notes: 'atrás da tv subaé',
-    number: 903,
+    number: '903',
     ownerPhone: '75991404287',
-    address: 'rua honorato bonfim',
+    street: 'rua honorato bonfim',
+    neighbour: 'cabula',
     city: 'Feira de Santana',
     state: 'Bahia',
     default: true
@@ -16,9 +17,10 @@ export const mockedAddresses: AddressInfo[] = [
     ownerName: 'Tiago',
     cep: '44001640',
     notes: 'atrás da tv subaé',
-    number: 903,
+    number: '903',
     ownerPhone: '75991404287',
-    address: 'Rua Silveira Martins',
+    street: 'Rua Silveira Martins',
+    neighbour: 'centro',
     city: 'Feira de Santana',
     state: 'Bahia'
   }
