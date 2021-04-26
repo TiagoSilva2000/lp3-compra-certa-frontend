@@ -2,10 +2,11 @@ export type AddressInfo = {
   ownerName: string
   ownerPhone: string
   cep: string
-  address: string
+  neighbour: string
+  street: string
   city: string
   state: string
-  number: number
+  number: string
   notes: string
   default?: boolean
 }

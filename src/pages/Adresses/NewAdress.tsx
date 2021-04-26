@@ -50,7 +50,7 @@ class NewAdress extends React.Component<IAddressEditProps, MyState> {
       recipientName: props.location?.state?.data?.ownerName ?? '',
       recipientPhone: props.location?.state?.data?.ownerPhone ?? '',
       cep: props.location?.state?.data?.cep ?? '',
-      street: props.location?.state?.data?.address ?? '',
+      street: props.location?.state?.data?.street ?? '',
       number: props.location?.state?.data?.number.toString() ?? '',
       complement: props.location?.state?.data?.notes ?? '',
       alert: React.createElement('h1', '')

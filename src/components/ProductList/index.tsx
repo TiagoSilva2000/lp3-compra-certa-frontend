@@ -11,6 +11,8 @@ interface IProductListProps {
   productList: IProductBoxProps[]
   title?: string
   orientation?: 'vertical' | 'horizontal'
+  activeFavs?: boolean
+
   pushShopcartCodeCb?: (newCode: string) => void
   pushWishlistCodeCb?: (newCode: string) => void
   removeShopcartCodeCb?: (newCode: string) => void
@@ -97,6 +99,7 @@ export default class ProductList extends Component<
                 key={idx}
                 showShopcart
                 showWishlist
+                activeFav={this.props.activeFavs}
                 layout='large'
                 pushShopcartCodeCb={this.props.pushShopcartCodeCb}
                 removeShopcartCodeCb={this.props.removeShopcartCodeCb}

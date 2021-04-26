@@ -52,19 +52,20 @@ export default class ShopCart extends React.Component<
       rows
     }
 
-    this.removeRowFromCode = this.removeRowFromCode.bind(this)
+    this.changeQntByCode = this.changeQntByCode.bind(this)
   }
 
-  remPriceAndQnt(remQnt: number, remPrice: number): void {
-    this.setState({ totalPrice: this.state.totalPrice - remPrice })
-    this.setState({ totalQnt: this.state.totalQnt - remQnt })
+  setPriceAndQnt(qnt: number, price: number): void {
+    this.setState({ totalPrice: this.state.totalPrice + price })
+    this.setState({ totalQnt: this.state.totalQnt + qnt })
   }
 
-  removeRowFromCode(code: string): void {
+  changeQntByCode(code: string, qntModifier: number): void {
     const newRows: ProductRowData[] = []
     this.state.rows.forEach(row => {
       if (row.trackingCode === code) {
-        this.remPriceAndQnt(row.quantity, row.total)
+        this.setPriceAndQnt(qntModifier, qntModifier * row.total)
+        if (row.quantity - qntModifier > 0) newRows.push(row)
         return
       }
       newRows.push(row)
@@ -93,7 +94,7 @@ export default class ShopCart extends React.Component<
             <ProductTable
               rows={rows}
               shopcartView
-              removeFunction={this.removeRowFromCode}
+              changeQntCb={this.changeQntByCode}
               theme={tableTheme}
             />
             <Container fluid style={{ padding: 0 }}>
@@ -119,7 +120,7 @@ export default class ShopCart extends React.Component<
                 <p>
                   R$ <b>{totalPrice}</b> ou
                   <br />
-                  R$ <b>{(totalPrice * 10) / 100}</b> à vista
+                  R$ <b>{totalPrice - (totalPrice * 10) / 100}</b> à vista
                 </p>
               </li>
               <li className='total-shopcart-right'>
