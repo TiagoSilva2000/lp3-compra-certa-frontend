@@ -41,7 +41,7 @@ export const StyledFooter = styled.footer`
             text-decoration: none;
             transition: 0.15s;
             :hover {
-              color: blue;
+              color: ${CCColors.DARKYELLOW};
             }
           }
         }

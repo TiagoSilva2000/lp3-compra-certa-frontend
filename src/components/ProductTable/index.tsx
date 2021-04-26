@@ -51,6 +51,7 @@ interface ExtTableProps {
   employeeView?: boolean
   shopcartView?: boolean
   removeFunction?: (code: string) => void
+  toReceiveCb?: () => void
 }
 
 interface IProductTableProps extends ExtTableProps {
@@ -58,9 +59,14 @@ interface IProductTableProps extends ExtTableProps {
   theme?: TableTheme
 }
 
+interface IProductTableState {
+  rows: ProductRowData[]
+}
+
 interface IRowProps extends ExtTableProps {
   row: ProductRowData
   theme: TableTheme
+  removeRowCb: (orderCode: string) => void
 }
 
 const Row = (props: IRowProps) => {
@@ -144,7 +150,14 @@ const Row = (props: IRowProps) => {
               </ReadyButton>
             )}
             {toReceive && (
-              <ReceiveButton variant='contained' disableElevation>
+              <ReceiveButton
+                variant='contained'
+                disableElevation
+                onClick={() => {
+                  if (props.toReceiveCb) props.toReceiveCb()
+                  props.removeRowCb(row.trackingCode)
+                }}
+              >
                 Receber
               </ReceiveButton>
             )}
@@ -196,7 +209,25 @@ const Row = (props: IRowProps) => {
   )
 }
 
-export class ProductTable extends React.Component<IProductTableProps> {
+export class ProductTable extends React.Component<
+  IProductTableProps,
+  IProductTableState
+> {
+  constructor(props: IProductTableProps) {
+    super(props)
+    this.state = {
+      rows: props.rows
+    }
+    this.removeRowFromTableByCode = this.removeRowFromTableByCode.bind(this)
+  }
+
+  removeRowFromTableByCode(orderCode: string): void {
+    console.log(45)
+    this.setState({
+      rows: this.state.rows.filter(row => row.trackingCode !== orderCode)
+    })
+  }
+
   render(): JSX.Element {
     const theme: TableTheme = this.props.theme ?? {
       headerBgColor: CCColors.PRIMARYYELLOW,
@@ -232,13 +263,13 @@ export class ProductTable extends React.Component<IProductTableProps> {
             </TableRow>
           </TableHead>
           <TableBody>
-            {this.props.rows.map((row, idx) => (
+            {this.state.rows.map((row, idx) => (
               <Row
-                key={`row${idx}`}
+                key={idx}
                 {...this.props}
                 row={row}
                 theme={theme}
-                // removeFunction={this.removeFromCode}
+                removeRowCb={this.removeRowFromTableByCode}
               />
             ))}
           </TableBody>
