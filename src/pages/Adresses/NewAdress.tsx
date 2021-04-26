@@ -15,12 +15,23 @@ import {
   CategoryWrapper,
   SectionWrapper,
   StyledPage,
-  CustomChip,
   SaveButton,
   AdjustButton
 } from './style'
 
-import { TextField } from '@material-ui/core'
+import SideBox from '../../components/SideBox'
+import CustomChip from '../../components/CustomChip'
+import { StyledTextField } from '../../styles/styled-profile-textfield.style'
+import { StyledProfileNumberFormat } from '../../styles/styled-profile-number-format.style'
+import { AddressInfo } from '../../types/address-info'
+
+interface IAddressEditProps {
+  location: {
+    state: {
+      data?: AddressInfo
+    }
+  }
+}
 
 type MyState = {
   recipientName: string
@@ -32,23 +43,23 @@ type MyState = {
   alert: JSX.Element
 }
 
-class NewAdress extends React.Component<{ props: any }, MyState> {
-  constructor(props: any) {
+class NewAdress extends React.Component<IAddressEditProps, MyState> {
+  constructor(props: IAddressEditProps) {
     super(props)
     this.state = {
-      recipientName: '',
-      recipientPhone: '',
-      cep: '',
-      street: '',
-      number: '',
-      complement: '',
+      recipientName: props.location?.state?.data?.ownerName ?? '',
+      recipientPhone: props.location?.state?.data?.ownerPhone ?? '',
+      cep: props.location?.state?.data?.cep ?? '',
+      street: props.location?.state?.data?.address ?? '',
+      number: props.location?.state?.data?.number.toString() ?? '',
+      complement: props.location?.state?.data?.notes ?? '',
       alert: React.createElement('h1', '')
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleRecipientNameChange(event: any): any {
+  handleRecipientNameChange(event: any): void {
     if (validateJustLetters(event.target.value)) {
       this.setState({ recipientName: event.target.value })
       this.setState({
@@ -66,7 +77,7 @@ class NewAdress extends React.Component<{ props: any }, MyState> {
     }
   }
 
-  handleRecipientPhoneChange(event: any): any {
+  handleRecipientPhoneChange(event: any): void {
     if (validateTelephone(event.target.value)) {
       this.setState({ recipientPhone: event.target.value })
       this.setState({
@@ -82,7 +93,7 @@ class NewAdress extends React.Component<{ props: any }, MyState> {
     }
   }
 
-  handleCepChange(event: any): any {
+  handleCepChange(event: any): void {
     if (validateCep(event.target.value)) {
       this.setState({ cep: event.target.value })
       this.setState({
@@ -96,19 +107,19 @@ class NewAdress extends React.Component<{ props: any }, MyState> {
     }
   }
 
-  handleStreetChange(event: any): any {
+  handleStreetChange(event: any): void {
     this.setState({ street: event.target.value })
   }
 
-  handleNumberChange(event: any): any {
+  handleNumberChange(event: any): void {
     this.setState({ number: event.target.value })
   }
 
-  handleComplementChange(event: any): any {
+  handleComplementChange(event: any): void {
     this.setState({ complement: event.target.value })
   }
 
-  handleSubmit(event: any): any {
+  handleSubmit(event: any): void {
     console.log('NEW ADRESS:', this.state)
     if (isEmpty(this.state)) {
       this.setState({
@@ -131,18 +142,7 @@ class NewAdress extends React.Component<{ props: any }, MyState> {
       <>
         <Header />
         <StyledPage>
-          <CategoryWrapper>
-            <h3>Minha conta:</h3>
-            <ul>
-              {Object.keys(AccountList).map((item, idx) => (
-                <li key={idx}>
-                  <Link to={`/${AccountList[item]}`}>
-                    <a>{item}</a>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </CategoryWrapper>
+          <SideBox title='Minha conta' linkedElements={AccountList} />
           <SectionWrapper>
             <CustomChip
               icon={<AddLocation />}
@@ -150,8 +150,9 @@ class NewAdress extends React.Component<{ props: any }, MyState> {
               label='Novo endereço'
             />
             {this.state.alert}
+
             <form onSubmit={this.handleSubmit} autoComplete='off'>
-              <TextField
+              <StyledTextField
                 id='filled-basic'
                 className='input'
                 margin='dense'
@@ -160,26 +161,21 @@ class NewAdress extends React.Component<{ props: any }, MyState> {
                 variant='filled'
                 onChange={this.handleRecipientNameChange.bind(this)}
               />
-
-              <TextField
-                id='filled-basic'
-                value={this.state.recipientPhone}
-                className='input'
+              <StyledProfileNumberFormat
                 label='Telefone do destinatário:'
-                variant='filled'
                 onChange={this.handleRecipientPhoneChange.bind(this)}
+                value={this.state.recipientPhone}
+                format='(##) # ####-####'
+                placeholder='(99) 9 9999-9999'
               />
-
-              <TextField
-                id='filled-basic'
-                value={this.state.cep}
-                className='input'
+              <StyledProfileNumberFormat
                 label='CEP:'
-                variant='filled'
                 onChange={this.handleCepChange.bind(this)}
+                value={this.state.cep}
+                format='#####.###'
+                placeholder='00000.000'
               />
-
-              <TextField
+              <StyledTextField
                 id='filled-basic'
                 value={this.state.street}
                 className='input'
@@ -187,7 +183,7 @@ class NewAdress extends React.Component<{ props: any }, MyState> {
                 variant='filled'
                 onChange={this.handleStreetChange.bind(this)}
               />
-              <TextField
+              <StyledTextField
                 id='filled-basic'
                 value={this.state.number}
                 className='input'
@@ -195,7 +191,7 @@ class NewAdress extends React.Component<{ props: any }, MyState> {
                 variant='filled'
                 onChange={this.handleNumberChange.bind(this)}
               />
-              <TextField
+              <StyledTextField
                 id='filled-basic'
                 value={this.state.complement}
                 className='input'

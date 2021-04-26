@@ -9,9 +9,9 @@ import {
   CategoryWrapper,
   SectionWrapper,
   StyledPage,
-  CustomChip,
   SaveButton,
-  AdjustButton
+  AdjustButton,
+  FormLineWrapper
 } from './style'
 import {
   validateCvv,
@@ -20,10 +20,13 @@ import {
   validateJustNumbers
 } from '../utils/RegexValidor'
 
-import { TextField } from '@material-ui/core'
+import CustomChip from '../../components/CustomChip'
+import { StyledTextField } from '../../styles/styled-profile-textfield.style'
+import { StyledProfileNumberFormat } from '../../styles/styled-profile-number-format.style'
 
 type MyState = {
   cardName: string
+  ownerName: string
   cardNumber: string
   cardExpiringDate: string
   cvv: string
@@ -38,17 +41,18 @@ class NewCard extends React.Component<{ props: any }, MyState> {
       cardNumber: '',
       cardExpiringDate: '',
       cvv: '',
-      alert: React.createElement('h1', '')
+      alert: React.createElement('h1', ''),
+      ownerName: ''
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleCardNameChange(event: any): any {
+  handleCardNameChange(event: any): void {
     this.setState({ cardName: event.target.value })
   }
 
-  handleCardNumberChange(event: any): any {
+  handleCardNumberChange(event: any): void {
     if (validateJustNumbers(event.target.value)) {
       this.setState({ cardNumber: event.target.value })
       this.setState({
@@ -66,7 +70,7 @@ class NewCard extends React.Component<{ props: any }, MyState> {
     }
   }
 
-  handleCardExpiringDateChange(event: any): any {
+  handleCardExpiringDateChange(event: any): void {
     if (validateExpiringDate(event.target.value)) {
       this.setState({ cardExpiringDate: event.target.value })
       this.setState({
@@ -84,7 +88,7 @@ class NewCard extends React.Component<{ props: any }, MyState> {
     }
   }
 
-  handleCvvChange(event: any): any {
+  handleCvvChange(event: any): void {
     if (validateCvv(event.target.value)) {
       this.setState({ cvv: event.target.value })
       this.setState({
@@ -102,7 +106,7 @@ class NewCard extends React.Component<{ props: any }, MyState> {
     }
   }
 
-  handleSubmit(event: any): any {
+  handleSubmit(event: any): void {
     console.log('NEW CARD:', this.state)
     if (isEmpty(this.state)) {
       this.setState({
@@ -120,6 +124,10 @@ class NewCard extends React.Component<{ props: any }, MyState> {
     event.preventDefault()
   }
 
+  handleOwnerNameChange(event: any): void {
+    this.setState({ ownerName: event.target.value })
+  }
+
   render(): JSX.Element {
     return (
       <>
@@ -128,10 +136,10 @@ class NewCard extends React.Component<{ props: any }, MyState> {
           <CategoryWrapper>
             <h3>Minha conta:</h3>
             <ul>
-              {Object.keys(AccountList).map((item, idx) => (
+              {AccountList.map(({ name, route }, idx) => (
                 <li key={idx}>
-                  <Link to={`/${AccountList[item]}`}>
-                    <a>{item}</a>
+                  <Link to={route}>
+                    <a>{name}</a>
                   </Link>
                 </li>
               ))}
@@ -145,7 +153,7 @@ class NewCard extends React.Component<{ props: any }, MyState> {
             />
             {this.state.alert}
             <form onSubmit={this.handleSubmit} autoComplete='off'>
-              <TextField
+              <StyledTextField
                 id='filled-basic'
                 className='input'
                 margin='dense'
@@ -154,33 +162,40 @@ class NewCard extends React.Component<{ props: any }, MyState> {
                 variant='filled'
                 onChange={this.handleCardNameChange.bind(this)}
               />
-
-              <TextField
+              <StyledTextField
                 id='filled-basic'
-                value={this.state.cardNumber}
                 className='input'
-                label='Número do cartão:'
+                margin='dense'
+                value={this.state.ownerName}
+                label='Nome do titular:'
                 variant='filled'
+                onChange={this.handleOwnerNameChange.bind(this)}
+              />
+              <StyledProfileNumberFormat
+                format='#### #### #### ####'
+                placeholder='0000 0000 0000 0000'
                 onChange={this.handleCardNumberChange.bind(this)}
+                label='Número do Cartão:'
+                value={this.state.cardNumber}
               />
-
-              <TextField
-                id='filled-basic'
-                value={this.state.cardExpiringDate}
-                className='input'
-                label='Validade do cartão:'
-                variant='filled'
-                onChange={this.handleCardExpiringDateChange.bind(this)}
-              />
-
-              <TextField
-                id='filled-basic'
-                value={this.state.cvv}
-                className='input'
-                label='CVV:'
-                variant='filled'
-                onChange={this.handleCvvChange.bind(this)}
-              />
+              <FormLineWrapper>
+                <StyledProfileNumberFormat
+                  format='##/####'
+                  placeholder='00/0000'
+                  onChange={this.handleCardExpiringDateChange.bind(this)}
+                  label='Validade do cartão:'
+                  value={this.state.cardExpiringDate}
+                />
+                <div className='custom-spacing'></div>
+                <StyledTextField
+                  id='filled-basic'
+                  value={this.state.cvv}
+                  className='input'
+                  label='CVV:'
+                  variant='filled'
+                  onChange={this.handleCvvChange.bind(this)}
+                />
+              </FormLineWrapper>
               <AdjustButton>
                 <SaveButton type='submit'>Adicionar</SaveButton>
               </AdjustButton>

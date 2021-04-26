@@ -1,49 +1,98 @@
+import { DropdownButton } from 'react-bootstrap'
 import styled from 'styled-components'
 import { CCColors } from '../../constants/colors.constant'
 
 export const StyledHeader = styled.header`
-  background-color: ${CCColors.DARKPURPLE};
+  background-color: ${CCColors.LIGHTPURPLE};
+  margin: 0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+`
 
+export const DepartmentButton = styled(DropdownButton)`
+  &:hover,
+  &:focus {
+    outline: none;
+    background-color: white;
+    color: #333;
+    border-color: transparent;
+    box-shadow: none;
+  }
 
-  div#headerWrapper {
-    background-color: ${CCColors.LIGHTPURPLE};
+  a {
+    color: #333;
+    text-decoration: none;
+  }
+  button {
+    background: none;
+    color: #333;
+    border: none;
     margin: 0;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
+    padding: 0;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 9px;
+    line-height: 1.15;
+    font-size: 0.875rem;
+    letter-spacing: 0.02ch;
+    border-radius: 24rem;
+    text-align: center;
+    vertical-align: middle;
+    &::after {
+      content: none;
+    }
+
+    &#departments-button {
+      &:hover,
+      &:focus {
+        outline: none;
+        background-color: white;
+        color: #333;
+        border-color: transparent;
+        box-shadow: none;
+      }
+    }
   }
 `
 
-export const StyledRegisterDiv = styled.div`
+export const StyledRegisterDiv = styled.ul`
   width: 300px;
   height: 80px;
+  max-width: fit-content;
   text-align: left;
   font-size: 12px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
   color: white;
+  list-style-type: none;
+  margin: 0 12px;
+  padding: 5px;
 
-  p {
-    align-self: center;
-    display: inline-block;
-    b {
-      font-weight: 800;
-    }
-    a {
-      color: white;
-      text-decoration: none;
-      :hover {
-        text-decoration: underline;
-      }
+  li {
+    margin-bottom: 5px;
+  }
+  .register-logged-account {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .styled-link {
+    color: white;
+    :hover {
+      text-decoration: underline;
     }
   }
 `
 
 export const HeaderSearchDiv = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   padding-right: 30px;
   padding-left: 30px;
@@ -51,21 +100,44 @@ export const HeaderSearchDiv = styled.div`
 
   width: 90%;
 
-  div {
+  ul.icons-holder {
     margin: 10px;
-    /* margin-left: 15px */
-    /* padding-left: 15px;
-    padding-right: 15px; */
-    /* width: 100%; */
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    li {
+      position: relative;
+      text-decoration: none;
+      margin-right: 15px;
+      padding: 8px;
+      color: #333333;
 
-    ul {
-      list-style-type: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      li {
-        text-decoration: none;
-        margin-right: 10px;
+      &:hover {
+        span {
+          background-color: ${CCColors.MINT};
+          color: ${CCColors.DARKPURPLE};
+        }
+      }
+      span {
+        line-height: 1.6;
+        text-align: center;
+        width: 22px;
+        height: 22px;
+        position: absolute;
+        background-color: ${CCColors.DARKPURPLE};
+        font-weight: 700;
+        color: ${CCColors.MINT};
+        font-size: 12px;
+        top: auto;
+        border-radius: 50%;
+        right: 0;
+        bottom: 0;
+        transition: 0.3s;
+        &.wishlist-qnt {
+          right: 2px;
+          bottom: 2px;
+        }
       }
     }
   }
@@ -78,7 +150,6 @@ export const TopHeaderText = styled.span`
 `
 export const HeaderDepartmentListNav = styled.nav`
   background-color: ${CCColors.DARKPURPLE};
-  /* padding-left: 30px; */
   padding: 5px 105px;
   height: 100%;
   width: 100%;
@@ -106,6 +177,8 @@ export const AllDepartmentsIndexer = styled.div`
   /* padding: 0.4rem 0.1rem; */
 
   p {
+    padding: 0;
+    margin: 0;
     margin-left: 9px;
   }
 
@@ -125,7 +198,7 @@ export const DepartmentUnList = styled.ul`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 20px;
+  padding: 10px 20px 0 20px;
   background-color: ${CCColors.DARKPURPLE};
 
   li {

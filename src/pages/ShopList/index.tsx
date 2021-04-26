@@ -3,7 +3,9 @@ import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 import PageSwitcher from '../../components/PageSwitcher'
 import ProductBox from '../../components/ProductBox'
-import { CategoryList } from '../../constants/category-list.constant'
+import SideBox from '../../components/SideBox'
+import { categoryList } from '../../constants/category-list.constant'
+import { mockedCategories } from '../../constants/mocked-categories.constant'
 import { mockedProductList } from '../../constants/mocked-product-list.constant'
 import {
   CategoryWrapper,
@@ -16,16 +18,13 @@ export const ShopList = (): JSX.Element => {
     <>
       <Header />
       <StyledShopListPage>
-        <CategoryWrapper>
-          <h3>Categorias:</h3>
-          <ul>
-            {CategoryList.map((category, idx) => (
-              <li key={idx}>
-                <a onClick={() => console.log(3)}>{category}</a>
-              </li>
-            ))}
-          </ul>
-        </CategoryWrapper>
+        <SideBox
+          title='Categorias'
+          /* linkedElements={categoryList} */ categorySections={
+            mockedCategories
+          }
+          checkboxLayout
+        />
         <ProductListWrapper>
           <ul className='products-shop-unlist'>
             {mockedProductList.map((product, idx) => (
@@ -35,7 +34,7 @@ export const ShopList = (): JSX.Element => {
             ))}
           </ul>
           <div className='page-switcher-positioner'>
-            <PageSwitcher pages={5} activePage={1}></PageSwitcher>
+            <PageSwitcher pages={10} activePage={1}></PageSwitcher>
           </div>
         </ProductListWrapper>
       </StyledShopListPage>

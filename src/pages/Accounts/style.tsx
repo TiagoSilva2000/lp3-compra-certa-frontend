@@ -1,7 +1,7 @@
 // @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 import styled from 'styled-components'
 import { withStyles } from '@material-ui/core/styles'
-import { Chip, Card, Button } from '@material-ui/core'
+import { Chip, Card, Button, Container } from '@material-ui/core'
 import { CCColors } from '../../constants/colors.constant'
 
 export const SaveButton = withStyles(theme => ({
@@ -23,21 +23,6 @@ export const StyledCard = withStyles(theme => ({
   }
 }))(Card)
 
-export const CustomChip = withStyles(theme => ({
-  root: {
-    clickable: false,
-    height: 40,
-    borderRadius: 40 / 2,
-    marginBottom: '1em'
-  },
-  colorPrimary: {
-    backgroundColor: CCColors.PRIMARYPURPLE
-  },
-  colorSecondary: {
-    backgroundColor: CCColors.PRIMARYYELLOW
-  }
-}))(Chip)
-
 export const AdjustNav = styled.div`
   display: flex;
   justify-content: space-around;
@@ -48,6 +33,20 @@ export const AdjustNav = styled.div`
   a {
     text-decoration: none;
     color: ${CCColors.PRIMARYYELLOW};
+  }
+`
+
+export const FormLineWrapper = styled(Container)`
+  &&& {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    align-items: center;
+    justify-content: space-between;
+
+    .custom-spacing {
+      width: 40%;
+    }
   }
 `
 

@@ -4,7 +4,7 @@ import { Favorite, DeleteForever } from '@material-ui/icons'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import { AccountList } from '../../constants/category-list.constant'
-import { Img1, Img2, Img3 } from '../ShopHistory/ProductImg'
+import { Img1, Img2, Img3 } from '../../assets/ProductImg'
 import {
   CategoryWrapper,
   SectionWrapper,
@@ -20,32 +20,27 @@ import {
   CardActions,
   CardContent,
   Button,
-  Typography
+  Typography,
+  Container
 } from '@material-ui/core'
+import SideBox from '../../components/SideBox'
+import ProductList from '../../components/ProductList'
+import { mockedProductList } from '../../constants/mocked-product-list.constant'
 
-type MyState = {
-  value: string
-}
-
-class Accounts extends React.Component<{ props: any }, MyState> {
+class Accounts extends React.Component<{ props: any }> {
   render(): JSX.Element {
     return (
       <>
         <Header />
         <StyledPage>
-          <CategoryWrapper>
-            <h3>Minha conta:</h3>
-            <ul>
-              {Object.keys(AccountList).map((item, idx) => (
-                <li key={idx}>
-                  <Link to={`/${AccountList[item]}`}>
-                    <a> {item}</a>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </CategoryWrapper>
-          <SectionWrapper>
+          <SideBox title='Minha conta' linkedElements={AccountList} />
+          <Container>
+            <ProductList
+              productList={mockedProductList}
+              orientation='vertical'
+            ></ProductList>
+          </Container>
+          {/* <SectionWrapper>
             <CustomChip
               icon={<Favorite />}
               color='primary'
@@ -114,7 +109,7 @@ class Accounts extends React.Component<{ props: any }, MyState> {
                 </Button>
               </CardActions>
             </StyledCard>
-          </SectionWrapper>
+          </SectionWrapper> */}
         </StyledPage>
         <Footer />
       </>

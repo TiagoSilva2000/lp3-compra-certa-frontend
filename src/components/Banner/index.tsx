@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Arrow from '../Arrow'
 import Indexer from '../Indexer'
 import { StyledBanner, StyledBannerUnity, StyledIndexerWrapper } from './style'
-
+import ReactCSSTransitionGroup from 'react-transition-group'
 interface IBannerUnityProps {
   imgSrc: string
   alt: string
@@ -14,6 +14,8 @@ interface IBannerState {
 
 interface IBannerProps {
   bannerUnities: IBannerUnityProps[]
+  navigation?: boolean
+  dynamic?: boolean
 }
 
 const BannerUnity = (props: IBannerUnityProps) => {
@@ -35,7 +37,9 @@ export default class Banner extends Component<IBannerProps, IBannerState> {
   }
 
   componentDidMount(): void {
-    setInterval(() => this.changeBannerUnity(1), 3000)
+    if (this.props.dynamic) {
+      setInterval(() => this.changeBannerUnity(1), 3000)
+    }
   }
 
   changeBannerUnity(modifier: 1 | -1): void {
@@ -46,6 +50,7 @@ export default class Banner extends Component<IBannerProps, IBannerState> {
   }
 
   render(): JSX.Element {
+    const { navigation } = this.props
     const banners = this.props.bannerUnities
     const indexes = banners.length
     const { index: i } = this.state
@@ -54,16 +59,22 @@ export default class Banner extends Component<IBannerProps, IBannerState> {
       <StyledBanner>
         <div id='bannerWrapper'>
           <BannerUnity alt={banners[i].alt} imgSrc={banners[i].imgSrc} />
-          <span onClick={() => this.changeBannerUnity(-1)} className='left'>
-            &#10094;
-          </span>
-          <span onClick={() => this.changeBannerUnity(1)} className='right'>
-            &#10095;
-          </span>
+          {navigation && (
+            <>
+              <span onClick={() => this.changeBannerUnity(-1)} className='left'>
+                &#10094;
+              </span>
+              <span onClick={() => this.changeBannerUnity(1)} className='right'>
+                &#10095;
+              </span>
+            </>
+          )}
         </div>
-        <StyledIndexerWrapper>
-          <Indexer indexes={indexes} activeIndex={i} />
-        </StyledIndexerWrapper>
+        {navigation && (
+          <StyledIndexerWrapper>
+            <Indexer indexes={indexes} activeIndex={i} />
+          </StyledIndexerWrapper>
+        )}
       </StyledBanner>
     )
   }
