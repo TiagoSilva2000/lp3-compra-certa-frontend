@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Favorite, DeleteForever } from '@material-ui/icons'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
-import { AccountList } from '../../constants/category-list.constant'
+import { AccountList } from '../../mocks/category-list.constant'
 import { Img1, Img2, Img3 } from '../../assets/ProductImg'
 import {
   CategoryWrapper,
@@ -25,7 +25,7 @@ import {
 } from '@material-ui/core'
 import SideBox from '../../components/SideBox'
 import ProductList from '../../components/ProductList'
-import { mockedProductList } from '../../constants/mocked-product-list.constant'
+import { mockedProductList } from '../../mocks/mocked-product-list.constant'
 
 class Accounts extends React.Component<{ props: any }> {
   render(): JSX.Element {

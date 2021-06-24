@@ -12,7 +12,7 @@ import {
   validateTelephone,
   isEmpty
 } from '../utils/RegexValidor'
-import { AccountList } from '../../constants/category-list.constant'
+import { AccountList } from '../../mocks/category-list.constant'
 import {
   CategoryWrapper,
   ProfileWrapper,

@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components'
-import { CCColors } from '../../constants/colors.constant'
+import { CCColors } from '../../mocks/colors.constant'
 
 const slideIn = keyframes`
   from {

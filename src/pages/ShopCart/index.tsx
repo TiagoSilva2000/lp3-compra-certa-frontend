@@ -11,9 +11,9 @@ import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 import ProductList from '../../components/ProductList'
 import { ProductTable, TableTheme } from '../../components/ProductTable'
-import { CCColors } from '../../constants/colors.constant'
-import { mockedProductList } from '../../constants/mocked-product-list.constant'
-import { rows } from '../../constants/product-rows.constant'
+import { CCColors } from '../../mocks/colors.constant'
+import { mockedProductList } from '../../mocks/mocked-product-list.constant'
+import { rows } from '../../mocks/product-rows.constant'
 import { ProductRowData } from '../../types/product-row-data'
 import {
   ContinueButton,

@@ -1,4 +1,4 @@
-import { CCColors } from '../constants/colors.constant'
+import { CCColors } from '../mocks/colors.constant'
 import { OrderStatus } from '../enum/order-status.enum'
 
 export const colorByOrderStatus = (

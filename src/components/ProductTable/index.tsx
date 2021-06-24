@@ -34,8 +34,8 @@ import {
 } from './style'
 import { ProductRowData } from '../../types/product-row-data'
 import { propTypes } from 'react-bootstrap/esm/Image'
-import { CCColors } from '../../constants/colors.constant'
-import { qntArray } from '../../constants/qnt-array.constant'
+import { CCColors } from '../../mocks/colors.constant'
+import { qntArray } from '../../mocks/qnt-array.constant'
 
 export interface TableTheme {
   headerColor: string

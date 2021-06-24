@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import { Button, IconButton, TableCell } from '@material-ui/core'
-import { CCColors } from '../../constants/colors.constant'
+import { CCColors } from '../../mocks/colors.constant'
 import { Table } from 'react-bootstrap'
 import DoneIcon from '@material-ui/icons/Done'
 import { TableTheme } from './index'

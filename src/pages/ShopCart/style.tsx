@@ -1,6 +1,6 @@
 import { Button, withStyles } from '@material-ui/core'
 import styled from 'styled-components'
-import { CCColors } from '../../constants/colors.constant'
+import { CCColors } from '../../mocks/colors.constant'
 
 export const StyledShopCartPage = styled.div`
   margin-top: 20px;

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { CCColors } from '../../constants/colors.constant'
+import { CCColors } from '../../mocks/colors.constant'
 import { colorByOrderStatus } from '../../services/color-by-order-status.service'
 import { Sector } from '../../types/sector'
 

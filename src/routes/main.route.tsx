@@ -25,7 +25,7 @@ import {
   ShopHistoryRoute,
   ShopRoute,
   WishlistRoute
-} from '../constants/routes.constant'
+} from '../mocks/routes.constant'
 
 const Profile = lazy(() => import('../pages/Profile/Profile'))
 const Register = lazy(() => import('../pages/Register/Register'))

@@ -2,7 +2,7 @@ import { MenuItem, Select } from '@material-ui/core'
 import React from 'react'
 import { Card, Container, ListGroup } from 'react-bootstrap'
 import Header from '../../components/Header'
-import { clients, neighbours, products } from '../../constants/mocked-analysis'
+import { clients, neighbours, products } from '../../mocks/mocked-analysis'
 import { AnalysisType } from '../../enum/analysis-types.enum'
 import { OrderStatus } from '../../enum/order-status.enum'
 import {

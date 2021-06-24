@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { withStyles } from '@material-ui/core/styles'
 import { Button, Typography } from '@material-ui/core'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
-import { CCColors } from '../../constants/colors.constant'
+import { CCColors } from '../../mocks/colors.constant'
 
 export const StyledImg = styled.img`
   margin: 5em;

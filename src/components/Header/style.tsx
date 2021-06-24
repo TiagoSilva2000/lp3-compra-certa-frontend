@@ -1,6 +1,6 @@
 import { DropdownButton } from 'react-bootstrap'
 import styled from 'styled-components'
-import { CCColors } from '../../constants/colors.constant'
+import { CCColors } from '../../mocks/colors.constant'
 
 export const StyledHeader = styled.header`
   background-color: ${CCColors.LIGHTPURPLE};
