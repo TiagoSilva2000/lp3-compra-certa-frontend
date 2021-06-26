@@ -18,6 +18,8 @@ import { Link } from 'react-router-dom'
 import ShopList from '../../pages/ShopList'
 import {
   IndexRoute,
+  ProfileRoute,
+  RegisterRoute,
   ShopCartRoute,
   ShopRoute,
   WishlistRoute
@@ -90,7 +92,7 @@ const Header = (props: IHeaderProps): JSX.Element => {
           <li>Bem vindo{!defaultv && <b>{`, ${username}`}</b>} :)</li>
           <li className='register-logged-account'>
             <Link
-              to={defaultv ? '/signin' : '/profile'}
+              to={defaultv ? RegisterRoute : ProfileRoute}
               className='styled-link'
             >
               <span>{defaultv ? 'Entre ou cadastre-se' : 'Meu Perfil'}</span>
