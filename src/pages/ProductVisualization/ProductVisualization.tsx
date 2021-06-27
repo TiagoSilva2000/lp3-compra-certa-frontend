@@ -133,7 +133,7 @@ class ProductVisualization extends React.Component<
     const { activeView } = this.state
     const product = this.product
     const images = [Img2, Img3, Img4, Img5, Img6]
-    const description = this.props.children ?? mockedProductDescription
+    const description = this.product?.description ?? mockedProductDescription
     const data = mockedProductAdditionData
     const dividedPrice = product ? product.active_price.value / product.active_price.divided_max : 0
 
@@ -244,14 +244,14 @@ class ProductVisualization extends React.Component<
                     Descrição
                   </Nav.Link>
                 </Nav.Item>
-                <Nav.Item>
+                {/* <Nav.Item>
                   <Nav.Link
                     href='#adicional'
                     onClick={() => this.setActiveView('additional')}
                   >
                     Informação Adicional
                   </Nav.Link>
-                </Nav.Item>
+                </Nav.Item> */}
               </Nav>
             </Card.Header>
             <Card.Body>

@@ -3,7 +3,8 @@ import {
   storageFirstNameKey,
   storageTokenKey,
   storageShopcartKey,
-  storageShopcartQntKey
+  storageShopcartQntKey,
+  storageWishlistKey
 } from './constants'
 
 export function setStorageVariables(result: GetAuthResponse): void {
@@ -11,4 +12,5 @@ export function setStorageVariables(result: GetAuthResponse): void {
   sessionStorage.setItem(storageFirstNameKey, result.user.first_name)
   sessionStorage.setItem(storageShopcartKey, '')
   sessionStorage.setItem(storageShopcartQntKey, '0')
+  sessionStorage.setItem(storageWishlistKey, result.favs.toString())
 }

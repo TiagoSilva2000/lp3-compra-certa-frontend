@@ -28,7 +28,6 @@ export default class ProductList extends Component<
   IProductListProps,
   IProductListState
 > {
-  private ref = createRef()
   constructor(props: IProductListProps) {
     super(props)
 
@@ -70,15 +69,18 @@ export default class ProductList extends Component<
 
   render(): JSX.Element {
     const { productList: pList, title, orientation } = this.props
-    const renderedProductList: IProductBoxProps[] = []
+    const renderedProductList: IProductBoxProps[] = pList;
     const { renderStartIndex, maxProductRendering } = this.state
     const renderFinalIndex = maxProductRendering + renderStartIndex
-    for (let i = renderStartIndex; i < renderFinalIndex - 1; i++) {
-      // pList[i].title = pList[i].title + i.toString()
-      // console.log(pList[i].title + i.toString())
-      renderedProductList.push(pList[i])
-    }
+    // for (let i = renderStartIndex; i < renderFinalIndex - 1; i++) {
+    //   // pList[i].title = pList[i].title + i.toString()
+    //   // console.log(pList[i].title + i.toString())
+    //   renderedProductList.push(pList[i])
+    // }
     const flexDir = orientation && orientation === 'vertical' ? 'column' : 'row'
+    if (renderedProductList.length === 0) {
+      return <h3 style={{textAlign: 'center'}}>Parece que ainda não há nada aqui...</h3>
+    }
 
     return (
       <StyledProductList flexDir={flexDir}>
@@ -97,7 +99,6 @@ export default class ProductList extends Component<
               <ProductBox
                 {...pData}
                 key={idx}
-                data={pData.data}  
                 showShopcart
                 showWishlist
                 activeFav={this.props.activeFavs}

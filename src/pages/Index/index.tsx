@@ -69,23 +69,6 @@ export default class Index extends React.Component<unknown, IIndexState> {
           wishlistQnt={this.state.wishlistCodes.length}
         />
         <Banner bannerUnities={StaticBanners} dynamic navigation />
-        {/* <ListGroup>
-      <ListGroup.Item>
-        <Banner bannerUnities={[StaticBanners[0]]} />
-      </ListGroup.Item>
-      <ListGroup.Item>
-        <Banner bannerUnities={[StaticBanners[0]]} />
-      </ListGroup.Item>
-      <ListGroup.Item>
-        <Banner bannerUnities={[StaticBanners[0]]} />
-      </ListGroup.Item>
-      <ListGroup.Item>
-        <Banner bannerUnities={[StaticBanners[0]]} />
-      </ListGroup.Item>
-      <ListGroup.Item>
-        <Banner bannerUnities={[StaticBanners[0]]} />
-      </ListGroup.Item>
-    </ListGroup> */}
         <StyledProductsListsWrapper>
           <ProductList
             productList={this.state.products.map(p => {
@@ -151,14 +134,17 @@ export default class Index extends React.Component<unknown, IIndexState> {
             pushWishlistCodeCb={this.pushWishlistCode}
             removeWishlistCodeCb={this.removeWishlistCode}
           />
-          {/* <Container>
-        <ListGroup>
-          {DepartmentList.map((dpt, idx) => (
-            <ListGroup.Item key={`alt-dpt${idx}`}></ListGroup.Item>
-          ))}
-        </ListGroup>
-      </Container> */}
-          <ProductList productList={mockedProductList} title='Promoção' />
+          <ProductList 
+            productList={this.state.products.map(p => {
+              return {
+                showRating: true,
+                showShopcart: true,
+                showWishlist: true,
+                editable: false,
+                data: p              
+              }
+            })}
+            title='Promoção' />
         </StyledProductsListsWrapper>
         <Footer />
       </>

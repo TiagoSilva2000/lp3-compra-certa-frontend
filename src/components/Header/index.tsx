@@ -85,7 +85,7 @@ const Header = (props: IHeaderProps): JSX.Element => {
           <StyledSearchForm name='search-form' method='GET' action=''>
             <input
               type='text'
-              placeholder='procure por nome, código, marca...'
+              placeholder='procure por sua compra certa...'
             />
             <button type='submit'>
               <img src={search} alt='Procurar' />

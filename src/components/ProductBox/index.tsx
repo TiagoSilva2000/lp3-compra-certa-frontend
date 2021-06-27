@@ -15,6 +15,7 @@ import { useHistory } from 'react-router'
 import { ProductRoute } from '../../mocks/routes.constant'
 import api from '../../services/api'
 import { storageTokenKey } from '../../utils/constants'
+import { isInWishlist, pushToWishlist, removeFromWishlist } from '../../utils/wishlistOperations'
 export interface IProductBoxProps {
   showRating?: boolean
   showShopcart?: boolean
@@ -61,7 +62,7 @@ const ProductBox = (props: IProductBoxProps): JSX.Element => {
   if (active_price.payment_discount) originalPrice = rounder(active_price.value + active_price.payment_discount);
   const dividedPrice = rounder(currentPrice / active_price.divided_max)
   const [wishlistActive, setWishStatus] = React.useState(
-    props.activeFav ?? false
+    isInWishlist(product_id)
   )
   const [shopcartActive, setShopStatus] = React.useState(
     props.activeShop ?? false
@@ -74,7 +75,13 @@ const ProductBox = (props: IProductBoxProps): JSX.Element => {
   const handleFav = () => {
     const isUserLogged = Boolean(sessionStorage.getItem(storageTokenKey));
     if (isUserLogged) {
-      !wishlistActive ? api.post(`wishlist/${product_id}`) : api.delete(`wishlist/${product_id}`);
+      if (wishlistActive) {
+        removeFromWishlist(product_id);
+        api.delete(`wishlist/${product_id}`)
+      } else {
+        pushToWishlist(product_id);
+        api.post(`wishlist/${product_id}`)
+      }
     }
   }
 
