@@ -4,32 +4,27 @@ import { RadialBarChart, Tooltip, RadialBar, Legend} from "recharts";
 const data = [
     {
       "name": "cliente A",
-      "uv": 3.47,
-      "pv": 2400,
+      "%": 3.47,
       "fill": "#8884d8"
     },
     {
       "name": "Cliente F",
-      "uv": 6.6,
-      "pv": 4567,
+      "%": 6.6,
       "fill": "#83a6ed"
     },
     {
       "name": "Cliente R",
-      "uv": 12.9,
-      "pv": 1398,
+      "%": 12.9,
       "fill": "#8dd1e1"
     },
     {
       "name": "Cliente X",
-      "uv": 23.89,
-      "pv": 9800,
+      "%": 23.89,
       "fill": "#82ca9d"
     },
     {
       "name": "Cliente B",
-      "uv": 43.9,
-      "pv": 3908,
+      "%": 43.9,
       "fill": "#a4de6c"
     }
   ]
@@ -47,10 +42,9 @@ const data = [
         endAngle={0}
         margin={{ top: 5, right: 5, bottom: 5, left: 0 }}
       >
-        <RadialBar label={{ fill: '#666', position: 'insideStart' }} background dataKey='uv' />
+        <RadialBar label={{ fill: '#666', position: 'insideStart' }} background dataKey='%' />
         <Legend iconSize={10} width={300} height={100} layout='horizontal'  />
-        {/* <Legend iconSize={10} width={120} height={140} layout='vertical' verticalAlign='middle' align="right" /> */}
-        <Tooltip />
+        {/* <Tooltip /> */}
       </RadialBarChart>
     )
   }
