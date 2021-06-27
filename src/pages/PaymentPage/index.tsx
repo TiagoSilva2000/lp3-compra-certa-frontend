@@ -53,10 +53,10 @@ const cleanAddress: IAddressInfo = {
 }
 
 const cleanCard: CreditCardInfo = {
-  cardName: '',
-  dueDate: '',
-  lastDigits: '',
-  ownerName: '',
+  name: '',
+  due_date: '',
+  last_digits: '',
+  owner_name: '',
   default: false,
   ccv: ''
 }
@@ -402,7 +402,7 @@ class PaymentPage extends React.Component<
                         <option value={-1}>...</option>
                         {this.registeredCards.map((card, idx) => (
                           <option key={`card${idx}`} value={idx}>
-                            {`**** **** **** ${card.lastDigits}`}
+                            {`**** **** **** ${card.last_digits}`}
                           </option>
                         ))}
                       </Form.Control>
@@ -415,11 +415,11 @@ class PaymentPage extends React.Component<
                         type='text'
                         placeholder='Nome do Titular'
                         readOnly={isUsingCard()}
-                        value={card.ownerName}
+                        value={card.owner_name}
                         onChange={e =>
                           this.handleCardInput({
                             ...card,
-                            ownerName: e.target.value
+                            owner_name: e.target.value
                           })
                         }
                       />
@@ -432,7 +432,7 @@ class PaymentPage extends React.Component<
                         <Form.Control
                           type='text'
                           placeholder='Nome do Titular'
-                          value={`**** **** **** ${card?.lastDigits}`}
+                          value={`**** **** **** ${card?.last_digits}`}
                           readOnly
                         />
                       ) : (
@@ -441,11 +441,11 @@ class PaymentPage extends React.Component<
                           placeholder='0000 0000 0000 0000'
                           className='form-control'
                           readOnly={isUsingCard()}
-                          value={card.lastDigits}
+                          value={card.last_digits}
                           onChange={(e: any) =>
                             this.handleCardInput({
                               ...card,
-                              lastDigits: e.target.value
+                              last_digits: e.target.value
                             })
                           }
                         />
@@ -460,11 +460,11 @@ class PaymentPage extends React.Component<
                         placeholder='MM/AAAA'
                         className='form-control'
                         readOnly={isUsingCard()}
-                        value={card.dueDate}
+                        value={card.due_date}
                         onChange={(e: any) =>
                           this.handleCardInput({
                             ...card,
-                            dueDate: e.target.value
+                            due_date: e.target.value
                           })
                         }
                       />

@@ -11,7 +11,7 @@ import {
   validateJustLetters,
   validateTelephone,
   isEmpty
-} from '../utils/RegexValidor'
+} from '../../utils/RegexValidor'
 import { AccountList } from '../../mocks/category-list.constant'
 import {
   CategoryWrapper,

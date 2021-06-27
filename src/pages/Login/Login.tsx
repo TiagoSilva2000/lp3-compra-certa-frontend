@@ -12,9 +12,10 @@ import {
 import logo from '../../assets/big-logo.png'
 import shoppingImage from '../../assets/shopping.svg'
 import api from '../../services/api'
-import { storageTokenKey } from '../../utils/constants'
+import { storageFirstNameKey, storageTokenKey } from '../../utils/constants'
 import { GetAuthResponse } from '../../interfaces/responses'
 import { IndexRoute } from '../../mocks/routes.constant'
+import { setStorageVariables } from '../../utils/setStorageVariables'
 
 
 const Login = (): JSX.Element => {
@@ -25,11 +26,11 @@ const Login = (): JSX.Element => {
   const handleSubmit = async () => {
     
     try {
-      const result = await api.post<GetAuthResponse>('/auth', {
+      const result = await api.post<GetAuthResponse>('/auths', {
         email,
         password
       })
-      sessionStorage.setItem(storageTokenKey, result.data.token.token);
+      setStorageVariables(result.data);
       history.push(IndexRoute);
     } catch(err) {
       console.log(err);

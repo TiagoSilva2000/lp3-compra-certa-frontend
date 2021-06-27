@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom'
 import ShopList from '../../pages/ShopList'
 import {
   IndexRoute,
+  LoginRoute,
   ProfileRoute,
   RegisterRoute,
   ShopCartRoute,
@@ -26,6 +27,7 @@ import {
 } from '../../mocks/routes.constant'
 import { DropdownButton, NavDropdown } from 'react-bootstrap'
 import { Menu, MenuItem } from '@material-ui/core'
+import { storageFirstNameKey, storageShopcartQntKey, storageTokenKey } from '../../utils/constants'
 
 interface IHeaderProps {
   employeeView?: boolean
@@ -53,11 +55,13 @@ const Header = (props: IHeaderProps): JSX.Element => {
   const {
     employeeView: employee,
     customerView: customer,
-    defaultView: defaultv
+    defaultView
   } = props
-  const wishQnt = props.wishlistQnt ?? 0
-  const shopQnt = props.shopcartQnt ?? 0
-  const username = props.username ?? 'username'
+  const [shopQnt, setShopQnt] = React.useState(
+    parseInt(sessionStorage.getItem(storageShopcartQntKey) ?? "0")
+  );
+  const username = sessionStorage.getItem(storageFirstNameKey) ?? 'username'
+  const defaultv = Boolean(sessionStorage.getItem(storageTokenKey)) === false;
 
   return (
     <StyledHeader>
@@ -92,7 +96,7 @@ const Header = (props: IHeaderProps): JSX.Element => {
           <li>Bem vindo{!defaultv && <b>{`, ${username}`}</b>} :)</li>
           <li className='register-logged-account'>
             <Link
-              to={defaultv ? RegisterRoute : ProfileRoute}
+              to={defaultv ? LoginRoute : ProfileRoute}
               className='styled-link'
             >
               <span>{defaultv ? 'Entre ou cadastre-se' : 'Meu Perfil'}</span>
@@ -114,7 +118,6 @@ const Header = (props: IHeaderProps): JSX.Element => {
             </Link>
             <Link to={`${WishlistRoute}`}>
               <li>
-                <span className='wishlist-qnt'>{wishQnt}</span>
                 <Heart width={30} height={30} />
               </li>
             </Link>

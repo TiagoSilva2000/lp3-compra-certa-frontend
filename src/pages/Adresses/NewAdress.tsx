@@ -10,7 +10,7 @@ import {
   validateTelephone,
   validateCep,
   isEmpty
-} from '../utils/RegexValidor'
+} from '../../utils/RegexValidor'
 import {
   CategoryWrapper,
   SectionWrapper,

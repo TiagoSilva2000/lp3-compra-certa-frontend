@@ -11,9 +11,10 @@ import {
 } from './style'
 import loginImage from '../../assets/login.svg'
 import api from '../../services/api'
-import { storageTokenKey } from '../../utils/constants'
+import { storageFirstNameKey, storageTokenKey } from '../../utils/constants'
 import {GetAuthResponse} from '../../interfaces/responses'
 import { IndexRoute } from '../../mocks/routes.constant'
+import { setStorageVariables } from '../../utils/setStorageVariables'
 const Register = (): JSX.Element => {
   const history = useHistory();
   const [email, setEmail] = React.useState("");
@@ -33,7 +34,7 @@ const Register = (): JSX.Element => {
         throw new Error("register error, token does not exist");
       }
 
-      sessionStorage.setItem(storageTokenKey, token.token);
+      setStorageVariables(response.data);
       history.push(IndexRoute);
     } catch (err) {
       console.log(err);

@@ -4,9 +4,11 @@ import Header from '../../components/Header'
 import PageSwitcher from '../../components/PageSwitcher'
 import ProductBox from '../../components/ProductBox'
 import SideBox from '../../components/SideBox'
+import { ProductResponse } from '../../interfaces/responses'
 import { categoryList } from '../../mocks/category-list.constant'
 import { mockedCategories } from '../../mocks/mocked-categories.constant'
 import { mockedProductList } from '../../mocks/mocked-product-list.constant'
+import api from '../../services/api'
 import {
   CategoryWrapper,
   ProductListWrapper,
@@ -14,6 +16,16 @@ import {
 } from './style'
 
 export const ShopList = (): JSX.Element => {
+
+  const [products, setProducts] = React.useState<ProductResponse[]>([]);
+
+  React.useEffect(() => {
+    (async () => {
+      const result = await api.get<ProductResponse[]>('/products');
+      setProducts(result.data);
+    })()
+  }, [])
+
   return (
     <>
       <Header />
@@ -27,9 +39,9 @@ export const ShopList = (): JSX.Element => {
         />
         <ProductListWrapper>
           <ul className='products-shop-unlist'>
-            {mockedProductList.map((product, idx) => (
+            {products.map((product, idx) => (
               <li key={idx}>
-                <ProductBox {...product}></ProductBox>
+                <ProductBox data={product}></ProductBox>
               </li>
             ))}
           </ul>

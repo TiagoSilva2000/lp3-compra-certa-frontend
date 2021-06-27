@@ -1,5 +1,6 @@
 export const ShopRoute = '/loja'
 export const ProfileRoute = '/profile'
+export const ProductRoute = '/product'
 export const OrderControlRoute = '/order-control'
 export const ShopCartRoute = '/shopcart'
 export const PaymentRoute = '/payment'

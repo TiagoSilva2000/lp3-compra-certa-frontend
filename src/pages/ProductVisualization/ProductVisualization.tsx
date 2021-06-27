@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import {
   LocalMall,
   Loyalty,
@@ -54,6 +54,11 @@ import {
   mockedProductAdditionData,
   mockedProductDescription
 } from '../../mocks/mocked-product-view.constant'
+import api from '../../services/api'
+import { ProductResponse } from '../../interfaces/responses'
+import DefaultImage from '../../assets/samples/products/default-img.png'
+import { ShopCartRoute } from '../../mocks/routes.constant'
+import { pushToShopcart } from '../../utils/shopcartOperations'
 
 interface IProductVisProps {
   description?: string
@@ -62,7 +67,6 @@ interface IProductVisProps {
 interface IProductVisState {
   mainImg: string
   quantity: number
-  total: number
   activeView: 'description' | 'additional'
 }
 
@@ -70,17 +74,28 @@ class ProductVisualization extends React.Component<
   IProductVisProps,
   IProductVisState
 > {
+  product?: ProductResponse
   constructor(props: IProductVisProps) {
     super(props)
     this.state = {
       mainImg: Img2,
-      quantity: 0,
-      total: 25,
+      quantity: 1,
       activeView: 'description'
     }
     this.changeMainImage = this.changeMainImage.bind(this)
     this.removeItem = this.removeItem.bind(this)
     this.addItem = this.addItem.bind(this)
+  }
+
+  componentDidMount(): void {
+    const url = window.location.pathname.split("/");
+    const id = parseInt(url[url.length - 1]);
+    api.get<ProductResponse>(`/products/${id}`).then(({data}) => {
+      this.product = data;
+      this.setState({
+        mainImg: data.main_media?.path ?? DefaultImage
+      })
+    })
   }
 
   setActiveView(view: 'description' | 'additional'): void {
@@ -93,24 +108,35 @@ class ProductVisualization extends React.Component<
 
   removeItem(): any {
     const value = this.state.quantity
-    if (value > 0) {
+    if (value > 1) {
       return this.setState({ quantity: value - 1 })
     }
   }
 
   addItem(): any {
     const value = this.state.quantity
-    const maxItens = this.state.total / 2
-    if (value < maxItens) {
+    const max = this.product?.stock ?? 10
+    // const maxItens = this.product?.active_price.value ?? 0 / 2
+    if (value < max) {
       return this.setState({ quantity: value + 1 })
+    }
+  }
+
+  handleSubmit(): void  {
+    if (this.product) {
+      for (let i = 0; i < this.state.quantity; i++)
+        pushToShopcart(this.product.id);
     }
   }
 
   render(): JSX.Element {
     const { activeView } = this.state
+    const product = this.product
     const images = [Img2, Img3, Img4, Img5, Img6]
     const description = this.props.children ?? mockedProductDescription
     const data = mockedProductAdditionData
+    const dividedPrice = product ? product.active_price.value / product.active_price.divided_max : 0
+
 
     return (
       <>
@@ -131,18 +157,19 @@ class ProductVisualization extends React.Component<
               <Gallery src={this.state.mainImg} />
             </GalleryWrapper>
             <SectionWrapper>
-              <h3>Celular iphone, super ultra mega das galáxias</h3>
-              <HoverRating showValue totalTimes={0} />
+              <h3>{this.product?.name ?? ""}</h3>
+              <HoverRating showValue totalTimes={this.product?.sold_qnt ?? 0} initialValue={this.product?.rating ?? 0} />
               <PriceWrapper>
-                <h4>de R$ 45.78</h4>
+                <h4>de R$ {product?.active_price.value ?? 0}</h4>
                 <h2>
-                  por R$ <b>23,90</b> à vista
+                  por R$ <b>{(product?.active_price.value ?? 0) - (product?.active_price.payment_discount ?? 0)}</b> à vista
                 </h2>
                 <h5>
-                  ou parcelado em 6 x <b>R$2,17</b> sem juros
+                  ou parcelado em {this.product?.active_price.divided_max ?? 0} x <b>
+                    R$ {dividedPrice}</b> sem juros
                 </h5>
               </PriceWrapper>
-              <ProductChip label='162393 vendidos' icon={<LocalMall />} />
+              <ProductChip label={`${this.product?.sold_qnt ?? 0} vendidos`} icon={<LocalMall />} />
               <div>
                 QUANTIDADE:{' '}
                 <Button
@@ -161,7 +188,7 @@ class ProductVisualization extends React.Component<
                   <Add />
                 </Button>
                 <ProductChip
-                  label={this.state.total + ' disponíveis'}
+                  label={product?.stock ?? 0 + ' disponíveis'}
                   size='small'
                   icon={<Loyalty />}
                 />
@@ -175,14 +202,17 @@ class ProductVisualization extends React.Component<
               >
                 <AddShoppingCart /> adicionar ao carrinho
               </ShopButton> */}
+              <Link to={ShopCartRoute}>
                 <ShopButton
                   variant='contained'
                   type='button'
                   size='small'
                   className='mr-2 mr-md-2 '
-                >
+                  onClick={() => this.handleSubmit()}
+                  >
                   <Shop /> Comprar agora
                 </ShopButton>
+              </Link>
               </ProductButtonWrapper>
               <Form>
                 <Form.Group>

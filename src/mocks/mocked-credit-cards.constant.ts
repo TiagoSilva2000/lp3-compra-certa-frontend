@@ -2,27 +2,27 @@ import { CreditCardInfo } from '../types/credit-card-info'
 
 export const mockedCreditCards: CreditCardInfo[] = [
   {
-    cardName: 'Cartão da Mãe',
+    name: 'Cartão da Mãe',
     default: true,
-    lastDigits: '4448',
-    ownerName: 'Tiago',
-    dueDate: '10/2021',
+    last_digits: '4448',
+    owner_name: 'Tiago',
+    due_date: '10/2021',
     ccv: '288'
   },
   {
-    cardName: 'Cartão do Pai',
+    name: 'Cartão do Pai',
     default: true,
-    lastDigits: '4851',
-    ownerName: 'Evelyn',
-    dueDate: '10/2021',
+    last_digits: '4851',
+    owner_name: 'Evelyn',
+    due_date: '10/2021',
     ccv: '288'
   },
   {
-    cardName: 'Meu cartão',
+    name: 'Meu cartão',
     default: true,
-    lastDigits: '9987',
-    ownerName: 'Thiago',
-    dueDate: '10/2021',
+    last_digits: '9987',
+    owner_name: 'Thiago',
+    due_date: '10/2021',
     ccv: '288'
   }
 ]

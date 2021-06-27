@@ -7,14 +7,25 @@ const productBoxProps: IProductBoxProps = {
   showWishlist: true,
   editable: false,
   data: {
-    bestDividedBy: 10,
-    currentPrice: 3000.47,
-    imgAlt: 'iphone image',
-    imgPath: IphoneImage,
-    productId: 1,
-    title: 'Celular Iphone Turbinado Moto G Turbo!!',
-    originalPrice: 3500.54,
-    rating: 3
+    active_price: {
+      divided_max: 10,
+      value: 300000,
+      active: true,
+      payment_discount: 1000
+    },
+    main_media: {
+      path: IphoneImage,
+      ext: 'png',
+      main: true
+    },
+    id: 1,
+    name: 'Celular Iphone Turbinado Moto G Turbo!!',
+    rating: 3,
+    description: 'uma descrição legal',
+    provider_id: 1,
+    sold_qnt: 300,
+    stock: 1000,
+    type: 'informática'
   }
 }
 

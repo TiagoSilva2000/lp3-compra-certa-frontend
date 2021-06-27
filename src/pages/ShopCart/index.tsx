@@ -11,10 +11,14 @@ import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 import ProductList from '../../components/ProductList'
 import { ProductTable, TableTheme } from '../../components/ProductTable'
+import { ProductResponse } from '../../interfaces/responses'
 import { CCColors } from '../../mocks/colors.constant'
 import { mockedProductList } from '../../mocks/mocked-product-list.constant'
 import { rows } from '../../mocks/product-rows.constant'
+import { IndexRoute, PaymentRoute } from '../../mocks/routes.constant'
+import api from '../../services/api'
 import { ProductRowData } from '../../types/product-row-data'
+import { getShopcart } from '../../utils/shopcartOperations'
 import {
   ContinueButton,
   StyledInputWrapper,
@@ -53,6 +57,15 @@ export default class ShopCart extends React.Component<
     }
 
     this.changeQntByCode = this.changeQntByCode.bind(this)
+  }
+
+  componentDidMount(): void {
+    console.log("mounted")
+    // api.get<ProductResponse[]>('/products').then(result => {
+    //   this.setState({
+    //     rows: result.data
+    //   })
+    // })
   }
 
   setPriceAndQnt(qnt: number, price: number): void {
@@ -124,10 +137,12 @@ export default class ShopCart extends React.Component<
                 </p>
               </li>
               <li className='total-shopcart-right'>
-                <Link to='/' className='buy-more-link'>
+                <Link to={IndexRoute} className='buy-more-link'>
                   <a href=''>Comprar mais produtos</a>
                 </Link>
+                <Link to={PaymentRoute}>
                 <ContinueButton>Continuar</ContinueButton>
+                </Link>
               </li>
             </StyledTotalShopcartList>
           </Container>

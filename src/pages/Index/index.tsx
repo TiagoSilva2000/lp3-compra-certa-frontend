@@ -10,21 +10,32 @@ import { Container, ListGroup } from 'react-bootstrap'
 import { DepartmentList } from '../../mocks/department-list.constant'
 import { ICustomerPagesState } from '../../interfaces/customer-pages-state.interface'
 import { UserInfo } from '../../types/user-info'
+import { ProductResponse } from '../../interfaces/responses'
+import api from '../../services/api'
 
 interface IIndexState extends ICustomerPagesState {
   user?: UserInfo
+  products: ProductResponse[]
 }
 export default class Index extends React.Component<unknown, IIndexState> {
+  
   constructor(props: unknown) {
     super(props)
     this.state = {
       shopcartCodes: [],
-      wishlistCodes: []
+      wishlistCodes: [],
+      products: []
     }
     this.pushShopcartCode = this.pushShopcartCode.bind(this)
     this.pushWishlistCode = this.pushWishlistCode.bind(this)
     this.removeShopCartCode = this.removeShopCartCode.bind(this)
     this.removeWishlistCode = this.removeWishlistCode.bind(this)
+  }
+
+  componentDidMount(): void {
+    api.get<ProductResponse[]>('/products').then(result => {
+      this.setState({products: result.data});
+    })
   }
 
   removeShopCartCode(oldCode: string): void {
@@ -77,7 +88,15 @@ export default class Index extends React.Component<unknown, IIndexState> {
     </ListGroup> */}
         <StyledProductsListsWrapper>
           <ProductList
-            productList={mockedProductList}
+            productList={this.state.products.map(p => {
+              return {
+                showRating: true,
+                showShopcart: true,
+                showWishlist: true,
+                editable: false,
+                data: p              
+              }
+            })}
             title='Promoção'
             pushShopcartCodeCb={this.pushShopcartCode}
             removeShopcartCodeCb={this.removeShopCartCode}
@@ -85,7 +104,15 @@ export default class Index extends React.Component<unknown, IIndexState> {
             removeWishlistCodeCb={this.removeWishlistCode}
           />
           <ProductList
-            productList={mockedProductList}
+            productList={this.state.products.map(p => {
+              return {
+                showRating: true,
+                showShopcart: true,
+                showWishlist: true,
+                editable: false,
+                data: p              
+              }
+            })}
             title='Promoção'
             pushShopcartCodeCb={this.pushShopcartCode}
             removeShopcartCodeCb={this.removeShopCartCode}
@@ -93,7 +120,15 @@ export default class Index extends React.Component<unknown, IIndexState> {
             removeWishlistCodeCb={this.removeWishlistCode}
           />
           <ProductList
-            productList={mockedProductList}
+            productList={this.state.products.map(p => {
+              return {
+                showRating: true,
+                showShopcart: true,
+                showWishlist: true,
+                editable: false,
+                data: p              
+              }
+            })}
             title='Promoção'
             pushShopcartCodeCb={this.pushShopcartCode}
             removeShopcartCodeCb={this.removeShopCartCode}
@@ -101,7 +136,15 @@ export default class Index extends React.Component<unknown, IIndexState> {
             removeWishlistCodeCb={this.removeWishlistCode}
           />
           <ProductList
-            productList={mockedProductList}
+            productList={this.state.products.map(p => {
+              return {
+                showRating: true,
+                showShopcart: true,
+                showWishlist: true,
+                editable: false,
+                data: p              
+              }
+            })}
             title='Promoção'
             pushShopcartCodeCb={this.pushShopcartCode}
             removeShopcartCodeCb={this.removeShopCartCode}

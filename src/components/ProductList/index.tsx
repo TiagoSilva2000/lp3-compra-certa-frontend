@@ -97,6 +97,7 @@ export default class ProductList extends Component<
               <ProductBox
                 {...pData}
                 key={idx}
+                data={pData.data}  
                 showShopcart
                 showWishlist
                 activeFav={this.props.activeFavs}

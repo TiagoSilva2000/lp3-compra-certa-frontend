@@ -17,6 +17,7 @@ export interface GetTokenResponse {
 export interface GetAuthResponse {
   user: GetUserResponse
   token: GetTokenResponse
+  favs: number[]
 }
 
 export interface GetAddressResponse {
@@ -37,4 +38,41 @@ export interface GetAddressResponse {
 export interface StatusResponse {
   message: string
   http_code: number
+}
+export interface CreditCardResponse {
+  owner_name: string
+  last_digits: string
+  due_date: string
+}
+export interface PaymentResponse {
+  id: number
+  name?: string
+  paymentMethod: string
+  default: boolean
+  payment?: CreditCardResponse
+}
+
+export interface MediaResponse {
+  path: string
+  ext: string
+  main: boolean
+}
+
+export interface PriceResponse {
+  value: number
+  divided_max: number
+  payment_discount?: number
+  active: boolean
+}
+export interface ProductResponse {
+  id: number
+  name: string
+  rating: number
+  type: string
+  description: string
+  stock: number
+  provider_id: number
+  sold_qnt: number
+  active_price: PriceResponse
+  main_media?: MediaResponse
 }
