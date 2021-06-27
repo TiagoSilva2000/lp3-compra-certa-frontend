@@ -1,7 +1,8 @@
-import { AddressInfo } from '../types/address-info'
+import { IAddressInfo } from '../types/address-info'
 
-export const mockedAddresses: AddressInfo[] = [
+export const mockedAddresses: IAddressInfo[] = [
   {
+    id: 5,
     ownerName: 'Tiago',
     cep: '44001640',
     notes: 'atrás da tv subaé',
@@ -14,6 +15,7 @@ export const mockedAddresses: AddressInfo[] = [
     default: true
   },
   {
+    id: 6,
     ownerName: 'Tiago',
     cep: '44001640',
     notes: 'atrás da tv subaé',
