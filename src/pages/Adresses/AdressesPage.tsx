@@ -10,7 +10,7 @@ import {
 } from '@material-ui/icons'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
-import { AccountList } from '../../constants/category-list.constant'
+import { AccountList } from '../../mocks/category-list.constant'
 import {
   CategoryWrapper,
   SectionWrapper,
@@ -29,9 +29,9 @@ import {
   Typography
 } from '@material-ui/core'
 import SideBox from '../../components/SideBox'
-import { NewAddressRoute } from '../../constants/routes.constant'
+import { NewAddressRoute } from '../../mocks/routes.constant'
 import CustomChip from '../../components/CustomChip'
-import { mockedAddresses } from '../../constants/mocked-addresses.constant'
+import { mockedAddresses } from '../../mocks/mocked-addresses.constant'
 import { AddressInfo } from '../../types/address-info'
 
 const Adresses = (): JSX.Element => {

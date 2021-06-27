@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { withStyles } from '@material-ui/core/styles'
 import { CircularProgress } from '@material-ui/core'
-import { CCColors } from '../../constants/colors.constant'
+import { CCColors } from '../../mocks/colors.constant'
 
 export const StyledPage = styled.div`
   height: 90;

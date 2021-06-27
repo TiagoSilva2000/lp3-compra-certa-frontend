@@ -1,13 +1,13 @@
 import React from 'react'
 import OrderCard from '../../components/OrderCard'
-import { mockedOrderCards } from '../../constants/mocked-order-cards-constant'
+import { mockedOrderCards } from '../../mocks/mocked-order-cards-constant'
 import { OrderStatus } from '../../enum/order-status.enum'
 import {
   StyledOrderControlPage,
   StyledSectorHeader,
   StyledSelect
 } from './style'
-import { sectorList } from '../../constants/sector-list.constant'
+import { sectorList } from '../../mocks/sector-list.constant'
 import { Sector } from '../../types/sector'
 import { OrderCardInfo } from '../../types/order-card-info'
 import Arrow from '../../components/Arrow'

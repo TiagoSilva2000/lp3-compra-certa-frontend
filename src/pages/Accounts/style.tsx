@@ -2,7 +2,7 @@
 import styled from 'styled-components'
 import { withStyles } from '@material-ui/core/styles'
 import { Chip, Card, Button, Container } from '@material-ui/core'
-import { CCColors } from '../../constants/colors.constant'
+import { CCColors } from '../../mocks/colors.constant'
 
 export const SaveButton = withStyles(theme => ({
   root: {

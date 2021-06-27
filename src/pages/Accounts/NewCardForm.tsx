@@ -4,7 +4,7 @@ import { LocalAtm } from '@material-ui/icons'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import { Alert } from '@material-ui/lab'
-import { AccountList } from '../../constants/category-list.constant'
+import { AccountList } from '../../mocks/category-list.constant'
 import {
   CategoryWrapper,
   SectionWrapper,

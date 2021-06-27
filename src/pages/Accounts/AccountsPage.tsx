@@ -10,7 +10,7 @@ import {
 } from '@material-ui/icons'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
-import { AccountList } from '../../constants/category-list.constant'
+import { AccountList } from '../../mocks/category-list.constant'
 import {
   CategoryWrapper,
   SectionWrapper,
@@ -30,7 +30,7 @@ import {
 import SideBox from '../../components/SideBox'
 import CustomChip from '../../components/CustomChip'
 import { CreditCardInfo } from '../../types/credit-card-info'
-import { mockedCreditCards } from '../../constants/mocked-credit-cards.constant'
+import { mockedCreditCards } from '../../mocks/mocked-credit-cards.constant'
 
 const Accounts = (): JSX.Element => {
   const [userCards, setUserCards] = React.useState<CreditCardInfo[]>(

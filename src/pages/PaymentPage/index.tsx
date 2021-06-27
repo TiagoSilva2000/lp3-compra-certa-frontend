@@ -3,10 +3,10 @@ import React from 'react'
 import { Button, Col, Container, Form, ListGroup } from 'react-bootstrap'
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
-import { states } from '../../constants/states.constant'
+import { states } from '../../mocks/states.constant'
 import { ProductRowData } from '../../types/product-row-data'
 import { StyledPaymentPage, StyledTotalWrapper } from './style'
-import { rows as mockedRows } from '../../constants/product-rows.constant'
+import { rows as mockedRows } from '../../mocks/product-rows.constant'
 import {
   Card,
   Checkbox,
@@ -17,12 +17,12 @@ import {
 } from '@material-ui/core'
 import NumberFormat from 'react-number-format'
 import { StyledNumberFormat } from '../../styles/styled-number-format.style'
-import { mockedAddresses } from '../../constants/mocked-addresses.constant'
+import { mockedAddresses } from '../../mocks/mocked-addresses.constant'
 import { AddressInfo } from '../../types/address-info'
 import { CreditCardInfo } from '../../types/credit-card-info'
-import { mockedCreditCards } from '../../constants/mocked-credit-cards.constant'
+import { mockedCreditCards } from '../../mocks/mocked-credit-cards.constant'
 import { UserInfo } from '../../types/user-info'
-import { mockedUser } from '../../constants/mocked-user.constant'
+import { mockedUser } from '../../mocks/mocked-user.constant'
 interface IPaymentPageProps {
   rows: ProductRowData[]
   addresses?: AddressInfo[]

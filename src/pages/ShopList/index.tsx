@@ -4,9 +4,9 @@ import Header from '../../components/Header'
 import PageSwitcher from '../../components/PageSwitcher'
 import ProductBox from '../../components/ProductBox'
 import SideBox from '../../components/SideBox'
-import { categoryList } from '../../constants/category-list.constant'
-import { mockedCategories } from '../../constants/mocked-categories.constant'
-import { mockedProductList } from '../../constants/mocked-product-list.constant'
+import { categoryList } from '../../mocks/category-list.constant'
+import { mockedCategories } from '../../mocks/mocked-categories.constant'
+import { mockedProductList } from '../../mocks/mocked-product-list.constant'
 import {
   CategoryWrapper,
   ProductListWrapper,

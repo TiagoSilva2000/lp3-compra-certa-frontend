@@ -45,7 +45,7 @@ import {
 } from 'react-bootstrap'
 import { Img2, Img3, Img4, Img5, Img6 } from '../../assets/ProductImg'
 import ProductList from '../../components/ProductList'
-import { mockedProductList } from '../../constants/mocked-product-list.constant'
+import { mockedProductList } from '../../mocks/mocked-product-list.constant'
 
 import { StyledProfileNumberFormat } from '../../styles/styled-profile-number-format.style'
 import { StyledNumberFormat } from '../../styles/styled-number-format.style'
@@ -53,7 +53,7 @@ import { HoverRating } from '../../components/Rating'
 import {
   mockedProductAdditionData,
   mockedProductDescription
-} from '../../constants/mocked-product-view.constant'
+} from '../../mocks/mocked-product-view.constant'
 
 interface IProductVisProps {
   description?: string

@@ -9,7 +9,7 @@ import Login from '../pages/Login/Login'
 import { Spinner } from '../pages/Loading/LoadingSpinner'
 import ShopCart from '../pages/ShopCart'
 import PaymentPage from '../pages/PaymentPage'
-import DataVis from '../pages/DataVis'
+import DataVis from '../pages/DataVis/index'
 import {
   AccountRoute,
   AddressRoute,
@@ -25,7 +25,7 @@ import {
   ShopHistoryRoute,
   ShopRoute,
   WishlistRoute
-} from '../constants/routes.constant'
+} from '../mocks/routes.constant'
 
 const Profile = lazy(() => import('../pages/Profile/Profile'))
 const Register = lazy(() => import('../pages/Register/Register'))
@@ -48,6 +48,7 @@ const MainRoutes = (): JSX.Element => (
         <Route exact path='/' component={Main} />
 
         <Route exact path='/login' component={Login} />
+        <Route exact path='/register' component={Register} />
 
         <Route exact path='/spinner' component={Spinner} />
 
@@ -59,7 +60,6 @@ const MainRoutes = (): JSX.Element => (
         <Route exact path={`${NewAddressRoute}`} component={NewAdress} />
         <Route exact path={`${ShopHistoryRoute}`} component={ShopHistory} />
         <Route exact path={`${WishlistRoute}`} component={Wishlist} />
-        <Route exact path='/register' component={Register} />
         <Route exact path='/product' component={Product} />
 
         <Route exact path={`${OrderControlRoute}`} component={OrderControl} />

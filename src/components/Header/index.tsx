@@ -13,15 +13,17 @@ import {
 import { Heart, Shop } from 'react-bootstrap-icons'
 import logo from '../../assets/big-logo.png'
 import { search, hamburguer } from '../../assets/icons/index'
-import { DepartmentList } from '../../constants/department-list.constant'
+import { DepartmentList } from '../../mocks/department-list.constant'
 import { Link } from 'react-router-dom'
 import ShopList from '../../pages/ShopList'
 import {
   IndexRoute,
+  ProfileRoute,
+  RegisterRoute,
   ShopCartRoute,
   ShopRoute,
   WishlistRoute
-} from '../../constants/routes.constant'
+} from '../../mocks/routes.constant'
 import { DropdownButton, NavDropdown } from 'react-bootstrap'
 import { Menu, MenuItem } from '@material-ui/core'
 
@@ -90,7 +92,7 @@ const Header = (props: IHeaderProps): JSX.Element => {
           <li>Bem vindo{!defaultv && <b>{`, ${username}`}</b>} :)</li>
           <li className='register-logged-account'>
             <Link
-              to={defaultv ? '/signin' : '/profile'}
+              to={defaultv ? RegisterRoute : ProfileRoute}
               className='styled-link'
             >
               <span>{defaultv ? 'Entre ou cadastre-se' : 'Meu Perfil'}</span>

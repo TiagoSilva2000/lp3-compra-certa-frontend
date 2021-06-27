@@ -1,6 +1,6 @@
 import { NavigateBefore } from '@material-ui/icons'
 import React, { Component, createRef } from 'react'
-import { CCColors } from '../../constants/colors.constant'
+import { CCColors } from '../../mocks/colors.constant'
 // import { useWindowDimensions } from '../../hooks'
 import Arrow from '../Arrow/index'
 import ProductBox, { IProductBoxProps } from '../ProductBox'

@@ -1,6 +1,6 @@
 import { NavigateBefore, NavigateNext } from '@material-ui/icons'
 import React from 'react'
-import { MAXPAGESWITCHERBOXES } from '../../constants/max-page-switcher-boxes.constant'
+import { MAXPAGESWITCHERBOXES } from '../../mocks/max-page-switcher-boxes.constant'
 import { StyledSwitcherBox, StyledPageSwitcher } from './style'
 interface IPageSwitcherProps {
   pages: number

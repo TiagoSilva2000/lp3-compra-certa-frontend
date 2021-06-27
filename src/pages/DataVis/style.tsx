@@ -14,6 +14,14 @@ export const CardsContainer = styled(Container)`
 export const StyledCard = styled(Card)`
   margin-right: 10px;
 
+  &.chart-card {
+    width: 50rem;
+  }
+
+  &.mini-chart-card {
+    width: 25rem;
+  }
+
   &.number-card {
     width: 180px;
   }

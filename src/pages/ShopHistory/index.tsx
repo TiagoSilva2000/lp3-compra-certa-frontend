@@ -4,7 +4,7 @@ import { Payment, ShoppingBasket, ShopTwo, Room } from '@material-ui/icons'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import { ProductTable } from '../../components/ProductTable'
-import { AccountList } from '../../constants/category-list.constant'
+import { AccountList } from '../../mocks/category-list.constant'
 import {
   CategoryWrapper,
   SectionWrapper,
@@ -13,7 +13,7 @@ import {
   AdjustNav
 } from './style'
 import { CustomerOrderStatus } from '../../enum/customer-order-status.enum'
-import { rows } from '../../constants/product-rows.constant'
+import { rows } from '../../mocks/product-rows.constant'
 import SideBox from '../../components/SideBox'
 import CustomChip from '../../components/CustomChip'
 import { Button, Col, Form, Modal } from 'react-bootstrap'

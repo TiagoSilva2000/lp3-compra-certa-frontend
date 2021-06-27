@@ -2,7 +2,7 @@
 import styled from 'styled-components'
 import { withStyles } from '@material-ui/core/styles'
 import { Button, Chip, Card } from '@material-ui/core'
-import { CCColors } from '../../constants/colors.constant'
+import { CCColors } from '../../mocks/colors.constant'
 import { Container } from 'react-bootstrap'
 
 export const CustomChip = withStyles(theme => ({

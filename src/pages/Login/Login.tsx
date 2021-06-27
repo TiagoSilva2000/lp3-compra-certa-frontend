@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { TextField, Typography } from '@material-ui/core'
 import {
   SignInButton,
@@ -11,8 +11,34 @@ import {
 } from './style'
 import logo from '../../assets/big-logo.png'
 import shoppingImage from '../../assets/shopping.svg'
+import api from '../../services/api'
+import { storageTokenKey } from '../../utils/constants'
+import { GetAuthResponse } from '../../interfaces/responses'
+import { IndexRoute } from '../../mocks/routes.constant'
+
 
 const Login = (): JSX.Element => {
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const history = useHistory();
+
+  const handleSubmit = async () => {
+    
+    try {
+      const result = await api.post<GetAuthResponse>('/auth', {
+        email,
+        password
+      })
+      sessionStorage.setItem(storageTokenKey, result.data.token.token);
+      history.push(IndexRoute);
+    } catch(err) {
+      console.log(err);
+      throw new Error(err);
+    }
+
+
+  }
+
   return (
     <StyledContainer>
       <StyledCard className='mt-1 mt-md-2'>
@@ -36,6 +62,7 @@ const Login = (): JSX.Element => {
             id='email'
             label='Email'
             name='email'
+            onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
             variant='filled'
@@ -46,6 +73,7 @@ const Login = (): JSX.Element => {
             id='password'
             label='Senha'
             name='password'
+            onChange={(e) => setPassword(e.target.value)}
           />
           <SignInButton
             type='button'
@@ -53,6 +81,7 @@ const Login = (): JSX.Element => {
             fullWidth
             size='large'
             className='mb-2 mb-md-2 mt-2'
+            onClick={() => handleSubmit()}
           >
             Entrar
           </SignInButton>
