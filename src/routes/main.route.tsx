@@ -9,7 +9,7 @@ import Login from '../pages/Login/Login'
 import { Spinner } from '../pages/Loading/LoadingSpinner'
 import ShopCart from '../pages/ShopCart'
 import PaymentPage from '../pages/PaymentPage'
-import DataVis from '../pages/DataVis'
+import DataVis from '../pages/DataVis/index'
 import {
   AccountRoute,
   AddressRoute,
