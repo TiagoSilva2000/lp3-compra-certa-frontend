@@ -2,9 +2,12 @@ import { MenuItem, Select } from '@material-ui/core'
 import React from 'react'
 import { Card, Container, ListGroup } from 'react-bootstrap'
 import Header from '../../components/Header'
-import { clients, neighbours, products } from '../../mocks/mocked-analysis'
+import SectorBarChart from './SectorBarChart'
+import DeliveryLineChart from './DeliveryLineChart'
+import ClientsRadialChart from './ClientsRadialChart'
+import ProductsRadialChart from './ProductsRadialChart'
+import NeighboorhoodFunnelChart from './NeighboorhoodFunnelChart'
 import { AnalysisType } from '../../enum/analysis-types.enum'
-import { OrderStatus } from '../../enum/order-status.enum'
 import {
   StyledDataVis,
   StyledCard,
@@ -18,84 +21,96 @@ export default function DataVis(props: unknown): JSX.Element {
 
   for (const analy in AnalysisType) analysis.push(analy)
 
+  const data = [
+    {
+      month: 'JAN', preparation: 10, checking: 10, delivery: 10
+    },
+    {
+      month: 'FEV', preparation: 10, checking: 1398, delivery: 10
+    },
+    {
+      month: 'MAR', preparation: 2000, checking: 9800,delivery: 10
+    },
+    {
+      month: 'ABR', preparation: 2000, checking: 9800, delivery: 10
+    },
+    {
+      month: 'MAI', preparation: 2780, checking: 3908, delivery: 10
+    },
+    {
+      month: 'JUN', preparation: 1890, checking: 4800, delivery: 10
+    },
+    {
+      month: 'JUL', preparation: 2390, checking: 3800,  delivery: 10
+    },
+    {
+      month: 'AGO', preparation: 3490, checking: 4300, delivery: 10
+    },
+    {
+      month: 'SET', preparation: 0, checking: 0,delivery: 0
+    },
+    {
+      month: 'OUT', preparation: 0, checking: 0,delivery: 0
+    },
+    {
+      month: 'NOV', preparation: 0, checking: 0,delivery: 0
+    },
+    {
+      month: 'DEZ', preparation: 1230, checking: 0,delivery: 0
+    }
+  ]
+
+
   return (
+
     <>
       <Header employeeView />
       <StyledDataVis>
         <CardsContainer>
-          <StyledCard className='number-card'>
+        <StyledCard className='chart-card'>
             <Card.Header>
               <Card.Title>{AnalysisType.DELIVERTIME}</Card.Title>
             </Card.Header>
             <Card.Body>
-              <Card.Text>{56} horas</Card.Text>
+            <DeliveryLineChart/>
             </Card.Body>
           </StyledCard>
         </CardsContainer>
         <CardsContainer>
-          <StyledCard className='number-card'>
+        <StyledCard className='chart-card'>
             <Card.Header>
               <Card.Title>{AnalysisType.AVGSECTORTIME}</Card.Title>
-              <Card.Text>{OrderStatus.PREPARATION}</Card.Text>
             </Card.Header>
             <Card.Body>
-              <Card.Text>{56} horas</Card.Text>
-            </Card.Body>
-          </StyledCard>
-          <StyledCard className='number-card'>
-            <Card.Header>
-              <Card.Title>{AnalysisType.AVGSECTORTIME}</Card.Title>
-              <Card.Text>{OrderStatus.CHECKING}</Card.Text>
-            </Card.Header>
-            <Card.Body>
-              <Card.Text>{56} horas</Card.Text>
-            </Card.Body>
-          </StyledCard>
-          <StyledCard className='number-card'>
-            <Card.Header>
-              <Card.Title>{AnalysisType.AVGSECTORTIME}</Card.Title>
-              <Card.Text>{OrderStatus.DELIVERY}</Card.Text>
-            </Card.Header>
-            <Card.Body>
-              <Card.Text>{56} horas</Card.Text>
+            <SectorBarChart {...data}/>
             </Card.Body>
           </StyledCard>
         </CardsContainer>
         <CardsContainer>
-          <StyledCard className='list-card'>
+        <StyledCard className='chart-card'>
             <Card.Header>
               <Card.Title>{AnalysisType.NEIGHBOURHOOD}</Card.Title>
             </Card.Header>
             <Card.Body>
-              <StyledCardList>
-                {neighbours.map((neigh, idx) => (
-                  <ListGroup.Item key={`neigh${idx}`}>{neigh}</ListGroup.Item>
-                ))}
-              </StyledCardList>
+            <NeighboorhoodFunnelChart/>
             </Card.Body>
           </StyledCard>
-          <StyledCard className='list-card'>
+        </CardsContainer>
+        <CardsContainer>
+        <StyledCard className='chart-card'>
             <Card.Header>
               <Card.Title>{AnalysisType.CLIENT}</Card.Title>
             </Card.Header>
             <Card.Body>
-              <StyledCardList>
-                {clients.map((neigh, idx) => (
-                  <ListGroup.Item key={`neigh${idx}`}>{neigh}</ListGroup.Item>
-                ))}
-              </StyledCardList>
+            <ClientsRadialChart/>
             </Card.Body>
           </StyledCard>
-          <StyledCard className='list-card'>
+          <StyledCard className='chart-card'>
             <Card.Header>
               <Card.Title>{AnalysisType.PRODUCT}</Card.Title>
             </Card.Header>
             <Card.Body>
-              <StyledCardList>
-                {products.map((neigh, idx) => (
-                  <ListGroup.Item key={`neigh${idx}`}>{neigh}</ListGroup.Item>
-                ))}
-              </StyledCardList>
+            <ProductsRadialChart/>
             </Card.Body>
           </StyledCard>
         </CardsContainer>
