@@ -90,12 +90,20 @@ export interface GetOrderTrackingResponse {
   order_status: string
   zipcode: string
 }
+
+export interface GetOrderProductResponse {
+  product: ProductResponse
+  qnt: number
+  rating: number
+}
 export interface GetOrderResponse {
   id: number
   customer_id: number
   ordered_at: Date
   address: GetAddressResponse
   payment: GetOrderPaymentResponse
-  product: ProductResponse[]
+  products: GetOrderProductResponse[]
   tracking: GetOrderTrackingResponse[]
+  tracking_code: string
+  received: boolean
 }

@@ -36,6 +36,8 @@ import { ProductRowData } from '../../types/product-row-data'
 import { propTypes } from 'react-bootstrap/esm/Image'
 import { CCColors } from '../../mocks/colors.constant'
 import { qntArray } from '../../mocks/qnt-array.constant'
+import { GetOrderProductResponse, GetOrderResponse } from '../../interfaces/responses'
+import DefaultImage from '../../assets/samples/products/default-img.png'
 
 export interface TableTheme {
   headerColor: string
@@ -52,27 +54,32 @@ interface ExtTableProps {
   employeeView?: boolean
   shopcartView?: boolean
   changeQntCb?: (code: string, qntModifier: number) => void
-  toReceiveCb?: () => void
+  toReceiveCb?: (order_id?: number, product_id?: number) => void
 }
 
 interface IProductTableProps extends ExtTableProps {
   rows: ProductRowData[]
+  rrows?: GetOrderResponse[]
   theme?: TableTheme
 }
 
 interface IProductTableState {
   rows: ProductRowData[]
+  rrows?: GetOrderResponse[]
 }
 
 interface IRowProps extends ExtTableProps {
-  row: ProductRowData
+  // row: ProductRowData
+  product: GetOrderProductResponse
+  order: GetOrderResponse
   theme: TableTheme
   removeRowCb: (orderCode: string) => void
 }
 
 const Row = (props: IRowProps) => {
   const {
-    row,
+    product,
+    order,
     rating,
     toReceive,
     tracking,
@@ -84,7 +91,8 @@ const Row = (props: IRowProps) => {
   } = props
   const [open, setOpen] = React.useState(false)
   const [ready, setReady] = React.useState(false)
-  const [qnt, setQnt] = React.useState(row.quantity)
+  const [qnt, setQnt] = React.useState(product.qnt)
+  console.log(product);
   const theme: TableTheme = props.theme
   return (
     <React.Fragment>
@@ -102,25 +110,26 @@ const Row = (props: IRowProps) => {
         )}
         <TableCell component='th' scope='row' width='fit-content'>
           <StyledProduct>
-            <p>{row.product}</p>
-            {!theme.slim && <StyledProductImg src={row.img}></StyledProductImg>}
+            {/* <p>{order.id}</p> */}
+            <p>{product.product.name}</p>
+            {/* {!theme.slim && <StyledProductImg src={product.product.main_media?.path ?? DefaultImage}></StyledProductImg>} */}
           </StyledProduct>
         </TableCell>
-        <TableCell align='right'>{row.trackingCode}</TableCell>
+        <TableCell align='right'>{product.product.id}</TableCell>
         <TableCell align='right'>
           {!shopcartView ? (
-            row.quantity
+            product.qnt
           ) : (
             <QuantitySelectionWrapper>
               <Select
                 labelId='demo-customized-select-label'
                 id='demo-customized-select'
-                value={qnt}
+                value={product.qnt}
                 onChange={e => {
                   const oldQnt = qnt
                   const newQnt = Number(e.target.value)
                   setQnt(newQnt)
-                  changeQntCb && changeQntCb(row.trackingCode, newQnt - oldQnt)
+                  changeQntCb && changeQntCb(order.tracking_code, newQnt - oldQnt)
                 }}
               >
                 {qntArray.map(v => (
@@ -131,7 +140,7 @@ const Row = (props: IRowProps) => {
               </Select>
               <p
                 onClick={() =>
-                  changeQntCb && changeQntCb(row.trackingCode, -qnt)
+                  changeQntCb && changeQntCb(order.tracking_code, -qnt)
                 }
               >
                 Excluir
@@ -141,10 +150,10 @@ const Row = (props: IRowProps) => {
         </TableCell>
         {rating && (
           <TableCell align='right'>
-            <HoverRating />
+            <HoverRating initialValue={product.rating} />
           </TableCell>
         )}
-        <TableCell align='right'>{row.total}</TableCell>
+        <TableCell align='right'>{product.product.active_price.value}</TableCell>
         {(toReceive || employeeView) && (
           <TableCell align='right'>
             {employeeView && (
@@ -156,9 +165,10 @@ const Row = (props: IRowProps) => {
               <ReceiveButton
                 variant='contained'
                 disableElevation
+                disabled={order.received}
                 onClick={() => {
-                  if (props.toReceiveCb) props.toReceiveCb()
-                  props.removeRowCb(row.trackingCode)
+                  if (props.toReceiveCb) props.toReceiveCb(props.order.id, product.product.id)
+                  props.removeRowCb(order.tracking_code)
                 }}
               >
                 Receber
@@ -174,7 +184,7 @@ const Row = (props: IRowProps) => {
               {tracking && (
                 <Box margin={1}>
                   <Typography variant='h6' gutterBottom component='div'>
-                    Rastreamento - {row.trackingCode}
+                    Rastreamento - {order.tracking_code}
                   </Typography>
                   <Table size='small' aria-label='purchases'>
                     <TableHead>
@@ -184,23 +194,23 @@ const Row = (props: IRowProps) => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {row.tracking.map(trackingRow => (
-                        <TableRow key={trackingRow.date}>
+                      {order.tracking.map(trackingRow => (
+                        <TableRow key={trackingRow.id}>
                           <TableCell component='th' scope='row'>
-                            {trackingRow.date}
+                            {trackingRow.enter_time}
                           </TableCell>
-                          <TableCell>{trackingRow.status}</TableCell>
+                          <TableCell>{trackingRow.order_status}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
                   </Table>
                 </Box>
               )}
-              {address && (
+              {order.address && (
                 <Box margin={1}>
                   <Typography variant='h6' gutterBottom component='div'>
                     <FlightTakeoff /> <strong>Enviar para:</strong>{' '}
-                    <p>- {row.address}</p>
+                    <p>- {`${order.address.street}, ${order.address.neighbour}`}</p>
                   </Typography>
                 </Box>
               )}
@@ -219,13 +229,17 @@ export class ProductTable extends React.Component<
   constructor(props: IProductTableProps) {
     super(props)
     this.state = {
-      rows: props.rows
+      rows: props.rows,
+      rrows: props.rrows
     }
+
+    console.log({data: props.rrows})
     this.removeRowFromTableByCode = this.removeRowFromTableByCode.bind(this)
   }
 
+
   UNSAFE_componentWillReceiveProps(nextProps: IProductTableProps): void {
-    this.setState({ rows: nextProps.rows });  
+    this.setState({ rrows: nextProps.rrows });  
   }
 
   removeRowFromTableByCode(orderCode: string, qnt?: number): void {
@@ -252,15 +266,20 @@ export class ProductTable extends React.Component<
       headerColor: 'white'
     }
     const { rating, toReceive, employeeView, additionalData } = this.props
+    const {rrows} = this.state
     return (
       <TableContainer component={Paper}>
         <StyledTable aria-label='collapsible table'>
           <TableHead>
             <TableRow>
               {additionalData && <StyledTableCell styles={theme} />}
-              <StyledTableCell styles={theme}>Pedido</StyledTableCell>
+              <StyledTableCell styles={theme}>Produto</StyledTableCell>
+              {/* <StyledTableCell styles={theme}>Código do Pedido</StyledTableCell> */}
               <StyledTableCell align='right' styles={theme}>
-                Código
+                Código do Pedido
+              </StyledTableCell>
+              <StyledTableCell align='right' styles={theme}>
+                Código do Produto
               </StyledTableCell>
               <StyledTableCell align='right' styles={theme}>
                 Quantidade
@@ -281,16 +300,22 @@ export class ProductTable extends React.Component<
             </TableRow>
           </TableHead>
           <TableBody>
-            {this.state.rows.map((row, idx) => (
-              <Row
-                key={idx}
-                {...this.props}
-                row={row}
-                theme={theme}
-                removeRowCb={this.removeRowFromTableByCode}
-                changeQntCb={this.removeRowFromTableByCode}
-              />
-            ))}
+            {rrows && rrows.map((rowOrder, idx) => {
+              return rowOrder.products.map((rowProduct, idx) => {
+                return (
+                  <Row
+                    key={idx}
+                    {...this.props}
+                    order={rowOrder}
+                    product={rowProduct}
+                    theme={theme}
+                    removeRowCb={this.removeRowFromTableByCode}
+                    changeQntCb={this.removeRowFromTableByCode}
+                  />
+                )
+              })
+            }
+            )}
           </TableBody>
         </StyledTable>
       </TableContainer>

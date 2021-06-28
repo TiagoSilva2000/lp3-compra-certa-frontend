@@ -30,6 +30,7 @@ import { StyledProfileNumberFormat } from '../../styles/styled-profile-number-fo
 import api from '../../services/api'
 import { GetUserResponse } from '../../interfaces/responses'
 import IAPIResponse from '../../interfaces/IAPIResponse'
+import { tokenChecking } from '../../utils/token-checking'
 
 interface IProfileProps {
   customer?: boolean
@@ -64,6 +65,7 @@ class Profile extends React.Component<IProfileProps, IProfileState> {
   }
 
   componentDidMount(): void {
+    tokenChecking();
     api.get<GetUserResponse>('/users')
       .then((result: IAPIResponse<GetUserResponse>) => {
         this.setState({

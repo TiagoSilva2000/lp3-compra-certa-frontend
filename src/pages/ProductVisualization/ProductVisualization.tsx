@@ -124,8 +124,7 @@ class ProductVisualization extends React.Component<
 
   handleSubmit(): void  {
     if (this.product) {
-      for (let i = 0; i < this.state.quantity; i++)
-        pushToShopcart(this.product.id);
+      pushToShopcart(this.product.id, this.state.quantity);
     }
   }
 

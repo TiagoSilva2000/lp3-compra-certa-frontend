@@ -26,9 +26,14 @@ import DefaultImage from '../../assets/samples/products/default-img.png'
 interface IShopHistoryState {
   activeSection: CustomerOrderStatus
   rating: boolean
+  ratingValue: number
   toReceive: boolean
   address: boolean
   showRatingModal: boolean
+  rows: ProductRowData[];
+  rrows: GetOrderResponse[]
+  order_id?: number
+  product_id?: number
 }
 
 interface IShopHistoryProps {
@@ -39,7 +44,7 @@ export default class ShopHistory extends React.Component<
   IShopHistoryProps,
   IShopHistoryState
 > {
-  rows: ProductRowData[] = []
+  // rows: ProductRowData[] = []
 
   constructor(props: IShopHistoryProps) {
     super(props)
@@ -48,11 +53,15 @@ export default class ShopHistory extends React.Component<
     this.state = {
       activeSection,
       rating: true,
+      ratingValue: 0,
       toReceive: false,
       address: false,
-      showRatingModal: false
+      showRatingModal: false,
+      rows: [],
+      rrows: []
     }
     this.toggleRatingModal = this.toggleRatingModal.bind(this)
+    this.setRatingValue = this.setRatingValue.bind(this);
   }
 
   componentDidMount() {
@@ -70,13 +79,19 @@ export default class ShopHistory extends React.Component<
           product: "nome"
         })
       })
-
-      this.rows = newRows;
+      this.setState({rows: newRows, rrows: result.data})
     })
   }
 
-  toggleRatingModal(): void {
+  toggleRatingModal(order_id?: number, product_id?: number, ): void {
     this.setState({ showRatingModal: !this.state.showRatingModal })
+
+    if (order_id) {
+      this.setState({order_id})
+    }
+    if (product_id) {
+      this.setState({product_id})
+    }
   }
 
   setActiveSection(sectionName: CustomerOrderStatus): void {
@@ -90,6 +105,25 @@ export default class ShopHistory extends React.Component<
       rating: sectionName === CustomerOrderStatus.ENDED,
       toReceive: sectionName === CustomerOrderStatus.TORECEIVE
     })
+
+    // this.setState({rrows: this.state.rrows.filter(v => v.o)})
+  }
+
+  setRatingValue(v: number): void {
+    this.setState({ratingValue: v})
+  }
+
+  handleRating(): void {
+    const order_id = this.state.order_id;
+    const product_id = this.state.product_id;
+
+    Promise.all([
+      api.post(`/rating/${order_id}`, {
+        product_id,
+        rating: this.state.ratingValue
+      }),
+      api.patch(`orders/${order_id}/received`)
+    ]);
   }
 
   render(): JSX.Element {
@@ -141,10 +175,12 @@ export default class ShopHistory extends React.Component<
                   this.setActiveSection(CustomerOrderStatus.TORECEIVE)
                 }
               />
+
             </AdjustNav>
             <ProductTable
               {...this.state}
-              rows={this.rows}
+              rows={this.state.rows}
+              rrows={this.state.rrows}
               tracking={activeSection !== CustomerOrderStatus.TOSEND}
               additionalData
               toReceiveCb={this.toggleRatingModal}
@@ -162,7 +198,7 @@ export default class ShopHistory extends React.Component<
                 <Form.Row>
                   <Form.Group as={Col}>
                     <Form.Label>Sua nota</Form.Label>
-                    <HoverRating editable />
+                    <HoverRating editable setRatingCb={this.setRatingValue}/>
                   </Form.Group>
                 </Form.Row>
                 <Form.Row>
@@ -178,13 +214,16 @@ export default class ShopHistory extends React.Component<
                 variant='secondary'
                 onClick={() => this.setState({ showRatingModal: false })}
               >
-                Close
+                Cancelar
               </Button>
               <Button
                 variant='primary'
-                onClick={() => this.setState({ showRatingModal: false })}
+                onClick={() => {
+                  this.setState({ showRatingModal: false })
+                  this.handleRating();
+                }}
               >
-                Save Changes
+                Salvar
               </Button>
             </Modal.Footer>
           </Modal>

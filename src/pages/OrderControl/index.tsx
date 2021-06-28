@@ -15,6 +15,8 @@ import { CSSTextDirection } from '../../enum/text-direction.enum'
 import { colorByOrderStatus } from '../../services/color-by-order-status.service'
 import { Accordion, Button, Card, useAccordionToggle } from 'react-bootstrap'
 import Header from '../../components/Header'
+import api from '../../services/api'
+import { GetOrderResponse } from '../../interfaces/responses'
 
 type OrdersBySector = {
   sector: Sector
@@ -82,6 +84,12 @@ export default class OrderControl extends React.Component<
     this.changeOrderStatus = this.changeOrderStatus.bind(this)
   }
 
+  componentDidMount(): void {
+    api.get<GetOrderResponse[]>('/order-controls').then(result => {
+      console.log();
+    })
+  }
+
   changeOrderStatus(
     orderCode: string,
     oldStatus: OrderStatus,
@@ -107,6 +115,7 @@ export default class OrderControl extends React.Component<
       return order.code !== orderCode
     })
     this.setState({ sectorsOrders: sectorsOrders })
+    api.post(`/orders/${orderCode}/${newStatus}`);
   }
 
   private displayFromCurrentOption(status: OrderStatus): string {
