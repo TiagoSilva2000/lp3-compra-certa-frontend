@@ -32,15 +32,15 @@ import CustomChip from '../../components/CustomChip'
 import { CreditCardBasicInfo, CreditCardInfo } from '../../types/credit-card-info'
 import { mockedCreditCards } from '../../mocks/mocked-credit-cards.constant'
 import api from '../../services/api'
-import { PaymentResponse } from '../../interfaces/responses'
+import { GetPaymentResponse } from '../../interfaces/responses'
 
 const Accounts = (): JSX.Element => {
-  const [userCards, setUserCards] = React.useState<PaymentResponse[]>([]);
+  const [userCards, setUserCards] = React.useState<GetPaymentResponse[]>([]);
 
   React.useEffect(() => {
     (async () => {
       try {
-        const result = await api.get<PaymentResponse[]>('/payments');
+        const result = await api.get<GetPaymentResponse[]>('/payments');
         setUserCards(result.data);
       } catch (err) {
         console.log(err);

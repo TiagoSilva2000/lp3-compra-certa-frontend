@@ -44,7 +44,7 @@ export interface CreditCardResponse {
   last_digits: string
   due_date: string
 }
-export interface PaymentResponse {
+export interface GetPaymentResponse {
   id: number
   name?: string
   paymentMethod: string
@@ -75,4 +75,27 @@ export interface ProductResponse {
   sold_qnt: number
   active_price: PriceResponse
   main_media?: MediaResponse
+}
+
+export interface GetOrderPaymentResponse {
+  id: number
+  total: number
+  status: string
+}
+
+export interface GetOrderTrackingResponse {
+  id: number
+  order_id: number
+  enter_time: Date
+  order_status: string
+  zipcode: string
+}
+export interface GetOrderResponse {
+  id: number
+  customer_id: number
+  ordered_at: Date
+  address: GetAddressResponse
+  payment: GetOrderPaymentResponse
+  product: ProductResponse[]
+  tracking: GetOrderTrackingResponse[]
 }

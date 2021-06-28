@@ -3,6 +3,7 @@ import { ProductRowData } from '../types/product-row-data'
 
 export const rows: ProductRowData[] = [
   {
+    id: 1,
     product:
       'Celular Iphone Turbinado Moto G Turbo Mega hiper power blaster bom OPORTUNIDADE!!',
     img: Img1,
@@ -17,6 +18,7 @@ export const rows: ProductRowData[] = [
       'Independência - 1º Complemento Setor das Mansões, Aparecida de Goiânia, GO, 29109-005'
   },
   {
+    id: 2,
     product: 'Celular Iphone Turbinado Moto G Turbo!!',
     img: Img2,
     quantity: 3,
@@ -30,6 +32,7 @@ export const rows: ProductRowData[] = [
       'Independência - 1º Complemento Setor das Mansões, Aparecida de Goiânia, GO, 29109-005'
   },
   {
+    id: 3,
     product: 'Celular Iphone Turbinado Moto G Turbo!!',
     img: Img3,
     quantity: 7,
@@ -47,6 +50,7 @@ export const rows: ProductRowData[] = [
       'Independência - 1º Complemento Setor das Mansões, Aparecida de Goiânia, GO, 29109-005'
   },
   {
+    id: 4,
     product: 'Celular Moto G Turbo!!',
     img: Img4,
     quantity: 2,
@@ -60,6 +64,7 @@ export const rows: ProductRowData[] = [
       'Independência - 1º Complemento Setor das Mansões, Aparecida de Goiânia, GO, 29109-005'
   },
   {
+    id: 5,
     product: 'Celular Iphone Turbinado Moto G Turbo!!',
     img: Img5,
     quantity: 2,

@@ -1,7 +1,7 @@
 import React from 'react'
 import { MediaResponse, ProductResponse } from '../../interfaces/responses'
 import rounder from '../../services/rounder.service'
-import { pushToShopcart, removeFromShopcart } from '../../utils/shopcartOperations'
+import { isInShopcart, pushToShopcart, removeFromShopcart } from '../../utils/shopcartOperations'
 import { HoverRating } from '../Rating'
 import {
   StyledActiveCartIcon,
@@ -65,7 +65,7 @@ const ProductBox = (props: IProductBoxProps): JSX.Element => {
     isInWishlist(product_id)
   )
   const [shopcartActive, setShopStatus] = React.useState(
-    props.activeShop ?? false
+    isInShopcart(product_id)
   )
 
   const handleClick = () => {

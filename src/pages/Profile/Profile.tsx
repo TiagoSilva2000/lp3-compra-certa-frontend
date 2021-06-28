@@ -64,7 +64,7 @@ class Profile extends React.Component<IProfileProps, IProfileState> {
   }
 
   componentDidMount(): void {
-    api.get('/users')
+    api.get<GetUserResponse>('/users')
       .then((result: IAPIResponse<GetUserResponse>) => {
         this.setState({
           first_name: result.data.first_name,

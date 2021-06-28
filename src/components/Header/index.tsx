@@ -102,7 +102,7 @@ const Header = (props: IHeaderProps): JSX.Element => {
               <span>{defaultv ? 'Entre ou cadastre-se' : 'Meu Perfil'}</span>
             </Link>
             {!defaultv && (
-              <Link to='/' className='styled-link'>
+              <Link to={IndexRoute} className='styled-link' onClick={() => sessionStorage.clear()}>
                 <span>Sair</span>
               </Link>
             )}

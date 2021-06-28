@@ -224,6 +224,10 @@ export class ProductTable extends React.Component<
     this.removeRowFromTableByCode = this.removeRowFromTableByCode.bind(this)
   }
 
+  UNSAFE_componentWillReceiveProps(nextProps: IProductTableProps): void {
+    this.setState({ rows: nextProps.rows });  
+  }
+
   removeRowFromTableByCode(orderCode: string, qnt?: number): void {
     let newRows: ProductRowData[] = []
     if (qnt) {

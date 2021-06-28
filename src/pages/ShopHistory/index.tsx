@@ -13,11 +13,15 @@ import {
   AdjustNav
 } from './style'
 import { CustomerOrderStatus } from '../../enum/customer-order-status.enum'
-import { rows } from '../../mocks/product-rows.constant'
+// import { rows } from '../../mocks/product-rows.constant'
 import SideBox from '../../components/SideBox'
 import CustomChip from '../../components/CustomChip'
 import { Button, Col, Form, Modal } from 'react-bootstrap'
 import { HoverRating } from '../../components/Rating'
+import { ProductRowData } from '../../types/product-row-data'
+import api from '../../services/api'
+import { GetOrderResponse } from '../../interfaces/responses'
+import DefaultImage from '../../assets/samples/products/default-img.png'
 
 interface IShopHistoryState {
   activeSection: CustomerOrderStatus
@@ -35,6 +39,8 @@ export default class ShopHistory extends React.Component<
   IShopHistoryProps,
   IShopHistoryState
 > {
+  rows: ProductRowData[] = []
+
   constructor(props: IShopHistoryProps) {
     super(props)
     const activeSection =
@@ -47,6 +53,26 @@ export default class ShopHistory extends React.Component<
       showRatingModal: false
     }
     this.toggleRatingModal = this.toggleRatingModal.bind(this)
+  }
+
+  componentDidMount() {
+    api.get<GetOrderResponse[]>(`/orders`).then(result => {
+      const newRows: ProductRowData[] = []
+      result.data.forEach(v => {
+        newRows.push({
+          id: v.id,
+          address: "",
+          img: DefaultImage,
+          total: 0,
+          quantity: 0,
+          tracking: [],
+          trackingCode: v.id.toString(),
+          product: "nome"
+        })
+      })
+
+      this.rows = newRows;
+    })
   }
 
   toggleRatingModal(): void {
@@ -118,7 +144,7 @@ export default class ShopHistory extends React.Component<
             </AdjustNav>
             <ProductTable
               {...this.state}
-              rows={rows}
+              rows={this.rows}
               tracking={activeSection !== CustomerOrderStatus.TOSEND}
               additionalData
               toReceiveCb={this.toggleRatingModal}

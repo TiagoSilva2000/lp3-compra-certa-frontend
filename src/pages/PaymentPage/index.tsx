@@ -23,33 +23,45 @@ import { CreditCardInfo } from '../../types/credit-card-info'
 import { mockedCreditCards } from '../../mocks/mocked-credit-cards.constant'
 import { UserInfo } from '../../types/user-info'
 import { mockedUser } from '../../mocks/mocked-user.constant'
+import api from '../../services/api'
+import { GetAddressResponse, GetUserResponse, GetPaymentResponse } from '../../interfaces/responses'
+import { clearShopcart } from '../../utils/shopcartOperations'
+import { Link } from 'react-router-dom'
+import { IndexRoute, ShopHistoryRoute } from '../../mocks/routes.constant'
 interface IPaymentPageProps {
-  rows: ProductRowData[]
-  addresses?: IAddressInfo[]
-  cards?: CreditCardInfo[]
-  user?: UserInfo
+  location: {
+    state: {
+      rows: ProductRowData[]
+      addresses?: IAddressInfo[]
+      cards?: CreditCardInfo[]
+      user?: UserInfo
+    }
+  }
 }
 
 interface IPaymentPageState {
-  address: IAddressInfo
+  address: GetAddressResponse
   card: CreditCardInfo
-  user: UserInfo
+  user: GetUserResponse
   usingUser: boolean
   usingAddress: number
   usingCard: number
+  loading: boolean
 }
 
-const cleanAddress: IAddressInfo = {
+const cleanAddress: GetAddressResponse = {
   id: 0,
-  ownerPhone: '',
-  ownerName: '',
+  user_id: 0,
+  owner_phone: '',
+  owner_name: '',
   state: '',
   neighbour: '',
   street: '',
+  country: '',
   cep: '',
   city: '',
-  notes: '',
-  number: ''
+  details: '',
+  house_id: ''
 }
 
 const cleanCard: CreditCardInfo = {
@@ -61,28 +73,30 @@ const cleanCard: CreditCardInfo = {
   ccv: ''
 }
 
-const cleanUser: UserInfo = {
+const cleanUser: GetUserResponse = {
   cpf: '',
   email: '',
-  name: ''
+  first_name: '',
+  last_name: '',
+  id: 0,
+  password: '',
+  phone: '',
+  user_type: 0
 }
 
 class PaymentPage extends React.Component<
   IPaymentPageProps,
   IPaymentPageState
 > {
-  private readonly registeredAddresses: IAddressInfo[]
-  private readonly registeredCards: CreditCardInfo[]
-  private readonly registeredUser: UserInfo
-  private readonly rows: ProductRowData[]
-  private readonly total: number
+  private registeredAddresses: GetAddressResponse[] = []
+  private registeredCards: GetPaymentResponse[] = []
+  private registeredUser?: GetUserResponse
+  private rows: ProductRowData[]
+  private total: number
 
   constructor(props: IPaymentPageProps) {
     super(props)
-    this.registeredAddresses = props.addresses ?? mockedAddresses
-    this.registeredCards = props.cards ?? mockedCreditCards
-    this.registeredUser = props.user ?? mockedUser
-    this.rows = props.rows ?? mockedRows
+    this.rows = props.location?.state?.rows ?? []
     this.total = this.rows.reduce<number>((acc, curr) => acc + curr.total, 0)
 
     this.state = {
@@ -91,14 +105,31 @@ class PaymentPage extends React.Component<
       card: cleanCard,
       usingUser: false,
       usingAddress: -1,
-      usingCard: -1
+      usingCard: -1,
+      loading: true
     }
+  }
+
+  componentDidMount() {
+    Promise.all([
+      api.get<GetPaymentResponse[]>('/payments').then(result => {
+        this.registeredCards = result.data;
+      }),
+      api.get<GetAddressResponse[]>('/addresses').then(result => {
+        this.registeredAddresses = result.data;
+      }),
+      api.get<GetUserResponse>('/users').then(result => {
+        this.registeredUser = result.data;
+      })
+    ]).then(result => {
+      this.setState({loading: false});
+    })
   }
 
   toggleUserUsage(): void {
     const isUsing = !this.state.usingUser
     this.setState({ usingUser: isUsing })
-    this.setState({ user: isUsing ? this.registeredUser : cleanUser })
+    this.setState({ user: isUsing ? this.registeredUser ?? cleanUser : cleanUser })
   }
 
   changeSelectedAddress(addressIdx: number): void {
@@ -112,20 +143,42 @@ class PaymentPage extends React.Component<
 
   changeSelectedCard(cardIdx: number): void {
     const isUsing = cardIdx !== -1
-    console.log(cardIdx)
 
     this.setState({ usingCard: cardIdx })
-    this.setState({
-      card: this.registeredCards[cardIdx] ?? cleanCard
-    })
+    if (!this.registeredCards[cardIdx]) {
+      this.setState({card: cleanCard});
+      return;
+    }
+    const chosenCard = this.registeredCards[cardIdx]
+
+    if (chosenCard.payment) {
+      this.setState({
+        card: {...chosenCard, ...chosenCard.payment, ccv: "***"}
+      })
+    }
   }
 
-  handleUserInputs(newUser: UserInfo): void {
+  handleUserInputs(newUser: GetUserResponse): void {
     this.setState({ user: newUser })
   }
 
-  handleAddressInput(newAddress: IAddressInfo): void {
+  handleAddressInput(newAddress: GetAddressResponse): void {
     this.setState({ address: newAddress })
+  }
+
+  async handleSubmit(e: any): Promise<void> {
+    e.preventDefault();
+    console.log("passed");
+    await api.post('/orders', {
+      total: this.total,
+      products: this.rows.map(v => v.id),
+      personal: this.state.user,
+      payment: this.state.card,
+      address: this.state.address
+    })
+
+    clearShopcart();
+    window.open(ShopHistoryRoute, '_self');
   }
 
   handleCardInput(newCard: CreditCardInfo): void {
@@ -172,11 +225,11 @@ class PaymentPage extends React.Component<
                         type='text'
                         placeholder='Enter name'
                         readOnly={usingUser}
-                        value={user.name}
+                        value={user.first_name}
                         onChange={e =>
                           this.handleUserInputs({
                             ...user,
-                            name: e.target.value as string
+                            first_name: e.target.value as string
                           })
                         }
                       />
@@ -342,11 +395,11 @@ class PaymentPage extends React.Component<
                         type='text'
                         placeholder='number'
                         readOnly={isUsingAddress()}
-                        value={address.number}
+                        value={address.house_id}
                         onChange={e =>
                           this.handleAddressInput({
                             ...address,
-                            number: e.target.value as string
+                            house_id: e.target.value as string
                           })
                         }
                       />
@@ -359,11 +412,11 @@ class PaymentPage extends React.Component<
                         type='text'
                         placeholder='complement'
                         readOnly={isUsingAddress()}
-                        value={address.notes}
+                        value={address.details}
                         onChange={e =>
                           this.handleAddressInput({
                             ...address,
-                            notes: e.target.value as string
+                            details: e.target.value as string,
                           })
                         }
                       />
@@ -375,11 +428,11 @@ class PaymentPage extends React.Component<
                         placeholder='(99) 9 9999-9999'
                         readOnly={isUsingAddress()}
                         className='form-control'
-                        value={address.ownerPhone}
+                        value={address.owner_phone}
                         onChange={(e: any) =>
                           this.handleAddressInput({
                             ...address,
-                            ownerPhone: e.target.value as string
+                            owner_phone: e.target.value as string
                           })
                         }
                       />
@@ -402,7 +455,7 @@ class PaymentPage extends React.Component<
                         <option value={-1}>...</option>
                         {this.registeredCards.map((card, idx) => (
                           <option key={`card${idx}`} value={idx}>
-                            {`**** **** **** ${card.last_digits}`}
+                            {`**** **** **** ${card.payment?.last_digits}`}
                           </option>
                         ))}
                       </Form.Control>
@@ -460,7 +513,7 @@ class PaymentPage extends React.Component<
                         placeholder='MM/AAAA'
                         className='form-control'
                         readOnly={isUsingCard()}
-                        value={card.due_date}
+                        value={card?.due_date}
                         onChange={(e: any) =>
                           this.handleCardInput({
                             ...card,
@@ -474,24 +527,26 @@ class PaymentPage extends React.Component<
                       <Form.Control
                         type='text'
                         placeholder='CCV'
-                        value={isUsingCard() ? '***' : card.ccv}
+                        value={isUsingCard() ? '***' : card?.ccv}
                         readOnly={isUsingCard()}
                         onChange={e =>
                           this.handleCardInput({
                             ...card,
-                            ccv: e.target.value
+                            ccv: e.target.value as string
                           })
                         }
                       />
                     </Form.Group>
                   </Form.Row>
-                  <Button variant='primary' type='submit'>
-                    Confirmar
-                  </Button>
+                  <Link to={IndexRoute} onClick={(e) => this.handleSubmit(e)}>
+                    <Button variant='primary' type='submit'>
+                      Confirmar
+                    </Button>
+                  </Link>
                 </div>
               </Form>
             </Container>
-            <Container>
+            <Container style={{minWidth: 600}}>
               <h2>Compras</h2>
               <ListGroup className='product-list'>
                 {this.rows.map((row, idx) => (
