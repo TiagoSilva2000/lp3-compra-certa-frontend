@@ -34,16 +34,16 @@ export default class Index extends React.Component<unknown, IIndexState> {
   }
 
   componentDidMount(): void {
-    try {
-      axios.get('http://localhost:5001/user').then(result => {
-        console.log(result);
-      }).catch(err => console.log(err))
-    } catch(err) {
-      console.log(err)
-    }
-    // api.get<ProductResponse[]>('/products').then(result => {
-    //   this.setState({products: result.data});
-    // })
+    // try {
+    //   axios.get('http://localhost:5001/user').then(result => {
+    //     console.log(result);
+    //   }).catch(err => console.log(err))
+    // } catch(err) {
+    //   console.log(err)
+    // }
+    api.get<ProductResponse[]>('/products').then(result => {
+      this.setState({products: result.data});
+    })
   }
 
   removeShopCartCode(oldCode: string): void {

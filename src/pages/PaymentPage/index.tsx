@@ -6,7 +6,7 @@ import Header from '../../components/Header'
 import { states } from '../../mocks/states.constant'
 import { ProductRowData } from '../../types/product-row-data'
 import { StyledPaymentPage, StyledTotalWrapper } from './style'
-import { rows as mockedRows } from '../../mocks/product-rows.constant'
+// import { mocked as mockedRows } from '../../mocks/product-rows.constant'
 import {
   Card,
   Checkbox,
@@ -24,14 +24,15 @@ import { mockedCreditCards } from '../../mocks/mocked-credit-cards.constant'
 import { UserInfo } from '../../types/user-info'
 import { mockedUser } from '../../mocks/mocked-user.constant'
 import api from '../../services/api'
-import { GetAddressResponse, GetUserResponse, GetPaymentResponse } from '../../interfaces/responses'
+import { GetAddressResponse, GetUserResponse, GetPaymentResponse, GetOrderProductResponse } from '../../interfaces/responses'
 import { clearShopcart } from '../../utils/shopcartOperations'
 import { Link } from 'react-router-dom'
 import { IndexRoute, ShopHistoryRoute } from '../../mocks/routes.constant'
+import { intToDec } from '../../utils/treatValue'
 interface IPaymentPageProps {
   location: {
     state: {
-      rows: ProductRowData[]
+      rows: GetOrderProductResponse[]
       addresses?: IAddressInfo[]
       cards?: CreditCardInfo[]
       user?: UserInfo
@@ -91,13 +92,13 @@ class PaymentPage extends React.Component<
   private registeredAddresses: GetAddressResponse[] = []
   private registeredCards: GetPaymentResponse[] = []
   private registeredUser?: GetUserResponse
-  private rows: ProductRowData[]
+  private rows: GetOrderProductResponse[]
   private total: number
 
   constructor(props: IPaymentPageProps) {
     super(props)
     this.rows = props.location?.state?.rows ?? []
-    this.total = this.rows.reduce<number>((acc, curr) => acc + curr.total, 0)
+    this.total = this.rows.reduce<number>((acc, curr) => acc + (curr.product.active_price.value * curr.qnt), 0)
 
     this.state = {
       user: cleanUser,
@@ -171,7 +172,7 @@ class PaymentPage extends React.Component<
     console.log("passed");
     await api.post('/orders', {
       total: this.total,
-      products: this.rows.map(v => v.id),
+      products: this.rows.map(v => v.product.id),
       personal: this.state.user,
       payment: this.state.card,
       address: this.state.address
@@ -554,7 +555,7 @@ class PaymentPage extends React.Component<
                     <div className='h-100 d-inline-block product-holder-number'>
                       <b>{idx + 1}</b>
                     </div>
-                    <span>{row.product}</span>
+                    <span>{row.product.name}</span>
                   </ListGroup.Item>
                 ))}
               </ListGroup>
@@ -562,7 +563,7 @@ class PaymentPage extends React.Component<
               <Container>
                 <StyledTotalWrapper>
                   <p>
-                    <b>Total: </b> <span>R$ {this.total}</span>
+                    <b>Total: </b> <span>R$ {intToDec(this.total)}</span>
                   </p>
                 </StyledTotalWrapper>
               </Container>

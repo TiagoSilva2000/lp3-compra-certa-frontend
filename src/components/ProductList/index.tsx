@@ -41,7 +41,7 @@ export default class ProductList extends Component<
 
   setMaxProductRendering(): void {
     const { innerWidth: width } = window
-    console.log('it was called with: ' + width)
+    // console.log('it was called with: ' + width)
     const newMax = Math.floor(width / 200)
     this.setState({ maxProductRendering: newMax })
   }

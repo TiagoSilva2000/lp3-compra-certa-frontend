@@ -11,7 +11,7 @@ import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 import ProductList from '../../components/ProductList'
 import { ProductTable, TableTheme } from '../../components/ProductTable'
-import { ProductResponse } from '../../interfaces/responses'
+import { GetOrderProductResponse, GetOrderResponse, ProductResponse } from '../../interfaces/responses'
 import { CCColors } from '../../mocks/colors.constant'
 import { mockedProductList } from '../../mocks/mocked-product-list.constant'
 // import { rows } from '../../mocks/product-rows.constant'
@@ -26,7 +26,8 @@ import {
   StyledTotalShopcartList
 } from './style'
 import DefaultImage from '../../assets/samples/products/default-img.png'
-
+import { intToDec } from '../../utils/treatValue'
+import {mockedProductRows} from '../../mocks/product-rows.constant';
 interface IShopCartProps {
   customerView?: boolean
 }
@@ -41,7 +42,7 @@ interface IShopCartState {
 const ShopCart = (): JSX.Element => {
   const [totalPrice, setTotalPrice] = React.useState(0) 
   const [totalQnt, setTotalQnt] = React.useState(0) 
-  const [rows, setRows] = React.useState<ProductRowData[]>([]);
+  const [rows, setRows] = React.useState<GetOrderProductResponse[]>([]);
   const tableTheme: TableTheme = {
     headerBgColor: CCColors.MINT,
     headerColor: CCColors.DARKPURPLE
@@ -53,7 +54,7 @@ const ShopCart = (): JSX.Element => {
       if (shopcart) {
         const ids = shopcart.map(v => v.id).toString();
         api.get<ProductResponse[]>(`/products/shopcart?ids=${ids}`).then(result => {
-          const newRows: ProductRowData[] = []
+          const newRows = [...rows] 
           let newQnt = 0;
           let newPrice = 0;
           result.data.forEach(v => {
@@ -61,17 +62,12 @@ const ShopCart = (): JSX.Element => {
             newQnt += qnt;
             newPrice += qnt * v.active_price.value;
             newRows.push({
-              id: v.id,
-              address: "",
-              img: v.main_media?.path ?? DefaultImage,
-              total: v.active_price.value ?? 0,
-              quantity: qnt,
-              tracking: [],
-              trackingCode: v.id.toString(),
-              product: v.name
+              qnt,
+              rating: 0,
+              product: v
             })
           })
-
+          console.log({newRows})
           setRows(newRows);
           setTotalQnt(newQnt);
           setTotalPrice(newPrice);
@@ -86,11 +82,11 @@ const ShopCart = (): JSX.Element => {
   }
 
   const changeQntByCode = (code: string, qntModifier: number): void => {
-    const newRows: ProductRowData[] = []
+    const newRows: GetOrderProductResponse[] = []
     rows.forEach(row => {
-      if (row.trackingCode === code) {
-        setPriceAndQnt(qntModifier, qntModifier * row.total)
-        if (row.quantity - qntModifier > 0) newRows.push(row)
+      if (row.product.id.toString() === code) {
+        setPriceAndQnt(qntModifier, qntModifier * row.product.active_price.value)
+        if (row.qnt - qntModifier > 0) newRows.push(row)
         return
       }
       newRows.push(row)
@@ -99,6 +95,7 @@ const ShopCart = (): JSX.Element => {
     setRows(rows);
   }
 
+  console.log({rows})
   return (
     <>
     <Header />
@@ -136,9 +133,9 @@ const ShopCart = (): JSX.Element => {
               Subtotal ({totalQnt} ite{totalQnt > 1 ? 'ns' : 'm'})
             </h4>
             <p>
-              R$ <b>{totalPrice}</b> ou
+              R$ <b>{intToDec(totalPrice)}</b> ou
               <br />
-              R$ <b>{totalPrice - (totalPrice * 10) / 100}</b> à vista
+              R$ <b>{intToDec(totalPrice - (totalPrice * 10) / 100)}</b> à vista
             </p>
           </li>
           <li className='total-shopcart-right'>

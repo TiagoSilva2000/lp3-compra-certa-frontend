@@ -19,15 +19,35 @@ import api from '../../services/api'
 import { GetOrderResponse } from '../../interfaces/responses'
 import { tokenChecking } from '../../utils/token-checking'
 import { UserType } from '../../enum/user-type.enum'
+import { showStatus } from '../../utils/show-status'
 
-type OrdersBySector = {
+type SectorOrders = {
   sector: Sector
   orders: OrderCardInfo[]
 }
+type OrdersBySector = {
+  "preparing": OrderCardInfo[]
+  "checking": OrderCardInfo[]
+  "todeliver": OrderCardInfo[]
+  "delivered": OrderCardInfo[]
+  // "preparing": SectorOrders
+  // "checking": SectorOrders
+  // "todeliver": SectorOrders
+  // "delivered": SectorOrders
+}
+//   // sector: Sector
+//   // orders: OrderCardInfo[]
+// }
 
+
+type A = {
+  "a": number[]
+  "b": number[]
+  "c": number[]
+}
 interface IOrderControlState {
   currentOption: string
-  sectorsOrders: OrdersBySector[]
+  sectorsOrders: OrdersBySector
 }
 
 interface ICustomCategoryToggleProps {
@@ -64,31 +84,54 @@ export default class OrderControl extends React.Component<
 > {
   constructor(props: unknown) {
     super(props)
-    const ordersBySectors: OrdersBySector[] = []
+    // const ordersBySectors: OrdersBySector[] = []
 
-    sectorList.forEach(sector => {
-      ordersBySectors.push({ sector, orders: [] })
-    })
+    // sectorList.forEach(sector => {
+    //   ordersBySectors.push({ sector, orders: [] })
+    // })
 
-    mockedOrderCards.forEach(order => {
-      ordersBySectors.forEach(ordersBySector => {
-        if (order.status === ordersBySector.sector.status) {
-          const randomCode = Math.floor(Math.random() * 1000000000).toString()
-          ordersBySector.orders.push({ ...order, code: randomCode })
-        }
-      })
-    })
+    // mockedOrderCards.forEach(order => {
+    //   ordersBySectors.forEach(ordersBySector => {
+    //     if (order.status === ordersBySector.sector.status) {
+    //       const randomCode = Math.floor(Math.random() * 1000000000).toString()
+    //       ordersBySector.orders.push({ ...order, code: randomCode })
+    //     }
+    //   })
+    // })
 
     this.state = {
       currentOption: 'all',
-      sectorsOrders: ordersBySectors
+      sectorsOrders: {
+        checking: [],
+        delivered: [],
+        preparing: [],
+        todeliver: []
+      }
     }
     this.changeOrderStatus = this.changeOrderStatus.bind(this)
   }
 
   componentDidMount(): void {
+    const {sectorsOrders} = this.state
     api.get<GetOrderResponse[]>('/order-controls').then(result => {
-      console.log();
+      result.data.forEach(v => {        
+        if (v.products.length > 0 && v.tracking.length > 0) {
+          v.tracking.sort((a, b) => {
+            if (a.enter_time === b.enter_time)
+              return 0;
+            return a.enter_time < b.enter_time ? -1 : 1;
+          })
+          const status = v.tracking[v.tracking.length - 1].order_status;
+          sectorsOrders[status].push({
+              code: v.tracking_code,
+              status,
+              order: v,
+              orderedAt: new Date()
+          });
+        }
+      })
+
+      this.setState({sectorsOrders})
     })
     tokenChecking(UserType.EMPLOYEE);
   }
@@ -101,24 +144,36 @@ export default class OrderControl extends React.Component<
     try {
       api.post(`/orders/${orderCode}/${newStatus}`);
       const { sectorsOrders } = this.state
-      let newStatusIdx = -1
-      let oldStatusIdx = -1
-  
-      sectorsOrders.forEach(({ sector }, idx) => {
-        if (sector.status === newStatus) newStatusIdx = idx
-        if (sector.status === oldStatus) oldStatusIdx = idx
-      })
-      sectorsOrders[oldStatusIdx].orders = sectorsOrders[
-        oldStatusIdx
-      ].orders.filter(order => {
-        if (order.code === orderCode) {
-          sectorsOrders[newStatusIdx].orders.unshift({
-            ...order,
-            status: newStatus
-          })
+      let tmp: OrderCardInfo|null = null;
+      // let newStatusIdx = -1
+      // let oldStatusIdx = -1
+      
+      sectorsOrders[oldStatus].filter(v => {
+        if (v.code === orderCode) {
+          tmp = v;
         }
-        return order.code !== orderCode
-      })
+        return v.code !== orderCode
+      });
+      
+      if (tmp) {
+        sectorsOrders[newStatus].push(tmp);
+      }
+
+      // sectorsOrders.forEach(({ sector }, idx) => {
+      //   if (sector.status === newStatus) newStatusIdx = idx
+      //   if (sector.status === oldStatus) oldStatusIdx = idx
+      // })
+      // sectorsOrders[oldStatusIdx].orders = sectorsOrders[
+      //   oldStatusIdx
+      // ].orders.filter(order => {
+      //   if (order.code === orderCode) {
+      //     sectorsOrders[newStatusIdx].orders.unshift({
+      //       ...order,
+      //       status: newStatus
+      //     })
+      //   }
+      //   return order.code !== orderCode
+      // })
       this.setState({ sectorsOrders })
     } catch(err) {
       console.log(err)
@@ -160,15 +215,15 @@ export default class OrderControl extends React.Component<
               >
                 <option value='all'>Todos</option>
                 {sectorList.map((sector, idx) => (
-                  <option value={sector.status} key={idx}>
-                    {sector.status}
+                  <option value={sector.status} key={idx} style={{textTransform: 'capitalize'}}>
+                    {showStatus(sector.status)}
                   </option>
                 ))}
               </StyledSelect>
             </div>
             <Accordion className='order-control-accordion'>
               <ul className='order-cards-list'>
-                {sectorsOrders.map(({ orders, sector }, idx) => (
+                {sectorList.map((sector, idx) => (
                   <li
                     key={`${sector.status}${idx}`}
                     style={{
@@ -182,10 +237,10 @@ export default class OrderControl extends React.Component<
                       />
                       <div className='sector-header-left'>
                         <span className='sector-header-name'>
-                          {sector.status}
+                          {showStatus(sector.status)}
                         </span>
                         <span className='sector-header-orders'>
-                          {orders.length} pedidos
+                          {sectorsOrders[sector.status].length} pedidos
                         </span>
                       </div>
                       <ul className='sector-header-right'>
@@ -206,7 +261,7 @@ export default class OrderControl extends React.Component<
                     <Accordion.Collapse eventKey={`${idx}`}>
                       <Card>
                         <ul>
-                          {orders.map(order => (
+                          {sectorsOrders[sector.status].map(order => (
                             <li key={`${order.code}`}>
                               <OrderCard
                                 data={order}

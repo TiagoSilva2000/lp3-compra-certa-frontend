@@ -22,7 +22,7 @@ export default function DataVis(props: unknown): JSX.Element {
   const [analyType, changeAnalyType] = React.useState(AnalysisType.DELIVERTIME)
 
   React.useEffect(() => {
-    tokenChecking(UserType.ADMIN)
+    tokenChecking(UserType.ADMIN);
   })
 
   for (const analy in AnalysisType) analysis.push(analy)
@@ -92,7 +92,7 @@ export default function DataVis(props: unknown): JSX.Element {
             </Card.Body>
           </StyledCard>
         </CardsContainer>
-        <CardsContainer>
+        {/* <CardsContainer>
         <StyledCard className='chart-card'>
             <Card.Header>
               <Card.Title>{AnalysisType.NEIGHBOURHOOD}</Card.Title>
@@ -101,7 +101,7 @@ export default function DataVis(props: unknown): JSX.Element {
             <NeighboorhoodFunnelChart/>
             </Card.Body>
           </StyledCard>
-        </CardsContainer>
+        </CardsContainer> */}
         <CardsContainer>
         <StyledCard className='chart-card'>
             <Card.Header>

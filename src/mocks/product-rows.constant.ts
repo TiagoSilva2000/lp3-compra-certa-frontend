@@ -1,7 +1,7 @@
 import { Img1, Img2, Img3, Img4, Img5 } from '../assets/ProductImg'
 import { ProductRowData } from '../types/product-row-data'
 
-export const rows: ProductRowData[] = [
+export const mockedProductRows: ProductRowData[] = [
   {
     id: 1,
     product:

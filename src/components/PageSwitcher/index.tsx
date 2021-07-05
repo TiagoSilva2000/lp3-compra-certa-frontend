@@ -19,7 +19,7 @@ export default class PageSwitcher extends React.Component<
     super(props)
     const queryParams = window.location.search
 
-    console.log(props.activePage, this.getPageFromParams(queryParams))
+    // console.log(props.activePage, this.getPageFromParams(queryParams))
     this.state = {
       activePage: this.getPageFromParams(queryParams) ?? props.activePage
     }

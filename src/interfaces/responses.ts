@@ -1,3 +1,5 @@
+import { OrderStatus } from '../enum/order-status.enum'
+
 export interface GetUserResponse {
   id: number
   email: string
@@ -87,7 +89,7 @@ export interface GetOrderTrackingResponse {
   id: number
   order_id: number
   enter_time: Date
-  order_status: string
+  order_status: OrderStatus
   zipcode: string
 }
 
@@ -105,5 +107,7 @@ export interface GetOrderResponse {
   products: GetOrderProductResponse[]
   tracking: GetOrderTrackingResponse[]
   tracking_code: string
+  status: OrderStatus
+  assigned_to?: string
   received: boolean
 }

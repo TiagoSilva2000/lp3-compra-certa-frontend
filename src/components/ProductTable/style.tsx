@@ -63,9 +63,10 @@ export const QuantitySelectionWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  justify-content: flex-end;
-
+  align-items: center;
+  justify-content: center;
+  // background-color: red;
+  
   p {
     width: fit-content;
     cursor: pointer;

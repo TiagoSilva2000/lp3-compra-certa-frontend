@@ -15,7 +15,6 @@ import {
   MenuItem
 } from '@material-ui/core'
 import { HoverRating } from '../Rating'
-import { mockedProductTable } from '../../mocks/mocked-product-table.constant'
 import {
   FlightTakeoff,
   KeyboardArrowDown,
@@ -38,9 +37,10 @@ import { ProductRowData } from '../../types/product-row-data'
 import { propTypes } from 'react-bootstrap/esm/Image'
 import { CCColors } from '../../mocks/colors.constant'
 import { qntArray } from '../../mocks/qnt-array.constant'
-import { GetOrderProductResponse, GetOrderResponse } from '../../interfaces/responses'
+import { GetOrderProductResponse, GetOrderResponse, ProductResponse } from '../../interfaces/responses'
 import DefaultImage from '../../assets/samples/products/default-img.png'
-
+import { intToDec } from '../../utils/treatValue'
+import { showStatus } from '../../utils/show-status'
 export interface TableTheme {
   headerColor: string
   headerBgColor: string
@@ -60,20 +60,20 @@ interface ExtTableProps {
 }
 
 interface IProductTableProps extends ExtTableProps {
-  rows: ProductRowData[]
+  rows?: GetOrderProductResponse[]
   rrows?: GetOrderResponse[]
   theme?: TableTheme
 }
 
 interface IProductTableState {
-  rows: ProductRowData[]
+  rows: GetOrderProductResponse[]
   rrows?: GetOrderResponse[]
 }
 
 interface IRowProps extends ExtTableProps {
   // row: ProductRowData
   product: GetOrderProductResponse
-  order: GetOrderResponse
+  order?: GetOrderResponse
   theme: TableTheme
   removeRowCb: (orderCode: string) => void
 }
@@ -94,7 +94,6 @@ const Row = (props: IRowProps) => {
   const [open, setOpen] = React.useState(false)
   const [ready, setReady] = React.useState(false)
   const [qnt, setQnt] = React.useState(product.qnt)
-  console.log(product);
   const theme: TableTheme = props.theme
   return (
     <React.Fragment>
@@ -110,15 +109,23 @@ const Row = (props: IRowProps) => {
             </IconButton>
           </TableCell>
         )}
-        <TableCell align='left'>{order.id}</TableCell>
+        {order && 
+          <TableCell align='right'>{order?.id}</TableCell>
+        }
         <TableCell component='th' align='center' scope='row' width='fit-content'>
           <StyledProduct>
-            {/* <p>{order.id}</p> */}
+            {/* <p>{order?.id}</p> */}
             {/* {!theme.slim && <StyledProductImg src={product.product.main_media?.path ?? DefaultImage}></StyledProductImg>} */}
             <p>{product.product.name}</p>
           </StyledProduct>
         </TableCell>
-        <TableCell align='center'>
+        {employeeView && (
+        <TableCell component='th' align='center' scope='row' width='fit-content'>
+          <p>{product.product.id}</p>
+        </TableCell>
+        )
+        }
+        <TableCell component='th' align='center' scope='row' width='fit-content'>
           {!shopcartView ? (
             product.qnt
           ) : (
@@ -131,7 +138,7 @@ const Row = (props: IRowProps) => {
                   const oldQnt = qnt
                   const newQnt = Number(e.target.value)
                   setQnt(newQnt)
-                  changeQntCb && changeQntCb(order.tracking_code, newQnt - oldQnt)
+                  changeQntCb && order && changeQntCb(order.tracking_code, newQnt - oldQnt)
                 }}
               >
                 {qntArray.map(v => (
@@ -142,7 +149,7 @@ const Row = (props: IRowProps) => {
               </Select>
               <p
                 onClick={() =>
-                  changeQntCb && changeQntCb(order.tracking_code, -qnt)
+                  changeQntCb && order && changeQntCb(order.tracking_code, -qnt)
                 }
               >
                 Excluir
@@ -156,7 +163,7 @@ const Row = (props: IRowProps) => {
             {product.rating}<StarRate/>
           </TableCell>
         )}
-        <TableCell align='right'>{product.product.active_price.value}</TableCell>
+        <TableCell align='right'>R$ {intToDec(product.product.active_price.value)}</TableCell>
         {(toReceive || employeeView) && (
           <TableCell align='right'>
             {employeeView && (
@@ -164,13 +171,13 @@ const Row = (props: IRowProps) => {
                 {ready ? <StyledDone /> : <DoneOutline />}
               </ReadyButton>
             )}
-            {toReceive && (
+            {toReceive && order && (
               <ReceiveButton
                 variant='contained'
                 disableElevation
-                disabled={order.received}
+                disabled={order?.received}
                 onClick={() => {
-                  if (props.toReceiveCb) props.toReceiveCb(props.order.id, product.product.id)
+                  if (props.toReceiveCb) props.toReceiveCb(order.id, product.product.id)
                   props.removeRowCb(order.tracking_code)
                 }}
               >
@@ -187,7 +194,7 @@ const Row = (props: IRowProps) => {
               {tracking && (
                 <Box margin={1}>
                   <Typography variant='h6' gutterBottom component='div'>
-                    Rastreamento - {order.tracking_code}
+                    Rastreamento - {order?.tracking_code}
                   </Typography>
                   <Table size='small' aria-label='purchases'>
                     <TableHead>
@@ -197,23 +204,22 @@ const Row = (props: IRowProps) => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {order.tracking.map(trackingRow => (
+                      {order?.tracking.map(trackingRow => (
                         <TableRow key={trackingRow.id}>
                           <TableCell component='th' scope='row'>
                             {trackingRow.enter_time}
                           </TableCell>
-                          <TableCell>{trackingRow.order_status}</TableCell>
+                          <TableCell>{showStatus(trackingRow.order_status)}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
                   </Table>
                 </Box>
               )}
-              {order.address && (
+              {order?.address && (
                 <Box margin={1}>
                   <Typography variant='h6' gutterBottom component='div'>
-                    <FlightTakeoff /> <strong>Enviar para:</strong>{' '}
-                    <p>- {`${order.address.street}, ${order.address.neighbour}`}</p>
+                    <FlightTakeoff /><p style={{fontSize: 14}}><strong>Enviar para: </strong>{`${order?.address.street}, ${order?.address.neighbour}, ${order?.address.house_id}`}</p>
                   </Typography>
                 </Box>
               )}
@@ -232,55 +238,64 @@ export class ProductTable extends React.Component<
   constructor(props: IProductTableProps) {
     super(props)
     this.state = {
-      rows: props.rows,
+      rows: props.rows ?? [],
       rrows: props.rrows
     }
 
-    console.log({data: props.rrows})
     this.removeRowFromTableByCode = this.removeRowFromTableByCode.bind(this)
   }
 
+  // componentDidUpdate(prevProps: IProductTableProps): void {
+  //   this.setState({rrows: prevProps.rrows})
+  // }
 
-  UNSAFE_componentWillReceiveProps(nextProps: IProductTableProps): void {
-    this.setState({ rrows: nextProps.rrows });  
-  }
+  // UNSAFE_componentWillReceiveProps(nextProps: IProductTableProps): void {
+  //   this.setState({ rrows: nextProps.rrows });  
+  // }
 
-  removeRowFromTableByCode(orderCode: string, qnt?: number): void {
-    let newRows: ProductRowData[] = []
+  removeRowFromTableByCode(productCode: string, qnt?: number): void {
+    let newRows: GetOrderProductResponse[] = []
     if (qnt) {
       this.state.rows.forEach(row => {
-        if (row.trackingCode === orderCode) {
-          row.quantity += qnt
-          if (row.quantity <= 0) return
+        if (row.product.id.toString() === productCode) {
+          row.qnt += qnt
+          if (row.qnt <= 0) return
         }
         newRows.push(row)
       })
     } else {
-      newRows = this.state.rows.filter(row => row.trackingCode !== orderCode)
+      newRows = this.state.rows.filter(row => row.product.id.toString() !== productCode)
     }
 
     this.setState({ rows: newRows })
-    if (this.props.changeQntCb) this.props.changeQntCb(orderCode, qnt as number)
+    if (this.props.changeQntCb) this.props.changeQntCb(productCode, qnt as number)
   }
 
   render(): JSX.Element {
+    // console.log({data: this.state.rrows})
+    // console.log({data: this.state.rows})
     const theme: TableTheme = this.props.theme ?? {
       headerBgColor: CCColors.PRIMARYYELLOW,
       headerColor: 'white'
     }
-    const { rating, toReceive, employeeView, additionalData } = this.props
-    const rrows = mockedProductTable
+    const { rating, toReceive, employeeView, additionalData, rrows, shopcartView, rows } = this.props
+    // const rrows = mockedProductTable
     return (
       <TableContainer component={Paper}>
         <StyledTable aria-label='collapsible table'>
           <TableHead>
             <TableRow>
+              {additionalData && <StyledTableCell styles={theme} />}
+              {!shopcartView && !employeeView && (
               <StyledTableCell align='right' styles={theme}>
                 Pedido
               </StyledTableCell>
-              {additionalData && <StyledTableCell styles={theme} />}
+              )
+              }
               <StyledTableCell align='center' styles={theme}>Produto</StyledTableCell>
-              {/* <StyledTableCell styles={theme}>Código do Pedido</StyledTableCell> */}
+              {employeeView &&
+                <StyledTableCell align='center' styles={theme}>Código do Produto</StyledTableCell>
+              }
               <StyledTableCell align='center' styles={theme}>
                 Quantidade
               </StyledTableCell>
@@ -294,7 +309,7 @@ export class ProductTable extends React.Component<
               </StyledTableCell>
               {(toReceive || employeeView) && (
                 <StyledTableCell align='right' styles={theme}>
-                  {employeeView ? 'Pronto' : 'Marcar recebido'}
+                  {employeeView ? 'Pronto' : 'Receber/Avaliar'}
                 </StyledTableCell>
               )}
             </TableRow>
@@ -316,6 +331,18 @@ export class ProductTable extends React.Component<
               })
             }
             )}
+            {rows && rows.map((row, idx) => {
+              return (
+                <Row
+                key={idx}
+                {...this.props}
+                product={row}
+                theme={theme}
+                removeRowCb={this.removeRowFromTableByCode}
+                changeQntCb={this.removeRowFromTableByCode}
+              />
+              )
+            })}
           </TableBody>
         </StyledTable>
       </TableContainer>

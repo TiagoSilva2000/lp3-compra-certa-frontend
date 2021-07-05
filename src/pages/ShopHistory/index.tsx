@@ -22,6 +22,7 @@ import { ProductRowData } from '../../types/product-row-data'
 import api from '../../services/api'
 import { GetOrderResponse } from '../../interfaces/responses'
 import DefaultImage from '../../assets/samples/products/default-img.png'
+import { OrderStatus } from '../../enum/order-status.enum'
 
 interface IShopHistoryState {
   activeSection: CustomerOrderStatus
@@ -44,7 +45,7 @@ export default class ShopHistory extends React.Component<
   IShopHistoryProps,
   IShopHistoryState
 > {
-  // rows: ProductRowData[] = []
+  orderRows: GetOrderResponse[] = []
 
   constructor(props: IShopHistoryProps) {
     super(props)
@@ -64,7 +65,7 @@ export default class ShopHistory extends React.Component<
     this.setRatingValue = this.setRatingValue.bind(this);
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     api.get<GetOrderResponse[]>(`/orders`).then(result => {
       const newRows: ProductRowData[] = []
       result.data.forEach(v => {
@@ -79,7 +80,16 @@ export default class ShopHistory extends React.Component<
           product: "nome"
         })
       })
-      this.setState({rows: newRows, rrows: result.data})
+      const orderRows = result.data
+      orderRows.sort((a, b) => {
+        if (a.id === b.id)
+          return 0;
+
+        return a.id < b.id ? 1 : -1;
+      })
+      this.orderRows = orderRows;
+
+      this.setState({rows: newRows, rrows: orderRows.filter(o => o.received)})
     })
   }
 
@@ -98,12 +108,22 @@ export default class ShopHistory extends React.Component<
     const { activeSection } = this.state
 
     if (activeSection === sectionName) return
-
+    const isEnded = sectionName === CustomerOrderStatus.ENDED;
     this.setState({
       activeSection: sectionName,
       address: sectionName === CustomerOrderStatus.TOSEND,
       rating: sectionName === CustomerOrderStatus.ENDED,
-      toReceive: sectionName === CustomerOrderStatus.TORECEIVE
+      toReceive: sectionName === CustomerOrderStatus.TORECEIVE,
+      rrows: this.orderRows.filter(o => {
+        if (isEnded)
+          return o.received
+        return !o.received;
+      })
+      // rrows: this.orderRows.filter(o => {
+      //   if (isEnded)
+      //     return o.status === OrderStatus.DELIVERED
+      //   return o.status !== OrderStatus.DELIVERED;
+      // })
     })
 
     // this.setState({rrows: this.state.rrows.filter(v => v.o)})
@@ -151,7 +171,7 @@ export default class ShopHistory extends React.Component<
                 label={`${CustomerOrderStatus.ENDED}s`}
                 onClick={() => this.setActiveSection(CustomerOrderStatus.ENDED)}
               />
-              <HistoryCustomChip
+              {/* <HistoryCustomChip
                 icon={<Payment />}
                 color={
                   activeSection === CustomerOrderStatus.TOSEND
@@ -162,7 +182,7 @@ export default class ShopHistory extends React.Component<
                 onClick={() =>
                   this.setActiveSection(CustomerOrderStatus.TOSEND)
                 }
-              />
+              /> */}
               <HistoryCustomChip
                 color={
                   activeSection === CustomerOrderStatus.TORECEIVE
@@ -179,7 +199,7 @@ export default class ShopHistory extends React.Component<
             </AdjustNav>
             <ProductTable
               {...this.state}
-              rows={this.state.rows}
+              rows={[]}
               rrows={this.state.rrows}
               tracking={activeSection !== CustomerOrderStatus.TOSEND}
               additionalData

@@ -73,7 +73,7 @@ export default class OrderCard extends React.Component<
   }
 
   render(): JSX.Element {
-    const { code, orderedAt, productRows } = this.props.data
+    const { code, orderedAt, order } = this.props.data
     const { eventKey, changeStatusCb } = this.props
     const { currentStatus: status } = this.state
     const tableTheme: TableTheme = {
@@ -108,11 +108,12 @@ export default class OrderCard extends React.Component<
             <Select
               labelId='demo-customized-select-label'
               id='demo-customized-select'
-              value={status}
+              defaultValue={status}
+              // value={status}
               onChange={e => {
                 this.setStatus(e.target.value as OrderStatus)
                 if (changeStatusCb)
-                  changeStatusCb(code, status, e.target.value as OrderStatus)
+                  changeStatusCb(this.props.data.order?.id.toString() ?? code, status, e.target.value as OrderStatus)
               }}
               input={<BootstrapInput status={status} />}
             >
@@ -135,7 +136,8 @@ export default class OrderCard extends React.Component<
             </li>
             <li>
               <span className='order-card-date'>
-                {orderedAt.toDateString()}
+                {/* {orderedAt.toDateString()} */}
+                {"Indefinido"}
               </span>
             </li>
             <li>
@@ -151,10 +153,10 @@ export default class OrderCard extends React.Component<
             <Accordion.Collapse eventKey={eventKey}>
               <Card>
                 <ProductTable
-                  rows={productRows}
+                  rows={this.props.data.order?.products ?? []}
                   employeeView
                   theme={tableTheme}
-                  additionalData
+                  // additionalData
                   tracking
                 />
               </Card>
