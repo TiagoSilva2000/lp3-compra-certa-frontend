@@ -13,7 +13,7 @@ import DataVis from '../pages/DataVis/index'
 import {
   AccountRoute,
   AddressRoute,
-  DataVisRoute,
+  DashRoute,
   IndexRoute,
   LoginRoute,
   NewAddressRoute,
@@ -68,7 +68,7 @@ const MainRoutes = (): JSX.Element => (
 
         <Route exact path={`${ShopCartRoute}`} component={ShopCart} />
         <Route exact path={`${PaymentRoute}`} component={PaymentPage} />
-        <Route exact path={`${DataVisRoute}`} component={DataVis} />
+        <Route exact path={`${DashRoute}`} component={DataVis} />
         <Route render={() => <NotFound routesToBeDone={routesToBeDone} />} />
       </Switch>
     </Suspense>

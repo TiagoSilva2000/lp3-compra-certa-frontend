@@ -12,6 +12,7 @@ import { ICustomerPagesState } from '../../interfaces/customer-pages-state.inter
 import { UserInfo } from '../../types/user-info'
 import { ProductResponse } from '../../interfaces/responses'
 import api from '../../services/api'
+import axios from 'axios'
 
 interface IIndexState extends ICustomerPagesState {
   user?: UserInfo
@@ -33,9 +34,16 @@ export default class Index extends React.Component<unknown, IIndexState> {
   }
 
   componentDidMount(): void {
-    api.get<ProductResponse[]>('/products').then(result => {
-      this.setState({products: result.data});
-    })
+    try {
+      axios.get('http://localhost:5001/user').then(result => {
+        console.log(result);
+      }).catch(err => console.log(err))
+    } catch(err) {
+      console.log(err)
+    }
+    // api.get<ProductResponse[]>('/products').then(result => {
+    //   this.setState({products: result.data});
+    // })
   }
 
   removeShopCartCode(oldCode: string): void {

@@ -81,7 +81,7 @@ const cleanUser: GetUserResponse = {
   id: 0,
   password: '',
   phone: '',
-  user_type: 0
+  user_type: ''
 }
 
 class PaymentPage extends React.Component<
@@ -110,7 +110,7 @@ class PaymentPage extends React.Component<
     }
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     Promise.all([
       api.get<GetPaymentResponse[]>('/payments').then(result => {
         this.registeredCards = result.data;

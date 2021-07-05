@@ -4,7 +4,8 @@ import {
   storageTokenKey,
   storageShopcartKey,
   storageShopcartQntKey,
-  storageWishlistKey
+  storageWishlistKey,
+  storageUserRoleKey
 } from './constants'
 
 export function setStorageVariables(result: GetAuthResponse): void {
@@ -13,4 +14,5 @@ export function setStorageVariables(result: GetAuthResponse): void {
   sessionStorage.setItem(storageShopcartKey, '')
   sessionStorage.setItem(storageShopcartQntKey, '0')
   sessionStorage.setItem(storageWishlistKey, result.favs.toString())
+  sessionStorage.setItem(storageUserRoleKey, result.user.user_type)
 }

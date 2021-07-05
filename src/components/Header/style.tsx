@@ -229,7 +229,7 @@ export const DepartmentUnList = styled.ul`
   }
 `
 
-export const StyledSearchForm = styled.form`
+export const StyledSearchForm = styled.div`
   position: relative;
   width: 100%;
   height: 100%;

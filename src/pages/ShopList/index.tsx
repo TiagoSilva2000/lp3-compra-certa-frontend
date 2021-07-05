@@ -15,13 +15,32 @@ import {
   StyledShopListPage
 } from './style'
 
-export const ShopList = (): JSX.Element => {
+const extractFilters = (): string => {
+  return window.location.pathname.split('/')[2];
+}
 
+const extractSearch = (): string|null => {
+  const urlParams = new URLSearchParams(window.location.search)
+  const params = Object.fromEntries(urlParams.entries());
+
+  return params.name ?? null;
+}
+
+export const ShopList = (): JSX.Element => {
   const [products, setProducts] = React.useState<ProductResponse[]>([]);
 
   React.useEffect(() => {
     (async () => {
-      const result = await api.get<ProductResponse[]>('/products');
+      let params = "";
+      const category = extractFilters();
+      const name = extractSearch();
+      if (category) {
+        params += `category=${category}&`
+      }
+      if (name) {
+        params += `name=${name}`
+      }
+      const result = await api.get<ProductResponse[]>(`/products?${params}`);
       setProducts(result.data);
     })()
   }, [])

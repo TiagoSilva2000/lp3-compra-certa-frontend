@@ -17,6 +17,8 @@ import { Accordion, Button, Card, useAccordionToggle } from 'react-bootstrap'
 import Header from '../../components/Header'
 import api from '../../services/api'
 import { GetOrderResponse } from '../../interfaces/responses'
+import { tokenChecking } from '../../utils/token-checking'
+import { UserType } from '../../enum/user-type.enum'
 
 type OrdersBySector = {
   sector: Sector
@@ -88,6 +90,7 @@ export default class OrderControl extends React.Component<
     api.get<GetOrderResponse[]>('/order-controls').then(result => {
       console.log();
     })
+    tokenChecking(UserType.EMPLOYEE);
   }
 
   changeOrderStatus(
@@ -95,27 +98,31 @@ export default class OrderControl extends React.Component<
     oldStatus: OrderStatus,
     newStatus: OrderStatus
   ): void {
-    const { sectorsOrders } = this.state
-    let newStatusIdx = -1
-    let oldStatusIdx = -1
-
-    sectorsOrders.forEach(({ sector }, idx) => {
-      if (sector.status === newStatus) newStatusIdx = idx
-      if (sector.status === oldStatus) oldStatusIdx = idx
-    })
-    sectorsOrders[oldStatusIdx].orders = sectorsOrders[
-      oldStatusIdx
-    ].orders.filter(order => {
-      if (order.code === orderCode) {
-        sectorsOrders[newStatusIdx].orders.unshift({
-          ...order,
-          status: newStatus
-        })
-      }
-      return order.code !== orderCode
-    })
-    this.setState({ sectorsOrders: sectorsOrders })
-    api.post(`/orders/${orderCode}/${newStatus}`);
+    try {
+      api.post(`/orders/${orderCode}/${newStatus}`);
+      const { sectorsOrders } = this.state
+      let newStatusIdx = -1
+      let oldStatusIdx = -1
+  
+      sectorsOrders.forEach(({ sector }, idx) => {
+        if (sector.status === newStatus) newStatusIdx = idx
+        if (sector.status === oldStatus) oldStatusIdx = idx
+      })
+      sectorsOrders[oldStatusIdx].orders = sectorsOrders[
+        oldStatusIdx
+      ].orders.filter(order => {
+        if (order.code === orderCode) {
+          sectorsOrders[newStatusIdx].orders.unshift({
+            ...order,
+            status: newStatus
+          })
+        }
+        return order.code !== orderCode
+      })
+      this.setState({ sectorsOrders })
+    } catch(err) {
+      console.log(err)
+    }
   }
 
   private displayFromCurrentOption(status: OrderStatus): string {

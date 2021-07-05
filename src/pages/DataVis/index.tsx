@@ -14,10 +14,16 @@ import {
   CardsContainer,
   StyledCardList
 } from './style'
+import { tokenChecking } from '../../utils/token-checking'
+import { UserType } from '../../enum/user-type.enum'
 
 export default function DataVis(props: unknown): JSX.Element {
   const analysis: string[] = []
   const [analyType, changeAnalyType] = React.useState(AnalysisType.DELIVERTIME)
+
+  React.useEffect(() => {
+    tokenChecking(UserType.ADMIN)
+  })
 
   for (const analy in AnalysisType) analysis.push(analy)
 

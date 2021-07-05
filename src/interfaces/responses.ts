@@ -6,7 +6,7 @@ export interface GetUserResponse {
   password: string
   phone: string
   cpf: string
-  user_type: number
+  user_type: string
 }
 
 export interface GetTokenResponse {

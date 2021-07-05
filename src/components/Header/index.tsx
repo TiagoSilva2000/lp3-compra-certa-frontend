@@ -14,7 +14,7 @@ import { Heart, Shop } from 'react-bootstrap-icons'
 import logo from '../../assets/big-logo.png'
 import { search, hamburguer } from '../../assets/icons/index'
 import { DepartmentList } from '../../mocks/department-list.constant'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import ShopList from '../../pages/ShopList'
 import {
   IndexRoute,
@@ -57,11 +57,18 @@ const Header = (props: IHeaderProps): JSX.Element => {
     customerView: customer,
     defaultView
   } = props
+  const history = useHistory();
   const [shopQnt, setShopQnt] = React.useState(
     parseInt(sessionStorage.getItem(storageShopcartQntKey) ?? "0")
   );
   const username = sessionStorage.getItem(storageFirstNameKey) ?? 'username'
   const defaultv = Boolean(sessionStorage.getItem(storageTokenKey)) === false;
+
+  const handleSearch = () => {
+    const name = document.getElementById("product-header-search-bar") as HTMLInputElement;
+
+    history.push(`${ShopRoute}?name=${name.value}`);
+  }
 
   return (
     <StyledHeader>
@@ -82,12 +89,16 @@ const Header = (props: IHeaderProps): JSX.Element => {
           />
         )}
         {!employee && (
-          <StyledSearchForm name='search-form' method='GET' action=''>
+          <StyledSearchForm /* name='search-form' method='GET' action='' */>
             <input
+              id="product-header-search-bar"
               type='text'
               placeholder='procure por sua compra certa...'
             />
-            <button type='submit'>
+            <button 
+              type='submit'
+              onClick={() => handleSearch()}  
+            >
               <img src={search} alt='Procurar' />
             </button>
           </StyledSearchForm>

@@ -14,8 +14,9 @@ import shoppingImage from '../../assets/shopping.svg'
 import api from '../../services/api'
 import { storageFirstNameKey, storageTokenKey } from '../../utils/constants'
 import { GetAuthResponse } from '../../interfaces/responses'
-import { IndexRoute } from '../../mocks/routes.constant'
+import { DashRoute, IndexRoute, OrderControlRoute, RegisterRoute } from '../../mocks/routes.constant'
 import { setStorageVariables } from '../../utils/setStorageVariables'
+import { UserType } from '../../enum/user-type.enum'
 
 
 const Login = (): JSX.Element => {
@@ -30,8 +31,22 @@ const Login = (): JSX.Element => {
         email,
         password
       })
-      setStorageVariables(result.data);
-      history.push(IndexRoute);
+      const authData = result.data;
+      setStorageVariables(authData);
+      console.log({authData});
+      switch (authData.user.user_type) {
+        case UserType.CUSTOMER:
+          history.push(IndexRoute);
+          break;
+        case UserType.ADMIN:
+          history.push(DashRoute);
+          break;
+        case UserType.EMPLOYEE:
+          history.push(OrderControlRoute);
+          break;
+        default:
+          history.push(RegisterRoute);
+      }
     } catch(err) {
       console.log(err);
       throw new Error(err);
