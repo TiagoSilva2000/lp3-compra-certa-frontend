@@ -99,7 +99,7 @@ export interface GetOrderProductResponse {
 export interface GetOrderResponse {
   id: number
   customer_id: number
-  ordered_at: Date
+  ordered_at: string
   address: GetAddressResponse
   payment: GetOrderPaymentResponse
   products: GetOrderProductResponse[]
