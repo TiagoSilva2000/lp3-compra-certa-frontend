@@ -15,11 +15,13 @@ import {
   MenuItem
 } from '@material-ui/core'
 import { HoverRating } from '../Rating'
+import { mockedProductTable } from '../../mocks/mocked-product-table.constant'
 import {
   FlightTakeoff,
   KeyboardArrowDown,
   KeyboardArrowUp,
   Done,
+  StarRate,
   DoneOutline
 } from '@material-ui/icons'
 import {
@@ -108,15 +110,15 @@ const Row = (props: IRowProps) => {
             </IconButton>
           </TableCell>
         )}
-        <TableCell component='th' scope='row' width='fit-content'>
+        <TableCell align='left'>{order.id}</TableCell>
+        <TableCell component='th' align='center' scope='row' width='fit-content'>
           <StyledProduct>
             {/* <p>{order.id}</p> */}
-            <p>{product.product.name}</p>
             {/* {!theme.slim && <StyledProductImg src={product.product.main_media?.path ?? DefaultImage}></StyledProductImg>} */}
+            <p>{product.product.name}</p>
           </StyledProduct>
         </TableCell>
-        <TableCell align='right'>{product.product.id}</TableCell>
-        <TableCell align='right'>
+        <TableCell align='center'>
           {!shopcartView ? (
             product.qnt
           ) : (
@@ -150,7 +152,8 @@ const Row = (props: IRowProps) => {
         </TableCell>
         {rating && (
           <TableCell align='right'>
-            <HoverRating initialValue={product.rating} />
+            {/* <HoverRating initialValue={product.rating} /> */}
+            {product.rating}<StarRate/>
           </TableCell>
         )}
         <TableCell align='right'>{product.product.active_price.value}</TableCell>
@@ -266,22 +269,19 @@ export class ProductTable extends React.Component<
       headerColor: 'white'
     }
     const { rating, toReceive, employeeView, additionalData } = this.props
-    const {rrows} = this.state
+    const rrows = mockedProductTable
     return (
       <TableContainer component={Paper}>
         <StyledTable aria-label='collapsible table'>
           <TableHead>
             <TableRow>
+              <StyledTableCell align='right' styles={theme}>
+                Pedido
+              </StyledTableCell>
               {additionalData && <StyledTableCell styles={theme} />}
-              <StyledTableCell styles={theme}>Produto</StyledTableCell>
+              <StyledTableCell align='center' styles={theme}>Produto</StyledTableCell>
               {/* <StyledTableCell styles={theme}>Código do Pedido</StyledTableCell> */}
-              <StyledTableCell align='right' styles={theme}>
-                Código do Pedido
-              </StyledTableCell>
-              <StyledTableCell align='right' styles={theme}>
-                Código do Produto
-              </StyledTableCell>
-              <StyledTableCell align='right' styles={theme}>
+              <StyledTableCell align='center' styles={theme}>
                 Quantidade
               </StyledTableCell>
               {rating && (
