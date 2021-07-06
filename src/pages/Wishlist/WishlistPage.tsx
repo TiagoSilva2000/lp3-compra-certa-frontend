@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Favorite, DeleteForever } from '@material-ui/icons'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
-import { AccountList } from '../../constants/category-list.constant'
+import { AccountList } from '../../mocks/category-list.constant'
 import { Img1, Img2, Img3 } from '../../assets/ProductImg'
 import {
   CategoryWrapper,
@@ -25,10 +25,23 @@ import {
 } from '@material-ui/core'
 import SideBox from '../../components/SideBox'
 import ProductList from '../../components/ProductList'
-import { mockedProductList } from '../../constants/mocked-product-list.constant'
+import { mockedProductList } from '../../mocks/mocked-product-list.constant'
+import api from '../../services/api'
+import { products } from '../../mocks/mocked-analysis'
+import { ProductResponse } from '../../interfaces/responses'
 
-class Accounts extends React.Component<{ props: any }> {
-  render(): JSX.Element {
+
+
+const Accounts = (): JSX.Element => {
+  const [products, setProducts] = React.useState<ProductResponse[]>([])
+
+  React.useEffect(() => {
+    (async () => {
+      const result = await api.get<ProductResponse[]>('/wishlist');
+      setProducts(result.data);
+    })()
+  }, [])
+
     return (
       <>
         <Header />
@@ -36,9 +49,18 @@ class Accounts extends React.Component<{ props: any }> {
           <SideBox title='Minha conta' linkedElements={AccountList} />
           <Container>
             <ProductList
-              productList={mockedProductList}
+              productList={products.map(p => {
+                return {
+                  showRating: true,
+                  showShopcart: true,
+                  showWishlist: true,
+                  editable: false,                
+                  data: p
+                }
+              })}
               orientation='vertical'
-            ></ProductList>
+              activeFavs
+            />
           </Container>
           {/* <SectionWrapper>
             <CustomChip
@@ -114,6 +136,5 @@ class Accounts extends React.Component<{ props: any }> {
         <Footer />
       </>
     )
-  }
 }
 export default Accounts

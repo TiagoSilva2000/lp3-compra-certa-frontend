@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { CCColors } from '../../constants/colors.constant'
+import { CCColors } from '../../mocks/colors.constant'
 import { colorByOrderStatus } from '../../services/color-by-order-status.service'
 import { Sector } from '../../types/sector'
 
@@ -14,6 +14,11 @@ export const StyledOrderControlPage = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
+
+  select,
+  option {
+    text-transform: capitalize;
+  }
 
   .order-control-wrapper {
     height: 100%;
@@ -96,7 +101,7 @@ export const StyledSelect = styled.select`
 
 export const StyledSectorHeader = styled.div<IStyledSectorHeaderProps>`
   width: 100%;
-  border: 1px solid blue;
+  border: 1px solid ${CCColors.PRIMARYPURPLE};
   padding: 10px 5px 10px 10px;
   display: flex;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -122,10 +127,8 @@ export const StyledSectorHeader = styled.div<IStyledSectorHeaderProps>`
       background-color: ${props =>
         colorByOrderStatus(props.sector.status, true)};
       border-radius: 5px;
-      color: #fe95a7;
       border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-      color: #edf4fb;
+      color: ${CCColors.MINT};
       padding: 5px 10px;
     }
 

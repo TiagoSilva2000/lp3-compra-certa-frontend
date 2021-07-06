@@ -1,6 +1,6 @@
 import styled, { keyframes } from 'styled-components'
 
-import { CCColors } from '../../constants/colors.constant'
+import { CCColors } from '../../mocks/colors.constant'
 
 function activatedColorMapper(color?: string): string {
   switch (color) {

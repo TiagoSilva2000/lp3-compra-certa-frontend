@@ -1,7 +1,7 @@
 import { Favorite, LocalMall, LocalMallOutlined } from '@material-ui/icons'
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder'
 import styled from 'styled-components'
-import { CCColors } from '../../constants/colors.constant'
+import { CCColors } from '../../mocks/colors.constant'
 
 interface IStyledBoxProps {
   dynamicWidth?: boolean
@@ -98,7 +98,7 @@ export const StyledActiveFavIcon = styled(Favorite)`
   cursor: pointer;
 
   &:hover {
-    color: ${'red'};
+    color: #ff2400aa;
   }
 `
 

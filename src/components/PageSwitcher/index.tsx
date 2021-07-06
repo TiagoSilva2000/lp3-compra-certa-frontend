@@ -1,6 +1,6 @@
 import { NavigateBefore, NavigateNext } from '@material-ui/icons'
 import React from 'react'
-import { MAXPAGESWITCHERBOXES } from '../../constants/max-page-switcher-boxes.constant'
+import { MAXPAGESWITCHERBOXES } from '../../mocks/max-page-switcher-boxes.constant'
 import { StyledSwitcherBox, StyledPageSwitcher } from './style'
 interface IPageSwitcherProps {
   pages: number
@@ -19,7 +19,7 @@ export default class PageSwitcher extends React.Component<
     super(props)
     const queryParams = window.location.search
 
-    console.log(props.activePage, this.getPageFromParams(queryParams))
+    // console.log(props.activePage, this.getPageFromParams(queryParams))
     this.state = {
       activePage: this.getPageFromParams(queryParams) ?? props.activePage
     }

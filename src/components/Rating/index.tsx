@@ -9,6 +9,7 @@ interface IRatingProps {
   editable?: boolean
   showValue?: boolean
   totalTimes?: number
+  setRatingCb?: (v: number) => void
 }
 
 const labels: { [index: string]: string } = {
@@ -34,7 +35,7 @@ const useStyles = makeStyles({
 
 export const HoverRating = (props: IRatingProps): JSX.Element => {
   const [value, setValue] = React.useState<number | null>(
-    props.initialValue ?? 4.5
+    props.initialValue ?? 0
   )
   const [hover, setHover] = React.useState(-1)
   const classes = useStyles()
@@ -50,6 +51,9 @@ export const HoverRating = (props: IRatingProps): JSX.Element => {
           precision={0.5}
           onChange={(event, newValue) => {
             setValue(newValue)
+            if (props.setRatingCb && newValue) {
+              props.setRatingCb(newValue);
+            }
           }}
           onChangeActive={(event, newHover) => {
             setHover(newHover)

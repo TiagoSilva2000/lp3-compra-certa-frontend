@@ -10,7 +10,7 @@ import {
 } from '@material-ui/icons'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
-import { AccountList } from '../../constants/category-list.constant'
+import { AccountList } from '../../mocks/category-list.constant'
 import {
   CategoryWrapper,
   SectionWrapper,
@@ -29,13 +29,48 @@ import {
 } from '@material-ui/core'
 import SideBox from '../../components/SideBox'
 import CustomChip from '../../components/CustomChip'
-import { CreditCardInfo } from '../../types/credit-card-info'
-import { mockedCreditCards } from '../../constants/mocked-credit-cards.constant'
+import { CreditCardBasicInfo, CreditCardInfo } from '../../types/credit-card-info'
+import { mockedCreditCards } from '../../mocks/mocked-credit-cards.constant'
+import api from '../../services/api'
+import { GetPaymentResponse } from '../../interfaces/responses'
 
 const Accounts = (): JSX.Element => {
-  const [userCards, setUserCards] = React.useState<CreditCardInfo[]>(
-    mockedCreditCards
-  )
+  const [userCards, setUserCards] = React.useState<GetPaymentResponse[]>([]);
+
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const result = await api.get<GetPaymentResponse[]>('/payments');
+        setUserCards(result.data);
+      } catch (err) {
+        console.log(err);
+      }
+    })()
+  }, [])
+
+  const setDefault = async (cardId: number) => {
+    try {
+      await api.patch(`/payments/${cardId}`);
+      setUserCards(userCards.map(v => {
+        if (v.id === cardId)
+          v.default = true;
+        else
+          v.default = false;
+        return v;
+      }))
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const handleDelete = async (cardId: number) => {
+    try {
+      await api.delete(`/payments/${cardId}`);
+      setUserCards(userCards.filter(v => v.id !== cardId))
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <>
@@ -62,27 +97,27 @@ const Accounts = (): JSX.Element => {
               <CardActionArea>
                 <CardContent>
                   <Typography gutterBottom variant='h5' component='h2'>
-                    <CreditCard /> {card.cardName}
+                    <CreditCard /> {card.name}
                     {/* <Chip size='small' label='Padrão' icon={<Inbox />} /> */}
+                    {card.payment && 
                     <Typography variant='h6' component='h2'>
                       <span style={{ verticalAlign: 'sub' }}>
                         {'**** **** **** '}
                       </span>
-                      {card.lastDigits}
-                    </Typography>
+                      {card.payment.last_digits}
+                    </Typography>                    
+                    }
                   </Typography>
                 </CardContent>
               </CardActionArea>
               <CardActions>
-                <Button size='small' color='primary' disabled={card.default}>
+                <Button size='small' color='primary' disabled={card.default} onClick={() => setDefault(card.id)}>
                   <Assistant /> Tornar padrão
                 </Button>
                 <Button
                   size='small'
                   color='secondary'
-                  onClick={() =>
-                    setUserCards(userCards.filter((card, cidx) => cidx !== idx))
-                  }
+                  onClick={() => handleDelete(card.id)}
                 >
                   <DeleteForever /> Remover
                 </Button>

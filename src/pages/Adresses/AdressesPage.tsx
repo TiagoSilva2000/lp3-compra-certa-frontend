@@ -10,7 +10,7 @@ import {
 } from '@material-ui/icons'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
-import { AccountList } from '../../constants/category-list.constant'
+import { AccountList } from '../../mocks/category-list.constant'
 import {
   CategoryWrapper,
   SectionWrapper,
@@ -29,26 +29,71 @@ import {
   Typography
 } from '@material-ui/core'
 import SideBox from '../../components/SideBox'
-import { NewAddressRoute } from '../../constants/routes.constant'
+import { NewAddressRoute } from '../../mocks/routes.constant'
 import CustomChip from '../../components/CustomChip'
-import { mockedAddresses } from '../../constants/mocked-addresses.constant'
-import { AddressInfo } from '../../types/address-info'
+import { mockedAddresses } from '../../mocks/mocked-addresses.constant'
+import { IAddressInfo } from '../../types/address-info'
+import api from '../../services/api'
+import { GetAddressResponse } from '../../interfaces/responses'
 
 const Adresses = (): JSX.Element => {
-  const [addresses, setAddresses] = React.useState<AddressInfo[]>(
-    mockedAddresses
-  )
-  const [defaultIdx, setDefaultIdx] = React.useState(
-    addresses.findIndex(addr => addr.default === true)
-  )
-  const setDefault = (nDefaultIdx: number): void => {
+  const [addresses, setAddresses] = React.useState<IAddressInfo[]>([]);
+
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const result = await api.get<GetAddressResponse[]>('/addresses');
+        const mappedAddresses = result.data.map(addr => {
+          const mappedAddr: IAddressInfo = {
+            ...addr,
+            number: addr.house_id,
+            notes: addr.details,
+            ownerPhone: addr.owner_phone,
+            ownerName: addr.owner_name ?? "Não informado",
+          };
+          return mappedAddr;
+        })
+
+        setAddresses(mappedAddresses);
+      } catch (err) {
+        console.log(err);
+      }
+    })()
+  }, [])
+  // const [defaultIdx, setDefaultIdx] = React.useState(
+  //   addresses.findIndex(addr => addr.default === true)
+  // )
+
+  const setDefault = async (addressId: number): Promise<void> => {
     const tmpAddresses = addresses
-    tmpAddresses[defaultIdx].default = false
-    tmpAddresses[nDefaultIdx].default = true
-    setAddresses(tmpAddresses)
-    setDefaultIdx(nDefaultIdx)
+    try {
+      await api.patch(`/addresses/${addressId}`);
+
+      tmpAddresses.forEach((addr) => {
+        if (addr.id !== addressId)
+          addr.default = false;
+        else
+          addr.default = true;
+      })
+      setAddresses(tmpAddresses)
+      // setDefaultIdx(nDefaultIdx)      
+    } catch (err) {
+      console.log(err);
+    }
   }
 
+  const removeAddress = async (addressId: number): Promise<void> => {
+    try {
+      await api.delete(`/addresses/${addressId}`);
+
+      setAddresses(addresses.filter(addr => addr.id !== addressId));
+    } catch(err) {
+      console.log(err);
+    }
+
+
+  }
+  console.log({address: [...addresses]});
   return (
     <>
       <Header />
@@ -66,11 +111,11 @@ const Adresses = (): JSX.Element => {
             </Link>
           </AdjustNav>
           {addresses.map((addr, idx) => (
-            <StyledCard key={`addr${idx}`}>
+            <StyledCard key={`addr${addr.id}`}>
               <CardActionArea>
                 <CardContent>
                   <Typography gutterBottom variant='h5' component='h2'>
-                    Destinatário : {addr.ownerName}
+                    Destinatário: {addr.ownerName}
                     {/* <Chip size='small' label='Padrão' icon={<Inbox />} /> */}
                   </Typography>
                   <Typography
@@ -82,7 +127,7 @@ const Adresses = (): JSX.Element => {
                       Telefone: {addr.ownerPhone}
                     </Typography>
                     Endereço:{' '}
-                    {`${addr.address}, ${addr.notes}, ${addr.number}, ${addr.city}-${addr.state}, ${addr.cep}`}{' '}
+                    {`${addr.street}, ${addr.neighbour}, ${addr.notes}, ${addr.number}, ${addr.city}-${addr.state}, ${addr.cep}`}{' '}
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -91,7 +136,7 @@ const Adresses = (): JSX.Element => {
                   size='small'
                   color='primary'
                   disabled={addr.default}
-                  onClick={() => setDefault(idx)}
+                  onClick={() => setDefault(addr.id)}
                 >
                   <Assistant /> Tornar padrão
                 </Button>
@@ -108,9 +153,7 @@ const Adresses = (): JSX.Element => {
                 <Button
                   size='small'
                   color='secondary'
-                  onClick={() =>
-                    setAddresses(addresses.filter((addr, aidx) => aidx !== idx))
-                  }
+                  onClick={() => removeAddress(addr.id)}
                 >
                   <DeleteForever /> Remover
                 </Button>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Accordion, Card, Dropdown, useAccordionToggle } from 'react-bootstrap'
-import { CCColors } from '../../constants/colors.constant'
+import { CCColors } from '../../mocks/colors.constant'
 import { OrderStatus } from '../../enum/order-status.enum'
 import { CSSTextDirection } from '../../enum/text-direction.enum'
 import { OrderCardInfo } from '../../types/order-card-info'
@@ -9,7 +9,7 @@ import { ProductTable, TableTheme } from '../ProductTable'
 import Arrow from '../Arrow'
 import { StyledOrderCard, BootstrapInput } from './style'
 import { colorByOrderStatus } from '../../services/color-by-order-status.service'
-import { sectorList } from '../../constants/sector-list.constant'
+import { sectorList } from '../../mocks/sector-list.constant'
 import DropdownToggle from 'react-bootstrap/esm/DropdownToggle'
 import { AnyAaaaRecord } from 'node:dns'
 import {
@@ -73,7 +73,7 @@ export default class OrderCard extends React.Component<
   }
 
   render(): JSX.Element {
-    const { code, orderedAt, productRows } = this.props.data
+    const { code, orderedAt, order } = this.props.data
     const { eventKey, changeStatusCb } = this.props
     const { currentStatus: status } = this.state
     const tableTheme: TableTheme = {
@@ -93,8 +93,11 @@ export default class OrderCard extends React.Component<
         case OrderStatus.DELIVERY:
           return [
             { status: OrderStatus.PREPARATION },
-            { status: OrderStatus.CHECKING }
+            { status: OrderStatus.CHECKING },
+            { status: OrderStatus.DELIVERED }
           ]
+        case OrderStatus.DELIVERED:
+          return [{ status: OrderStatus.DELIVERY }]
       }
     }
 
@@ -105,11 +108,12 @@ export default class OrderCard extends React.Component<
             <Select
               labelId='demo-customized-select-label'
               id='demo-customized-select'
-              value={status}
+              defaultValue={status}
+              // value={status}
               onChange={e => {
                 this.setStatus(e.target.value as OrderStatus)
                 if (changeStatusCb)
-                  changeStatusCb(code, status, e.target.value as OrderStatus)
+                  changeStatusCb(this.props.data.order?.id.toString() ?? code, status, e.target.value as OrderStatus)
               }}
               input={<BootstrapInput status={status} />}
             >
@@ -132,7 +136,8 @@ export default class OrderCard extends React.Component<
             </li>
             <li>
               <span className='order-card-date'>
-                {orderedAt.toDateString()}
+                {/* {orderedAt.toDateString()} */}
+                {"Indefinido"}
               </span>
             </li>
             <li>
@@ -148,9 +153,11 @@ export default class OrderCard extends React.Component<
             <Accordion.Collapse eventKey={eventKey}>
               <Card>
                 <ProductTable
-                  rows={productRows}
+                  rows={this.props.data.order?.products ?? []}
                   employeeView
                   theme={tableTheme}
+                  // additionalData
+                  tracking
                 />
               </Card>
             </Accordion.Collapse>

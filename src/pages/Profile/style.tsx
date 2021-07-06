@@ -2,7 +2,7 @@
 import styled from 'styled-components'
 import { withStyles } from '@material-ui/core/styles'
 import { Button, Chip, TextField } from '@material-ui/core'
-import { CCColors } from '../../constants/colors.constant'
+import { CCColors } from '../../mocks/colors.constant'
 import NumberFormat from 'react-number-format'
 import { StyledNumberFormat } from '../../styles/styled-number-format.style'
 

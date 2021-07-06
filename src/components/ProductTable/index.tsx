@@ -20,6 +20,7 @@ import {
   KeyboardArrowDown,
   KeyboardArrowUp,
   Done,
+  StarRate,
   DoneOutline
 } from '@material-ui/icons'
 import {
@@ -34,8 +35,12 @@ import {
 } from './style'
 import { ProductRowData } from '../../types/product-row-data'
 import { propTypes } from 'react-bootstrap/esm/Image'
-import { CCColors } from '../../constants/colors.constant'
-
+import { CCColors } from '../../mocks/colors.constant'
+import { qntArray } from '../../mocks/qnt-array.constant'
+import { GetOrderProductResponse, GetOrderResponse, ProductResponse } from '../../interfaces/responses'
+import DefaultImage from '../../assets/samples/products/default-img.png'
+import { intToDec } from '../../utils/treatValue'
+import { showStatus } from '../../utils/show-status'
 export interface TableTheme {
   headerColor: string
   headerBgColor: string
@@ -50,22 +55,33 @@ interface ExtTableProps {
   additionalData?: boolean
   employeeView?: boolean
   shopcartView?: boolean
-  removeFunction?: (code: string) => void
+  changeQntCb?: (code: string, qntModifier: number) => void
+  toReceiveCb?: (order_id?: number, product_id?: number) => void
 }
 
 interface IProductTableProps extends ExtTableProps {
-  rows: ProductRowData[]
+  rows?: GetOrderProductResponse[]
+  rrows?: GetOrderResponse[]
   theme?: TableTheme
 }
 
+interface IProductTableState {
+  rows: GetOrderProductResponse[]
+  rrows?: GetOrderResponse[]
+}
+
 interface IRowProps extends ExtTableProps {
-  row: ProductRowData
+  // row: ProductRowData
+  product: GetOrderProductResponse
+  order?: GetOrderResponse
   theme: TableTheme
+  removeRowCb: (orderCode: string) => void
 }
 
 const Row = (props: IRowProps) => {
   const {
-    row,
+    product,
+    order,
     rating,
     toReceive,
     tracking,
@@ -73,15 +89,12 @@ const Row = (props: IRowProps) => {
     additionalData,
     employeeView,
     shopcartView,
-    removeFunction
+    changeQntCb
   } = props
   const [open, setOpen] = React.useState(false)
   const [ready, setReady] = React.useState(false)
-  const [qnt, setQnt] = React.useState(row.quantity)
-  const qntArray: number[] = []
-  for (let i = 0; i < 10; i++) qntArray.push(i + 1)
+  const [qnt, setQnt] = React.useState(product.qnt)
   const theme: TableTheme = props.theme
-
   return (
     <React.Fragment>
       <TableRow>
@@ -96,33 +109,47 @@ const Row = (props: IRowProps) => {
             </IconButton>
           </TableCell>
         )}
-        <TableCell component='th' scope='row' width='fit-content'>
+        {order && 
+          <TableCell align='right'>{order?.id}</TableCell>
+        }
+        <TableCell component='th' align='center' scope='row' width='fit-content'>
           <StyledProduct>
-            <p>{row.product}</p>
-            {!theme.slim && <StyledProductImg src={row.img}></StyledProductImg>}
+            {/* <p>{order?.id}</p> */}
+            {/* {!theme.slim && <StyledProductImg src={product.product.main_media?.path ?? DefaultImage}></StyledProductImg>} */}
+            <p>{product.product.name}</p>
           </StyledProduct>
         </TableCell>
-        <TableCell align='right'>{row.trackingCode}</TableCell>
-        <TableCell align='right'>
+        {employeeView && (
+        <TableCell component='th' align='center' scope='row' width='fit-content'>
+          <p>{product.product.id}</p>
+        </TableCell>
+        )
+        }
+        <TableCell component='th' align='center' scope='row' width='fit-content'>
           {!shopcartView ? (
-            row.quantity
+            product.qnt
           ) : (
             <QuantitySelectionWrapper>
               <Select
                 labelId='demo-customized-select-label'
                 id='demo-customized-select'
-                value={qnt}
-                onChange={e => setQnt(e.target.value as number)}
+                value={product.qnt}
+                onChange={e => {
+                  const oldQnt = qnt
+                  const newQnt = Number(e.target.value)
+                  setQnt(newQnt)
+                  changeQntCb && order && changeQntCb(order.tracking_code, newQnt - oldQnt)
+                }}
               >
                 {qntArray.map(v => (
-                  <MenuItem key={`sel${v}`} value={v}>
+                  <MenuItem key={v} value={v}>
                     {v}
                   </MenuItem>
                 ))}
               </Select>
               <p
                 onClick={() =>
-                  removeFunction && removeFunction(row.trackingCode)
+                  changeQntCb && order && changeQntCb(order.tracking_code, -qnt)
                 }
               >
                 Excluir
@@ -132,10 +159,11 @@ const Row = (props: IRowProps) => {
         </TableCell>
         {rating && (
           <TableCell align='right'>
-            <HoverRating />
+            {/* <HoverRating initialValue={product.rating} /> */}
+            {product.rating}<StarRate/>
           </TableCell>
         )}
-        <TableCell align='right'>{row.total}</TableCell>
+        <TableCell align='right'>R$ {intToDec(product.product.active_price.value)}</TableCell>
         {(toReceive || employeeView) && (
           <TableCell align='right'>
             {employeeView && (
@@ -143,8 +171,16 @@ const Row = (props: IRowProps) => {
                 {ready ? <StyledDone /> : <DoneOutline />}
               </ReadyButton>
             )}
-            {toReceive && (
-              <ReceiveButton variant='contained' disableElevation>
+            {toReceive && order && (
+              <ReceiveButton
+                variant='contained'
+                disableElevation
+                disabled={order?.received}
+                onClick={() => {
+                  if (props.toReceiveCb) props.toReceiveCb(order.id, product.product.id)
+                  props.removeRowCb(order.tracking_code)
+                }}
+              >
                 Receber
               </ReceiveButton>
             )}
@@ -158,7 +194,7 @@ const Row = (props: IRowProps) => {
               {tracking && (
                 <Box margin={1}>
                   <Typography variant='h6' gutterBottom component='div'>
-                    Rastreamento - {row.trackingCode}
+                    Rastreamento - {order?.tracking_code}
                   </Typography>
                   <Table size='small' aria-label='purchases'>
                     <TableHead>
@@ -168,23 +204,22 @@ const Row = (props: IRowProps) => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {row.tracking.map(trackingRow => (
-                        <TableRow key={trackingRow.date}>
+                      {order?.tracking.map(trackingRow => (
+                        <TableRow key={trackingRow.id}>
                           <TableCell component='th' scope='row'>
-                            {trackingRow.date}
+                            {trackingRow.enter_time}
                           </TableCell>
-                          <TableCell>{trackingRow.status}</TableCell>
+                          <TableCell>{showStatus(trackingRow.order_status)}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
                   </Table>
                 </Box>
               )}
-              {address && (
+              {order?.address && (
                 <Box margin={1}>
                   <Typography variant='h6' gutterBottom component='div'>
-                    <FlightTakeoff /> <strong>Enviar para:</strong>{' '}
-                    <p>- {row.address}</p>
+                    <FlightTakeoff /><p style={{fontSize: 14}}><strong>Enviar para: </strong>{`${order?.address.street}, ${order?.address.neighbour}, ${order?.address.house_id}`}</p>
                   </Typography>
                 </Box>
               )}
@@ -196,24 +231,72 @@ const Row = (props: IRowProps) => {
   )
 }
 
-export class ProductTable extends React.Component<IProductTableProps> {
+export class ProductTable extends React.Component<
+  IProductTableProps,
+  IProductTableState
+> {
+  constructor(props: IProductTableProps) {
+    super(props)
+    this.state = {
+      rows: props.rows ?? [],
+      rrows: props.rrows
+    }
+
+    this.removeRowFromTableByCode = this.removeRowFromTableByCode.bind(this)
+  }
+
+  // componentDidUpdate(prevProps: IProductTableProps): void {
+  //   this.setState({rrows: prevProps.rrows})
+  // }
+
+  // UNSAFE_componentWillReceiveProps(nextProps: IProductTableProps): void {
+  //   this.setState({ rrows: nextProps.rrows });  
+  // }
+
+  removeRowFromTableByCode(productCode: string, qnt?: number): void {
+    let newRows: GetOrderProductResponse[] = []
+    if (qnt) {
+      this.state.rows.forEach(row => {
+        if (row.product.id.toString() === productCode) {
+          row.qnt += qnt
+          if (row.qnt <= 0) return
+        }
+        newRows.push(row)
+      })
+    } else {
+      newRows = this.state.rows.filter(row => row.product.id.toString() !== productCode)
+    }
+
+    this.setState({ rows: newRows })
+    if (this.props.changeQntCb) this.props.changeQntCb(productCode, qnt as number)
+  }
+
   render(): JSX.Element {
+    // console.log({data: this.state.rrows})
+    // console.log({data: this.state.rows})
     const theme: TableTheme = this.props.theme ?? {
       headerBgColor: CCColors.PRIMARYYELLOW,
       headerColor: 'white'
     }
-    const { rating, toReceive, employeeView, additionalData } = this.props
+    const { rating, toReceive, employeeView, additionalData, rrows, shopcartView, rows } = this.props
+    // const rrows = mockedProductTable
     return (
       <TableContainer component={Paper}>
         <StyledTable aria-label='collapsible table'>
           <TableHead>
             <TableRow>
               {additionalData && <StyledTableCell styles={theme} />}
-              <StyledTableCell styles={theme}>Pedido</StyledTableCell>
+              {!shopcartView && !employeeView && (
               <StyledTableCell align='right' styles={theme}>
-                Código
+                Pedido
               </StyledTableCell>
-              <StyledTableCell align='right' styles={theme}>
+              )
+              }
+              <StyledTableCell align='center' styles={theme}>Produto</StyledTableCell>
+              {employeeView &&
+                <StyledTableCell align='center' styles={theme}>Código do Produto</StyledTableCell>
+              }
+              <StyledTableCell align='center' styles={theme}>
                 Quantidade
               </StyledTableCell>
               {rating && (
@@ -226,21 +309,40 @@ export class ProductTable extends React.Component<IProductTableProps> {
               </StyledTableCell>
               {(toReceive || employeeView) && (
                 <StyledTableCell align='right' styles={theme}>
-                  {employeeView ? 'Pronto' : 'Marcar recebido'}
+                  {employeeView ? 'Pronto' : 'Receber/Avaliar'}
                 </StyledTableCell>
               )}
             </TableRow>
           </TableHead>
           <TableBody>
-            {this.props.rows.map((row, idx) => (
-              <Row
-                key={`row${idx}`}
+            {rrows && rrows.map((rowOrder, idx) => {
+              return rowOrder.products.map((rowProduct, idx) => {
+                return (
+                  <Row
+                    key={idx}
+                    {...this.props}
+                    order={rowOrder}
+                    product={rowProduct}
+                    theme={theme}
+                    removeRowCb={this.removeRowFromTableByCode}
+                    changeQntCb={this.removeRowFromTableByCode}
+                  />
+                )
+              })
+            }
+            )}
+            {rows && rows.map((row, idx) => {
+              return (
+                <Row
+                key={idx}
                 {...this.props}
-                row={row}
+                product={row}
                 theme={theme}
-                // removeFunction={this.removeFromCode}
+                removeRowCb={this.removeRowFromTableByCode}
+                changeQntCb={this.removeRowFromTableByCode}
               />
-            ))}
+              )
+            })}
           </TableBody>
         </StyledTable>
       </TableContainer>

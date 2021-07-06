@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { CCColors } from '../../constants/colors.constant'
+import { CCColors } from '../../mocks/colors.constant'
 
 export const StyledFooter = styled.footer`
   display: flex;
@@ -41,7 +41,7 @@ export const StyledFooter = styled.footer`
             text-decoration: none;
             transition: 0.15s;
             :hover {
-              color: blue;
+              color: ${CCColors.DARKYELLOW};
             }
           }
         }

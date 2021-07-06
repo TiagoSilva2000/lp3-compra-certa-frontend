@@ -9,11 +9,11 @@ import Login from '../pages/Login/Login'
 import { Spinner } from '../pages/Loading/LoadingSpinner'
 import ShopCart from '../pages/ShopCart'
 import PaymentPage from '../pages/PaymentPage'
-import DataVis from '../pages/DataVis'
+import DataVis from '../pages/DataVis/index'
 import {
   AccountRoute,
   AddressRoute,
-  DataVisRoute,
+  DashRoute,
   IndexRoute,
   LoginRoute,
   NewAddressRoute,
@@ -21,11 +21,13 @@ import {
   OrderControlRoute,
   PaymentRoute,
   ProfileRoute,
+  RegisterRoute,
   ShopCartRoute,
   ShopHistoryRoute,
   ShopRoute,
-  WishlistRoute
-} from '../constants/routes.constant'
+  WishlistRoute,
+  ProductRoute
+} from '../mocks/routes.constant'
 
 const Profile = lazy(() => import('../pages/Profile/Profile'))
 const Register = lazy(() => import('../pages/Register/Register'))
@@ -47,7 +49,8 @@ const MainRoutes = (): JSX.Element => (
       <Switch>
         <Route exact path='/' component={Main} />
 
-        <Route exact path='/login' component={Login} />
+        <Route exact path={`${LoginRoute}`} component={Login} />
+        <Route exact path={`${RegisterRoute}`} component={Register} />
 
         <Route exact path='/spinner' component={Spinner} />
 
@@ -59,14 +62,13 @@ const MainRoutes = (): JSX.Element => (
         <Route exact path={`${NewAddressRoute}`} component={NewAdress} />
         <Route exact path={`${ShopHistoryRoute}`} component={ShopHistory} />
         <Route exact path={`${WishlistRoute}`} component={Wishlist} />
-        <Route exact path='/register' component={Register} />
-        <Route exact path='/product' component={Product} />
+        <Route path={`${ProductRoute}`} component={Product} />
 
         <Route exact path={`${OrderControlRoute}`} component={OrderControl} />
 
         <Route exact path={`${ShopCartRoute}`} component={ShopCart} />
         <Route exact path={`${PaymentRoute}`} component={PaymentPage} />
-        <Route exact path={`${DataVisRoute}`} component={DataVis} />
+        <Route exact path={`${DashRoute}`} component={DataVis} />
         <Route render={() => <NotFound routesToBeDone={routesToBeDone} />} />
       </Switch>
     </Suspense>

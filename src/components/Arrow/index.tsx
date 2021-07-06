@@ -5,7 +5,7 @@ import {
   NavigateNext
 } from '@material-ui/icons'
 import React, { MouseEventHandler } from 'react'
-import { CCColors } from '../../constants/colors.constant'
+import { CCColors } from '../../mocks/colors.constant'
 import { StyledArrow, IStyledArrowProps } from './style'
 
 interface IArrowProps extends IStyledArrowProps {

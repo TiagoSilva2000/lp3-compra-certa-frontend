@@ -7,8 +7,8 @@ import {
   FooterSiteIndexWrapper,
   FooterLogoWrapper
 } from './style'
-import { paymentMethods } from '../../constants/payment-methods.constant'
-import { CertList } from '../../constants/cert-list.constant'
+import { paymentMethods } from '../../mocks/payment-methods.constant'
+import { CertList } from '../../mocks/cert-list.constant'
 import Placeholder from '../Placeholder'
 
 const Footer = (): JSX.Element => (

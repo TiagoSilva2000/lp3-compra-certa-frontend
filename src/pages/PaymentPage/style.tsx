@@ -1,6 +1,6 @@
 import { Container } from 'react-bootstrap'
 import styled from 'styled-components'
-import { CCColors } from '../../constants/colors.constant'
+import { CCColors } from '../../mocks/colors.constant'
 
 export const StyledPaymentPage = styled(Container)`
   width: 100%;

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { CCColors } from '../../constants/colors.constant'
+import { CCColors } from '../../mocks/colors.constant'
 
 interface IStyledProductListProps {
   flexDir?: 'row' | 'column'

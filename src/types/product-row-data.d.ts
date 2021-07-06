@@ -4,6 +4,7 @@ type trackingList = {
 }
 
 export type ProductRowData = {
+  id: number
   product: string
   img: string
   quantity: number

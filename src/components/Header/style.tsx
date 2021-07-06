@@ -1,6 +1,6 @@
 import { DropdownButton } from 'react-bootstrap'
 import styled from 'styled-components'
-import { CCColors } from '../../constants/colors.constant'
+import { CCColors } from '../../mocks/colors.constant'
 
 export const StyledHeader = styled.header`
   background-color: ${CCColors.LIGHTPURPLE};
@@ -200,7 +200,8 @@ export const DepartmentUnList = styled.ul`
   justify-content: space-between;
   padding: 10px 20px 0 20px;
   background-color: ${CCColors.DARKPURPLE};
-
+  margin: 0;
+  margin-bottom: 10px;
   li {
     display: inline-block;
     word-spacing: normal;
@@ -228,7 +229,7 @@ export const DepartmentUnList = styled.ul`
   }
 `
 
-export const StyledSearchForm = styled.form`
+export const StyledSearchForm = styled.div`
   position: relative;
   width: 100%;
   height: 100%;

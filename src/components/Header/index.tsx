@@ -13,17 +13,21 @@ import {
 import { Heart, Shop } from 'react-bootstrap-icons'
 import logo from '../../assets/big-logo.png'
 import { search, hamburguer } from '../../assets/icons/index'
-import { DepartmentList } from '../../constants/department-list.constant'
-import { Link } from 'react-router-dom'
+import { DepartmentList } from '../../mocks/department-list.constant'
+import { Link, useHistory } from 'react-router-dom'
 import ShopList from '../../pages/ShopList'
 import {
   IndexRoute,
+  LoginRoute,
+  ProfileRoute,
+  RegisterRoute,
   ShopCartRoute,
   ShopRoute,
   WishlistRoute
-} from '../../constants/routes.constant'
+} from '../../mocks/routes.constant'
 import { DropdownButton, NavDropdown } from 'react-bootstrap'
 import { Menu, MenuItem } from '@material-ui/core'
+import { storageFirstNameKey, storageShopcartQntKey, storageTokenKey } from '../../utils/constants'
 
 interface IHeaderProps {
   employeeView?: boolean
@@ -51,11 +55,20 @@ const Header = (props: IHeaderProps): JSX.Element => {
   const {
     employeeView: employee,
     customerView: customer,
-    defaultView: defaultv
+    defaultView
   } = props
-  const wishQnt = props.wishlistQnt ?? 0
-  const shopQnt = props.shopcartQnt ?? 0
-  const username = props.username ?? 'username'
+  const history = useHistory();
+  const [shopQnt, setShopQnt] = React.useState(
+    parseInt(sessionStorage.getItem(storageShopcartQntKey) ?? "0")
+  );
+  const username = sessionStorage.getItem(storageFirstNameKey) ?? 'username'
+  const defaultv = Boolean(sessionStorage.getItem(storageTokenKey)) === false;
+
+  const handleSearch = () => {
+    const name = document.getElementById("product-header-search-bar") as HTMLInputElement;
+
+    history.push(`${ShopRoute}?name=${name.value}`);
+  }
 
   return (
     <StyledHeader>
@@ -76,12 +89,16 @@ const Header = (props: IHeaderProps): JSX.Element => {
           />
         )}
         {!employee && (
-          <StyledSearchForm name='search-form' method='GET' action=''>
+          <StyledSearchForm /* name='search-form' method='GET' action='' */>
             <input
+              id="product-header-search-bar"
               type='text'
-              placeholder='procure por nome, código, marca...'
+              placeholder='procure por sua compra certa...'
             />
-            <button type='submit'>
+            <button 
+              type='submit'
+              onClick={() => handleSearch()}  
+            >
               <img src={search} alt='Procurar' />
             </button>
           </StyledSearchForm>
@@ -90,13 +107,13 @@ const Header = (props: IHeaderProps): JSX.Element => {
           <li>Bem vindo{!defaultv && <b>{`, ${username}`}</b>} :)</li>
           <li className='register-logged-account'>
             <Link
-              to={defaultv ? '/signin' : '/profile'}
+              to={defaultv ? LoginRoute : ProfileRoute}
               className='styled-link'
             >
               <span>{defaultv ? 'Entre ou cadastre-se' : 'Meu Perfil'}</span>
             </Link>
             {!defaultv && (
-              <Link to='/' className='styled-link'>
+              <Link to={IndexRoute} className='styled-link' onClick={() => sessionStorage.clear()}>
                 <span>Sair</span>
               </Link>
             )}
@@ -112,7 +129,6 @@ const Header = (props: IHeaderProps): JSX.Element => {
             </Link>
             <Link to={`${WishlistRoute}`}>
               <li>
-                <span className='wishlist-qnt'>{wishQnt}</span>
                 <Heart width={30} height={30} />
               </li>
             </Link>

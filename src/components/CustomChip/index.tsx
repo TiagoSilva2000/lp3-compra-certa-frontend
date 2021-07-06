@@ -1,5 +1,5 @@
 import React from 'react'
-import { CCColors } from '../../constants/colors.constant'
+import { CCColors } from '../../mocks/colors.constant'
 import { StyledCustomChip } from './style'
 
 interface ICustomChipProps {

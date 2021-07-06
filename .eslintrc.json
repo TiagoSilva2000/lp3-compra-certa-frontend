@@ -28,6 +28,7 @@
   ],
   "rules": {
     "no-use-before-define": "off",
+    "camelcase": "off",
     "@typescript-eslint/no-use-before-define": ["error"]
     // "prettier/prettier": "error",
     // "space-before-function-paren": "off",

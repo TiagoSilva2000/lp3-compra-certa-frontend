@@ -4,16 +4,47 @@ import Header from '../../components/Header'
 import PageSwitcher from '../../components/PageSwitcher'
 import ProductBox from '../../components/ProductBox'
 import SideBox from '../../components/SideBox'
-import { categoryList } from '../../constants/category-list.constant'
-import { mockedCategories } from '../../constants/mocked-categories.constant'
-import { mockedProductList } from '../../constants/mocked-product-list.constant'
+import { ProductResponse } from '../../interfaces/responses'
+import { categoryList } from '../../mocks/category-list.constant'
+import { mockedCategories } from '../../mocks/mocked-categories.constant'
+import { mockedProductList } from '../../mocks/mocked-product-list.constant'
+import api from '../../services/api'
 import {
   CategoryWrapper,
   ProductListWrapper,
   StyledShopListPage
 } from './style'
 
+const extractFilters = (): string => {
+  return window.location.pathname.split('/')[2];
+}
+
+const extractSearch = (): string|null => {
+  const urlParams = new URLSearchParams(window.location.search)
+  const params = Object.fromEntries(urlParams.entries());
+
+  return params.name ?? null;
+}
+
 export const ShopList = (): JSX.Element => {
+  const [products, setProducts] = React.useState<ProductResponse[]>([]);
+
+  React.useEffect(() => {
+    (async () => {
+      let params = "";
+      const category = extractFilters();
+      const name = extractSearch();
+      if (category) {
+        params += `category=${category}&`
+      }
+      if (name) {
+        params += `name=${name}`
+      }
+      const result = await api.get<ProductResponse[]>(`/products?${params}`);
+      setProducts(result.data);
+    })()
+  }, [])
+
   return (
     <>
       <Header />
@@ -27,9 +58,9 @@ export const ShopList = (): JSX.Element => {
         />
         <ProductListWrapper>
           <ul className='products-shop-unlist'>
-            {mockedProductList.map((product, idx) => (
+            {products.map((product, idx) => (
               <li key={idx}>
-                <ProductBox {...product}></ProductBox>
+                <ProductBox data={product}></ProductBox>
               </li>
             ))}
           </ul>

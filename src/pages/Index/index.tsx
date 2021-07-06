@@ -1,30 +1,49 @@
 import React from 'react'
 import Banner from '../../components/Banner'
 import Header from '../../components/Header'
-import { StaticBanners } from '../../constants/static-banners.constant'
+import { StaticBanners } from '../../mocks/static-banners.constant'
 import ProductList from '../../components/ProductList'
 import { StyledProductsListsWrapper } from './style'
 import Footer from '../../components/Footer'
-import { mockedProductList } from '../../constants/mocked-product-list.constant'
+import { mockedProductList } from '../../mocks/mocked-product-list.constant'
 import { Container, ListGroup } from 'react-bootstrap'
-import { DepartmentList } from '../../constants/department-list.constant'
+import { DepartmentList } from '../../mocks/department-list.constant'
 import { ICustomerPagesState } from '../../interfaces/customer-pages-state.interface'
 import { UserInfo } from '../../types/user-info'
+import { ProductResponse } from '../../interfaces/responses'
+import api from '../../services/api'
+import axios from 'axios'
 
 interface IIndexState extends ICustomerPagesState {
   user?: UserInfo
+  products: ProductResponse[]
 }
 export default class Index extends React.Component<unknown, IIndexState> {
+  
   constructor(props: unknown) {
     super(props)
     this.state = {
       shopcartCodes: [],
-      wishlistCodes: []
+      wishlistCodes: [],
+      products: []
     }
     this.pushShopcartCode = this.pushShopcartCode.bind(this)
     this.pushWishlistCode = this.pushWishlistCode.bind(this)
     this.removeShopCartCode = this.removeShopCartCode.bind(this)
     this.removeWishlistCode = this.removeWishlistCode.bind(this)
+  }
+
+  componentDidMount(): void {
+    // try {
+    //   axios.get('http://localhost:5001/user').then(result => {
+    //     console.log(result);
+    //   }).catch(err => console.log(err))
+    // } catch(err) {
+    //   console.log(err)
+    // }
+    api.get<ProductResponse[]>('/products').then(result => {
+      this.setState({products: result.data});
+    })
   }
 
   removeShopCartCode(oldCode: string): void {
@@ -58,26 +77,17 @@ export default class Index extends React.Component<unknown, IIndexState> {
           wishlistQnt={this.state.wishlistCodes.length}
         />
         <Banner bannerUnities={StaticBanners} dynamic navigation />
-        {/* <ListGroup>
-      <ListGroup.Item>
-        <Banner bannerUnities={[StaticBanners[0]]} />
-      </ListGroup.Item>
-      <ListGroup.Item>
-        <Banner bannerUnities={[StaticBanners[0]]} />
-      </ListGroup.Item>
-      <ListGroup.Item>
-        <Banner bannerUnities={[StaticBanners[0]]} />
-      </ListGroup.Item>
-      <ListGroup.Item>
-        <Banner bannerUnities={[StaticBanners[0]]} />
-      </ListGroup.Item>
-      <ListGroup.Item>
-        <Banner bannerUnities={[StaticBanners[0]]} />
-      </ListGroup.Item>
-    </ListGroup> */}
         <StyledProductsListsWrapper>
           <ProductList
-            productList={mockedProductList}
+            productList={this.state.products.map(p => {
+              return {
+                showRating: true,
+                showShopcart: true,
+                showWishlist: true,
+                editable: false,
+                data: p              
+              }
+            })}
             title='Promoção'
             pushShopcartCodeCb={this.pushShopcartCode}
             removeShopcartCodeCb={this.removeShopCartCode}
@@ -85,7 +95,15 @@ export default class Index extends React.Component<unknown, IIndexState> {
             removeWishlistCodeCb={this.removeWishlistCode}
           />
           <ProductList
-            productList={mockedProductList}
+            productList={this.state.products.map(p => {
+              return {
+                showRating: true,
+                showShopcart: true,
+                showWishlist: true,
+                editable: false,
+                data: p              
+              }
+            })}
             title='Promoção'
             pushShopcartCodeCb={this.pushShopcartCode}
             removeShopcartCodeCb={this.removeShopCartCode}
@@ -93,7 +111,15 @@ export default class Index extends React.Component<unknown, IIndexState> {
             removeWishlistCodeCb={this.removeWishlistCode}
           />
           <ProductList
-            productList={mockedProductList}
+            productList={this.state.products.map(p => {
+              return {
+                showRating: true,
+                showShopcart: true,
+                showWishlist: true,
+                editable: false,
+                data: p              
+              }
+            })}
             title='Promoção'
             pushShopcartCodeCb={this.pushShopcartCode}
             removeShopcartCodeCb={this.removeShopCartCode}
@@ -101,21 +127,32 @@ export default class Index extends React.Component<unknown, IIndexState> {
             removeWishlistCodeCb={this.removeWishlistCode}
           />
           <ProductList
-            productList={mockedProductList}
+            productList={this.state.products.map(p => {
+              return {
+                showRating: true,
+                showShopcart: true,
+                showWishlist: true,
+                editable: false,
+                data: p              
+              }
+            })}
             title='Promoção'
             pushShopcartCodeCb={this.pushShopcartCode}
             removeShopcartCodeCb={this.removeShopCartCode}
             pushWishlistCodeCb={this.pushWishlistCode}
             removeWishlistCodeCb={this.removeWishlistCode}
           />
-          {/* <Container>
-        <ListGroup>
-          {DepartmentList.map((dpt, idx) => (
-            <ListGroup.Item key={`alt-dpt${idx}`}></ListGroup.Item>
-          ))}
-        </ListGroup>
-      </Container> */}
-          <ProductList productList={mockedProductList} title='Promoção' />
+          <ProductList 
+            productList={this.state.products.map(p => {
+              return {
+                showRating: true,
+                showShopcart: true,
+                showWishlist: true,
+                editable: false,
+                data: p              
+              }
+            })}
+            title='Promoção' />
         </StyledProductsListsWrapper>
         <Footer />
       </>

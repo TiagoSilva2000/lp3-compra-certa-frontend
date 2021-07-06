@@ -4,7 +4,7 @@ import { LocalAtm } from '@material-ui/icons'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import { Alert } from '@material-ui/lab'
-import { AccountList } from '../../constants/category-list.constant'
+import { AccountList } from '../../mocks/category-list.constant'
 import {
   CategoryWrapper,
   SectionWrapper,
@@ -18,11 +18,12 @@ import {
   isEmpty,
   validateExpiringDate,
   validateJustNumbers
-} from '../utils/RegexValidor'
+} from '../../utils/RegexValidor'
 
 import CustomChip from '../../components/CustomChip'
 import { StyledTextField } from '../../styles/styled-profile-textfield.style'
 import { StyledProfileNumberFormat } from '../../styles/styled-profile-number-format.style'
+import api from '../../services/api'
 
 type MyState = {
   cardName: string
@@ -106,22 +107,34 @@ class NewCard extends React.Component<{ props: any }, MyState> {
     }
   }
 
-  handleSubmit(event: any): void {
-    console.log('NEW CARD:', this.state)
-    if (isEmpty(this.state)) {
-      this.setState({
-        alert: (
-          <Alert severity='success'>Cartão de crédito salvo com sucesso!</Alert>
-        )
-      })
-    } else {
-      this.setState({
-        alert: (
-          <Alert severity='error'>Você deve preencher todos os campos.</Alert>
-        )
-      })
-    }
+  async handleSubmit(event: any): Promise<void> {
     event.preventDefault()
+    
+
+    try {
+      await api.post('/payments', {
+        name: this.state.cardName,
+        owner_name: this.state.ownerName,
+        card_number: this.state.cardNumber,
+        due_date: this.state.cardExpiringDate,
+        ccv: this.state.cvv 
+      });
+      if (isEmpty(this.state)) {
+        this.setState({
+          alert: (
+            <Alert severity='success'>Cartão de crédito salvo com sucesso!</Alert>
+          )
+        })
+      } else {
+        this.setState({
+          alert: (
+            <Alert severity='error'>Você deve preencher todos os campos.</Alert>
+          )
+        })
+      }
+    } catch(err) {
+      console.log(err);
+    }
   }
 
   handleOwnerNameChange(event: any): void {

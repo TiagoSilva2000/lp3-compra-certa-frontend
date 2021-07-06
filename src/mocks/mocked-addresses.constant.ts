@@ -1,24 +1,28 @@
-import { AddressInfo } from '../types/address-info'
+import { IAddressInfo } from '../types/address-info'
 
-export const mockedAddresses: AddressInfo[] = [
+export const mockedAddresses: IAddressInfo[] = [
   {
+    id: 5,
     ownerName: 'Tiago',
     cep: '44001640',
     notes: 'atrás da tv subaé',
-    number: 903,
+    number: '903',
     ownerPhone: '75991404287',
-    address: 'rua honorato bonfim',
+    street: 'rua honorato bonfim',
+    neighbour: 'cabula',
     city: 'Feira de Santana',
     state: 'Bahia',
     default: true
   },
   {
+    id: 6,
     ownerName: 'Tiago',
     cep: '44001640',
     notes: 'atrás da tv subaé',
-    number: 903,
+    number: '903',
     ownerPhone: '75991404287',
-    address: 'Rua Silveira Martins',
+    street: 'Rua Silveira Martins',
+    neighbour: 'centro',
     city: 'Feira de Santana',
     state: 'Bahia'
   }
